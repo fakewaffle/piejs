@@ -1,12 +1,13 @@
-!!! 5
-html(lang="en")
+!!!
+html
 	head
-		title= 'Pie.JS'
-		script(type='text/javascript')
-			if (foo) {
-				bar()
-			}
+		title 'Pie.JS'
 	body
-		h1 Jade - node template engine
-		#container
-			p You are amazing
+		#header
+			h1 Header
+
+		#content
+			!=body
+
+		#footer
+			p Footer

@@ -14,12 +14,9 @@ Controller.prototype.set = function(request, response, data) {
 		action     = params.action;
 	
 	response.render(controller + '/' + action, {
-		// layout : __dirname + '/../../../app/views/layouts/default.jade',
-		layout : false,
-		title  : 'Example Page',
+		layout : __dirname + '/../../../app/views/layouts/default.jade',
 		data   : data
 	});
-	// response.send(data);
 };
 
 exports.Controller = Controller;
