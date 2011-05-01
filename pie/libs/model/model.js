@@ -12,7 +12,7 @@ util.inherits(Model, events.EventEmitter);
 Model.prototype.find = function(conditions, callback) {
 	var self = this;
 
-	this.dataSource.on('read', function(data) {
+	this.dataSource.once('read', function(data) {
 		self.emit('find', data);
 	});
 	this.dataSource.read(this.name, conditions);
