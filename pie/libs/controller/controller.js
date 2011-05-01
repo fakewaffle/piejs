@@ -9,11 +9,17 @@ function Controller(name) {
 util.inherits(Controller, events.EventEmitter);
 
 Controller.prototype.set = function(request, response, data) {
-	// response.render(request.params.action, {
-	// 	title: 'Example Page',
-	// 	data: data
-	// });
-	response.send(data);
+	var	params     = request.params,
+		controller = params.controller,
+		action     = params.action;
+	
+	response.render(controller + '/' + action, {
+		// layout : __dirname + '/../../../app/views/layouts/default.jade',
+		layout : false,
+		title  : 'Example Page',
+		data   : data
+	});
+	// response.send(data);
 };
 
 exports.Controller = Controller;
