@@ -1,5 +1,5 @@
-Rapid development framework for node.js with inspiration from CakePHP.
-===
+## Pie.JS
+Rapid development framework for node.js with inspiration from CakePHP. See the [Wiki](https://github.com/fakewaffle/piejs/wiki) for more information.
 
 Prerequisites:
 [node.js](https://github.com/joyent/node)
