@@ -8,8 +8,8 @@ function Controller(name) {
 };
 util.inherits(Controller, events.EventEmitter);
 
-Controller.prototype.set = function(response, data) {
-	// response.render('ACTION NAME HERE', {
+Controller.prototype.set = function(request, response, data) {
+	// response.render(request.params.action, {
 	// 	title: 'Example Page',
 	// 	data: data
 	// });

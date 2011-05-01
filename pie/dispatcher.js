@@ -18,7 +18,7 @@ function setup() {
 
 		if (controller && action) {
 			// try {
-				require('../app/controllers/' + controller + '_controller')[action](response, id);
+				require('../app/controllers/' + controller + '_controller')[action](request, response, id);
 			// } catch (error) { sendError(error, response); }
 		} else { next(); }
 	});
