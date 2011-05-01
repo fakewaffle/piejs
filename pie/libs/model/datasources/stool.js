@@ -1,5 +1,5 @@
 function Stool() {
-	this.dataLocation = '../stool/';
+	this.dataLocation = __dirname + '/../../../../stool/';
 
 	events.EventEmitter.call(this);
 };
