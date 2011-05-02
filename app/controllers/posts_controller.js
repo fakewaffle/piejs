@@ -5,6 +5,10 @@ PostsController.view = function(request, response, id) {
 		PostsController.set(request, response, results);
 	});
 
-	PostsController.Post.find(id);
+	PostsController.Post.find('first', {
+		'conditions' : {
+			'id' : id
+		}
+	});
 };
 exports.view = PostsController.view;

@@ -1,0 +1,3 @@
+exports.core = {
+	"debug" : true
+};
