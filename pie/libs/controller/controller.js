@@ -8,14 +8,14 @@ function Controller(name) {
 };
 util.inherits(Controller, events.EventEmitter);
 
-Controller.prototype.set = function(request, response, data) {
+Controller.prototype.set = function(request, response, results) {
 	var	params     = request.params,
 		controller = params.controller,
 		action     = params.action;
 	
 	response.render(controller + '/' + action, {
 		layout : __dirname + '/../../../app/views/layouts/default.jade',
-		data   : data
+		data   : results
 	});
 };
 

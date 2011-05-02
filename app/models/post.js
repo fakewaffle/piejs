@@ -1,5 +1,5 @@
 var Post = new Model({
 	'model'      : 'Post',
-	'dataSource' : 'stool'
+	'dataSource' : { 'name' : 'stool' }
 });
 exports.Post = Post;
