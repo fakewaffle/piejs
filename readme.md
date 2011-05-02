@@ -8,7 +8,7 @@ To try out:
 
     git clone git://github.com/fakewaffle/piejs.git
     cd piejs/
-    node app.js
+    node pie/app.js
 
 Open your browser:
 
