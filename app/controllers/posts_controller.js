@@ -10,5 +10,5 @@ PostsController.view = function(request, response, id) {
 			'id' : id
 		}
 	});
-};
+}
 exports.view = PostsController.view;

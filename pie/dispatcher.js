@@ -22,7 +22,7 @@ function setup() {
 			// } catch (error) { sendError(error, response); }
 		} else { next(); }
 	});
-};
+}
 exports.setup = setup;
 
 // function sendError(error, response) {

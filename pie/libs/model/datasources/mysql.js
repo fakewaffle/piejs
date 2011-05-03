@@ -3,8 +3,6 @@ function Mysql(model, dataSource, table) {
 	this.dataSource = dataSource;
 	this.table      = table;
 
-	console.log('this.dataSource:', this.dataSource);
-
 	var Client  = require('mysql').Client;
 	this.client = new Client({
 		'host'     : dataSource.host,
@@ -17,7 +15,7 @@ function Mysql(model, dataSource, table) {
 	this.client.connect();
 
 	events.EventEmitter.call(this);
-};
+}
 util.inherits(Mysql, events.EventEmitter);
 
 Mysql.prototype.read = function (params) {
@@ -58,10 +56,14 @@ Mysql.prototype.read = function (params) {
 
 		self.emit('read', results);
 	});
-};
+}
 
-Mysql.prototype.create = function(fields, values) {};
-Mysql.prototype.update = function (id) {};
-Mysql.prototype.remove = function (id) {};
+Mysql.prototype.create = function(fields, values) {}
+Mysql.prototype.update = function (id) {}
+Mysql.prototype.remove = function (id) {}
+
+Mysql.prototype._contsructFieldsSqlStatement() {
+	
+}
 
 exports.Mysql = Mysql;

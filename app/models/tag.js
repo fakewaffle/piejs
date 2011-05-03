@@ -1,7 +1,5 @@
 var Tag = new Model({
 	'model'      : 'Tag',
-	'dataSource' : {
-		'name'     : 'mysql'
-	}
+	'dataSource' : 'mysql'
 });
 exports.Tag = Tag;

@@ -3,9 +3,9 @@ function Model(params) {
 	var dataSource  = require('./datasources/' + params.dataSource)[params.dataSource.camelize()];
 	this.dataSource = new dataSource(params.model, config.app.database[params.dataSource], params.model.tableize());
 
-	console.log('setting up model', '"' + this.name + '"', 'with params:', this, '\n');
+	// console.log('setting up model', '"' + this.name + '"', 'with params:', this, '\n');
 	events.EventEmitter.call(this);
-};
+}
 util.inherits(Model, events.EventEmitter);
 
 Model.prototype.find = function(type, params) {
@@ -21,9 +21,9 @@ Model.prototype.find = function(type, params) {
 		});
 		this.dataSource.read(params);
 	}
-};
+}
 
-Model.prototype.save = function(data) {};
-Model.prototype.remove = function(conditions) {};
+Model.prototype.save = function(data) {}
+Model.prototype.remove = function(conditions) {}
 
 exports.Model = Model;

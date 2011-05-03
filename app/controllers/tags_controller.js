@@ -16,5 +16,5 @@ TagsController.view = function(request, response, id) {
 			'name'
 		]
 	});
-};
+}
 exports.view = TagsController.view;
