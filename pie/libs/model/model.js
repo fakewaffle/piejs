@@ -1,15 +1,7 @@
 function Model(params) {
-	this.name = params.model;
-
-	if (typeof config.app.database != 'undefined') {
-		for (var i in config.app.database) {
-			params.dataSource[i] = config.app.database[i];
-		}
-	}
-	if (!params.dataSource.table) { params.dataSource.table = params.model.tableize(); }
-
-	var dataSource  = require('./datasources/' + params.dataSource.name)[params.dataSource.name.camelize()];
-	this.dataSource = new dataSource(params.model, params.dataSource);
+	this.name       = params.model;
+	var dataSource  = require('./datasources/' + params.dataSource)[params.dataSource.camelize()];
+	this.dataSource = new dataSource(params.model, config.app.database[params.dataSource], params.model.tableize());
 
 	console.log('setting up model', '"' + this.name + '"', 'with params:', this, '\n');
 	events.EventEmitter.call(this);

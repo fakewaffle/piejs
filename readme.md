@@ -24,6 +24,5 @@ Open your browser:
     * **libs/** - Code for Pie.
         * **controller/** - Pie Controller, user controllers 'inherit' from this.
         * **model/** - Pie Model, user models 'inherit' from this.
-            * **datasources/** - Data sources for Pie Model. The only one included now is a test one being developed alongside Pie. See below for more information about stool. Pie is planning on supporting many data sources (such as MySQL, MongoDB, etc). Each data source should present the model and controller with the same basic CRUD methods and data structure.
+            * **datasources/** - Data sources for Pie Model. Pie is planning on supporting many data sources (such as MySQL, MongoDB, etc). Each data source should present the model and controller with the same basic CRUD methods and data structure.
     * **node_modules/** - node.js modules used for Pie.
-* **stool/** - File based json store that is being developed alongside Pie. Used mainly for testing, but may be used for some of my own applications. Stores in folders based upon model name. The name of the file is the id (id.json).

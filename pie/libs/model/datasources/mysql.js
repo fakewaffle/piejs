@@ -1,18 +1,18 @@
-function Mysql(model, params) {
-	this.model = model;
-	this.table = params.table;
+function Mysql(model, dataSource, table) {
+	this.model      = model;
+	this.dataSource = dataSource;
+	this.table      = table;
 
-	var startQuote = '`';
-	var endQuote   = '`';
+	console.log('this.dataSource:', this.dataSource);
 
 	var Client  = require('mysql').Client;
 	this.client = new Client({
-		'host'     : params.host,
-		'port'     : params.port,
-		'database' : params.database,
-		'table'    : params.table,
-		'user'     : params.user,
-		'password' : params.password
+		'host'     : dataSource.host,
+		'port'     : dataSource.port,
+		'database' : dataSource.database,
+		'user'     : dataSource.user,
+		'password' : dataSource.password,
+		'table'    : this.table
 	});
 	this.client.connect();
 

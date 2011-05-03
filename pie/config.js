@@ -7,6 +7,7 @@ exports.config = {
 				"core"     : __dirname + "/../app/config/core.js",
 				"database" : __dirname + "/../app/config/database.js"
 			},
+			"models" : __dirname + "/../app/models",
 			"views" : {
 				"path"    : __dirname + "/../app/views",
 				"layouts" : __dirname + "/../app/views/layouts",
