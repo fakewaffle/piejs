@@ -13,7 +13,7 @@ Model.prototype.find = function(type, params) {
 
 	if (type == 'first') {
 		this.dataSource.once('read', function(results) {
-			var tempResults    = results;
+			var tempResults    = results[0];
 			results            = {};
 			results[self.name] = tempResults;
 

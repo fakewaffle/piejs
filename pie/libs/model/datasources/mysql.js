@@ -30,22 +30,7 @@ Mysql.prototype.read = function (params) {
 	query += 'FROM ' + this.table + ' ';
 
 	if (typeof params.conditions != 'undefined') {
-		var conditions = [];
-
-		for (var i in params.conditions) {
-			var condition = params.conditions[i];
-
-			if (i == 'SQL') {
-				conditions.push(condition);
-			} else {
-				if (typeof condition == 'string') {
-					conditions.push(i + ' = "' + condition + '"');
-				} else {
-					conditions.push(i + ' = ' + condition);
-				}
-			}
-		}
-		query += 'WHERE ' + conditions.join('AND ') + ' ';
+		query += this._contsructConditionsSqlStatement(params.conditions);
 	} else {
 		query += '';
 	}
@@ -62,8 +47,32 @@ Mysql.prototype.create = function(fields, values) {}
 Mysql.prototype.update = function (id) {}
 Mysql.prototype.remove = function (id) {}
 
-Mysql.prototype._contsructFieldsSqlStatement() {
-	
+/**
+ * Construct a SQL statement for conditions.
+ *
+ * @param array conditions Conditions to construct SQL statement with
+ * @return string
+ *
+ * 2011-05-03 16.38.03 - Justin Morris
+ */
+Mysql.prototype._contsructConditionsSqlStatement = function(conditions) {
+	var statement = [];
+
+	for (var i in conditions) {
+		var condition = conditions[i];
+
+		if (i == 'SQL') {
+			statement.push(condition);
+		} else {
+			if (typeof condition == 'string') {
+				statement.push(i + ' = "' + condition + '"');
+			} else {
+				statement.push(i + ' = ' + condition);
+			}
+		}
+	}
+
+	return 'WHERE ' + statement.join('AND ') + ' ';
 }
 
 exports.Mysql = Mysql;
