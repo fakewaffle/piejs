@@ -4,11 +4,11 @@ function Model(params) {
 	this.dataSource = new dataSource(params.model, config.app.database[params.dataSource], params.model.tableize());
 
 	// console.log('setting up model', '"' + this.name + '"', 'with params:', this, '\n');
-	events.EventEmitter.call(this);
+	// events.EventEmitter.call(this);
 }
-util.inherits(Model, events.EventEmitter);
+// util.inherits(Model, events.EventEmitter);
 
-Model.prototype.find = function(type, params) {
+Model.prototype.find = function(type, params, callback) {
 	var self = this;
 
 	if (type == 'first') {
@@ -17,7 +17,7 @@ Model.prototype.find = function(type, params) {
 			results            = {};
 			results[self.name] = tempResults;
 
-			self.emit('find', results);
+			callback(results)
 		});
 		this.dataSource.read(params);
 	}
