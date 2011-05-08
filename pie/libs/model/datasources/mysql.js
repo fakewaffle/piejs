@@ -32,7 +32,7 @@ Mysql.prototype.read = function (params, callback) {
 		query += '';
 	}
 
-	console.log('Mysql.read query:', query);
+	console.log('Mysql.read() query:', query);
 	this.client.query(query, function (error, results, fields) {
 		if (error) { throw error; }
 
@@ -53,23 +53,23 @@ Mysql.prototype.remove = function (id) {}
  * 2011-05-03 16.38.03 - Justin Morris
  */
 Mysql.prototype._contsructConditionsSqlStatement = function(conditions) {
-	var statement = [];
+	var statements = [];
 
 	for (var i in conditions) {
 		var condition = conditions[i];
 
 		if (i == 'SQL') {
-			statement.push(condition);
+			statements.push(condition);
 		} else {
 			if (typeof condition == 'string') {
-				statement.push(i + ' = "' + condition + '"');
+				statements.push(i + ' = "' + condition + '"');
 			} else {
-				statement.push(i + ' = ' + condition);
+				statements.push(i + ' = ' + condition);
 			}
 		}
 	}
 
-	return 'WHERE ' + statement.join('AND ') + ' ';
+	return 'WHERE ' + statements.join('AND ') + ' ';
 }
 
 exports.Mysql = Mysql;
