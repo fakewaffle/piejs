@@ -20,7 +20,6 @@ function setup() {
 
 		if (controller && action) {
 			try {
-				console.log(config.paths.app.controllers + controller + '_controller');
 				require(config.paths.app.controllers + controller + '_controller')[action](request, response, id);
 			} catch (error) {
 				console.log('dispatcher error:', error);
