@@ -13,12 +13,9 @@ function Mysql(model, dataSource, table) {
 		'table'    : this.table
 	});
 	this.client.connect();
-
-	events.EventEmitter.call(this);
 }
-util.inherits(Mysql, events.EventEmitter);
 
-Mysql.prototype.read = function (params) {
+Mysql.prototype.read = function (params, callback) {
 	var self  = this,
 		query = 'SELECT ';
 
@@ -39,7 +36,7 @@ Mysql.prototype.read = function (params) {
 	this.client.query(query, function (error, results, fields) {
 		if (error) { throw error; }
 
-		self.emit('read', results);
+		callback(results);
 	});
 }
 
