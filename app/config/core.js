@@ -1,3 +1,3 @@
 exports.core = {
-	"debug" : true
+	'debug' : true
 };
