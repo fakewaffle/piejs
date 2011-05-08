@@ -5,7 +5,9 @@ function setup() {
 		if (params.length == 0) {
 			console.log('dispatcher:\nin "/" and params.length is 0')
 			// require('./controllers/pages')[action](id);
-		} else { next(); }
+		} else {
+			next();
+		}
 	});
 
 	server.get('/:controller/:action/:id?', function(request, response, next) {
@@ -17,15 +19,12 @@ function setup() {
 		if (debug == true) { console.log('dispatcher:', params, '\n'); }
 
 		if (controller && action) {
-			// try {
+			try {
 				require('../app/controllers/' + controller + '_controller')[action](request, response, id);
-			// } catch (error) { sendError(error, response); }
+			} catch (error) {
+				console.log('dispatcher error:', error);
+			}
 		} else { next(); }
 	});
 }
 exports.setup = setup;
-
-// function sendError(error, response) {
-// 	console.log(error);
-// 	response.send(error.toString());
-// };
