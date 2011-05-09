@@ -15,7 +15,7 @@ function Mysql(model, dataSource, table) {
 	this.client.connect();
 }
 
-Mysql.prototype.read = function (params, callback) {
+Mysql.prototype.read = function (type, params, callback) {
 	var self  = this,
 		query = 'SELECT ';
 
@@ -32,9 +32,15 @@ Mysql.prototype.read = function (params, callback) {
 		query += '';
 	}
 
+	if (type == 'first') {
+		query += 'LIMIT 1';
+	}
+
 	console.log('Mysql.read() query:', query);
 	this.client.query(query, function (error, results, fields) {
-		if (error) { throw error; }
+		if (error) {
+			throw error;
+		}
 
 		callback(results);
 	});

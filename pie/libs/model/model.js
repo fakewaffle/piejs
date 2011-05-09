@@ -7,15 +7,20 @@ function Model(params) {
 Model.prototype.find = function(type, params, callback) {
 	var self = this;
 
-	if (type == 'first') {
-		this.dataSource.read(params, function(results) {
-			var tempResults    = results[0];
-			results            = {};
-			results[self.name] = tempResults;
+	this.dataSource.read(type, params, function(results) {
+		var tempResults;
 
-			callback(results);
-		});
-	}
+		if (results.length == 1) {
+			tempResults = results[0];
+		} else {
+			tempResults = results;
+		}
+
+		results            = {};
+		results[self.name] = tempResults;
+
+		callback(results);
+	});
 }
 
 Model.prototype.save = function(data) {}
