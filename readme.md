@@ -9,6 +9,7 @@ Prerequisites:
 To try out:
 
     git clone git://github.com/fakewaffle/piejs.git
+	set the correct values for mysql in app/config/database.js
     cd piejs/
     node pie/app.js
 
