@@ -19,21 +19,25 @@ Mysql.prototype.read = function (type, params, callback) {
 	var self  = this,
 		query = 'SELECT ';
 
-	if (typeof params.fields != 'undefined') {
-		query += params.fields.join(', ') + ' ';
-	} else {
-		query += '* ';
-	}
-	query += 'FROM ' + this.table + ' ';
+	if (params) {
+		if (typeof params.fields != 'undefined') {
+			query += params.fields.join(', ') + ' ';
+		} else {
+			query += '* ';
+		}
+		query += 'FROM ' + this.table + ' ';
 
-	if (typeof params.conditions != 'undefined') {
-		query += this._contsructConditionsSqlStatement(params.conditions);
-	} else {
-		query += '';
-	}
+		if (typeof params.conditions != 'undefined') {
+			query += this._contsructConditionsSqlStatement(params.conditions);
+		} else {
+			query += '';
+		}
 
-	if (type == 'first') {
-		query += 'LIMIT 1';
+		if (type == 'first') {
+			query += 'LIMIT 1';
+		}
+	} else {
+		query += '* FROM ' + this.table;
 	}
 
 	console.log('Mysql.read() query:', query);

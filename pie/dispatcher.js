@@ -10,19 +10,29 @@ function setup() {
 		}
 	});
 
-	server.get('/:controller/:action/:id?', function(request, response, next) {
+	server.get('/:controller/:action?/:id?', function(request, response, next) {
+		if (typeof request.params.action == 'undefined') {
+			request.params.action = 'index';
+		}
+
+		if (typeof request.params.id == 'undefined') {
+			request.params.id = null;
+		}
+
 		var	params     = request.params,
 			controller = params.controller,
 			action     = params.action,
 			id         = params.id;
 
-		if (debug == true) { console.log('dispatcher:', params, '\n'); }
+		if (debug == true) {
+			console.log('dispatcher:', request.params, '\n');
+		}
 
 		if (controller && action) {
 			try {
 				require(config.paths.app.controllers + controller + '_controller')[action](request, response, id);
 			} catch (error) {
-				console.log('dispatcher error:', error);
+				console.log('dispatcher error:', error, '\n');
 			}
 		} else { next(); }
 	});
