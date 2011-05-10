@@ -2,8 +2,8 @@
 Rapid development framework for node.js with inspiration from CakePHP. See the [Wiki](https://github.com/fakewaffle/piejs/wiki) for more information.
 
 Prerequisites:
-[node.js](https://github.com/joyent/node)
-MySQL (for now, but more data sources are going to be supported!)
+* [node.js](https://github.com/joyent/node)
+* MySQL (for now, but more data sources are going to be supported!) - get the SQL below
 
 To try out:
 
