@@ -10,7 +10,7 @@ Controller.prototype.set = function(request, response, results) {
 
 	response.render(controller + '/' + action, {
 		layout : config.paths.app.views.layouts + 'default.jade',
-		data   : results
+		locals : results
 	});
 }
 
