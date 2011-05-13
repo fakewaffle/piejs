@@ -16,8 +16,7 @@ function Mysql(model, dataSource, table) {
 }
 
 Mysql.prototype.read = function (type, params, callback) {
-	var self  = this,
-		query = 'SELECT ';
+	var query = 'SELECT ';
 
 	if (params) {
 		if (typeof params.fields != 'undefined') {
