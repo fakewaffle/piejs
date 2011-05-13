@@ -18,7 +18,7 @@ Model      = require(config.paths.pie.model).Model;
 Controller = require(config.paths.pie.controller).Controller;
 Sanitize   = require(config.paths.pie.sanitize);
 
-server = express.createServer();
+server = express.createServer(express.favicon());
 server.set('view engine', config.app.core.viewEngine);
 server.set('views', __dirname + '/../app/views');
 
