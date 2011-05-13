@@ -15,6 +15,15 @@ function Mysql(model, dataSource, table) {
 	this.client.connect();
 }
 
+/**
+ * The "R" in CRUD.
+ * 
+ * @param string type Type of find, such as 'first', 'all', 'count', 'list'
+ * @param object params Object containing conditions, fields, limit, etc
+ * @param function callback Callback to be executed after read is finished
+ * 
+ * 2011-05-12 23.52.19 - Justin Morris
+ */
 Mysql.prototype.read = function (type, params, callback) {
 	var query = 'SELECT ';
 
