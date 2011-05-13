@@ -14,7 +14,7 @@ exports.view = function(request, response, id) {
 	});
 }
 
-exports.index = function(request, response, id) {	
+exports.index = function(request, response, id) {
 	PostsController.Post.find('all', null, function(results) {
 		PostsController.set(request, response, results);
 	});

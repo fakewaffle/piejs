@@ -6,10 +6,6 @@ fs         = require('fs');
 util       = require('util');
 events     = require('events');
 
-dispatcher = require('./dispatcher');
-Model      = require('./libs/model/model').Model;
-Controller = require('./libs/controller/controller').Controller;
-
 config = require('./config').config;
 config.app = {
 	'core'     : require(config.paths.app.config.core).core,
@@ -17,8 +13,13 @@ config.app = {
 };
 debug = config.app.core.debug;
 
+dispatcher = require(config.paths.pie.dispatcher);
+Model      = require(config.paths.pie.model).Model;
+Controller = require(config.paths.pie.controller).Controller;
+Sanitize   = require(config.paths.pie.sanitize);
+
 server = express.createServer();
-server.set('view engine', 'jade');
+server.set('view engine', config.app.core.viewEngine);
 server.set('views', __dirname + '/../app/views');
 
 dispatcher.setup();

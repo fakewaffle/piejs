@@ -20,9 +20,9 @@ function setup() {
 		}
 
 		var	params     = request.params,
-			controller = params.controller,
-			action     = params.action,
-			id         = params.id;
+			controller = Sanitize.dispatcher(params.controller),
+			action     = Sanitize.dispatcher(params.action),
+			id         = Sanitize.dispatcher(params.id);
 
 		if (debug == true) {
 			console.log('dispatcher:', request.params, '\n');
