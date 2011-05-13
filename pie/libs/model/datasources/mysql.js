@@ -1,7 +1,11 @@
 function Mysql(model, dataSource, table) {
-	this.model      = model;
-	this.dataSource = dataSource;
-	this.table      = table;
+	this.startQuote   = '`';
+	this.endQuote     = '`';
+
+	this.model        = model;
+	this.dataSource   = dataSource;
+	this.table        = this.startQuote + table + this.endQuote;
+	this.lastInsertId = null;
 
 	var Client  = require('mysql').Client;
 	this.client = new Client({
@@ -17,11 +21,11 @@ function Mysql(model, dataSource, table) {
 
 /**
  * The "R" in CRUD.
- * 
+ *
  * @param string type Type of find, such as 'first', 'all', 'count', 'list'
  * @param object params Object containing conditions, fields, limit, etc
  * @param function callback Callback to be executed after read is finished
- * 
+ *
  * 2011-05-12 23.52.19 - Justin Morris
  */
 Mysql.prototype.read = function (type, params, callback) {
@@ -29,6 +33,9 @@ Mysql.prototype.read = function (type, params, callback) {
 
 	if (params) {
 		if (typeof params.fields != 'undefined') {
+			for (var i = params.fields.length - 1; i >= 0; i--){
+				params.fields[i] = this.startQuote + params.fields[i] + this.endQuote;
+			};
 			query += params.fields.join(', ') + ' ';
 		} else {
 			query += '* ';
@@ -80,9 +87,9 @@ Mysql.prototype._contsructConditionsSqlStatement = function(conditions) {
 			statements.push(condition);
 		} else {
 			if (typeof condition == 'string') {
-				statements.push(i + ' = "' + condition + '"');
+				statements.push(this.startQuote + i + this.endQuote + ' = ' + this.client.escape(condition));
 			} else {
-				statements.push(i + ' = ' + condition);
+				statements.push(this.statements + i + this.endQuote + ' = ' + this.client.escape(condition));
 			}
 		}
 	}
