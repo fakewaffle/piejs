@@ -1,12 +1,17 @@
 function setup() {
 	var express = require('express');
 	var server  = express.createServer(express.favicon());
+	var port    = 3000;
+
+	if (typeof config.app.core.port != 'undefined' && config.app.core.port && typeof config.app.core.port == 'number') {
+		port = config.app.core.port;
+	}
 
 	server.set('view engine', config.app.core.viewEngine);
 	server.set('views', config.paths.app.views.path);
 
-	server.listen(3000, function() {
-		console.log('Server running at http://localhost:3000\n');
+	server.listen(port, function() {
+		console.log('Server running at http://localhost:' + port + '\n');
 	});
 
 	server.get('/', function(request, response, next) {
