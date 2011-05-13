@@ -1,4 +1,14 @@
 function setup() {
+	var express = require('express');
+	var server  = express.createServer(express.favicon());
+
+	server.set('view engine', config.app.core.viewEngine);
+	server.set('views', config.paths.app.views.path);
+
+	server.listen(3000, function() {
+		console.log('Server running at http://localhost:3000\n');
+	});
+
 	server.get('/', function(request, response, next) {
 		var params = request.params;
 
