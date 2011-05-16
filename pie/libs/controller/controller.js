@@ -8,9 +8,11 @@ Controller.prototype.set = function(request, response, results) {
 		controller = params.controller,
 		action     = params.action;
 
+	results.flash = request.flash();
+
 	var responseParams = {
 		'layout' : config.paths.app.views.layouts + 'default.jade',
-		'locals' : results,
+		'locals' : results
 	};
 
 	response.render(controller + '/' + action, responseParams);

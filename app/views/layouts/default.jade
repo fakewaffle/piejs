@@ -6,6 +6,9 @@ html
 		#header
 			p Layout Header
 
+		- if (flash.info)
+			#flash= flash.info
+
 		#content
 			!=body
 

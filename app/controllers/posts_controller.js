@@ -25,19 +25,28 @@ exports.add = function(request, response) {
 
 	var faker = require(config.paths.pie.faker);
 	var data = {
-		'name' : faker.Lorem.sentence(),
+		'name'    : faker.Lorem.sentence(),
 		'content' : faker.Lorem.paragraphs()
 	};
 
 	PostsController.Post.save(data, function(info) {
+		request.flash('info', 'Post has been added.');
 		response.redirect('posts/index');
 	});
 }
 
-exports.edit = function(request, response) {
+exports.edit = function(request, response, id) {
 	// var data = request.body;
 
+	var faker = require(config.paths.pie.faker);
+	var data = {
+		'id'      : id,
+		'name'    : faker.Lorem.sentence(),
+		'content' : faker.Lorem.paragraphs()
+	};
+
 	PostsController.Post.save(data, function(info) {
+		request.flash('info', 'Post has been edited.');
 		response.redirect('posts/index');
 	});
 }
