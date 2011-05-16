@@ -22,7 +22,7 @@ exports.config = {
 			},
 			'controller' : __dirname + '/libs/controller/controller.js',
 			'sanitize'   : __dirname + '/libs/sanitize.js',
-			'inflector'  : __dirname + '/libs/inflector.js',
+			'inflector'  : __dirname + '/libs/inflector.js'
 		}
 	}
 };
