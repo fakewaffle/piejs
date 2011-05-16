@@ -94,6 +94,15 @@ Mysql.prototype.create = function(data, callback) {
 		callback(info);
 	});
 }
+
+/**
+ * The "U" in CRUD
+ * 
+ * @param object data { field:value } of data to be updated in the database
+ * @param function callback Callback to be executed after update is finished
+ * 
+ * 2011-05-16 14.47.19 - Justin Morris
+ */
 Mysql.prototype.update = function (data, callback) {
 	var query = 'UPDATE ' + this.table + ' SET ',
 		set   = [];
