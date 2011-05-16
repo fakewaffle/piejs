@@ -1,7 +1,11 @@
 function Model(params) {
 	this.name       = params.model;
-	var dataSource  = require('./datasources/' + params.dataSource)[params.dataSource.camelize()];
+	var dataSource  = require(config.paths.pie.datasource.path + params.dataSource)[params.dataSource.camelize()];
 	this.dataSource = new dataSource(params.model, config.app.database[params.dataSource], params.model.tableize());
+
+	if (typeof params.validation != 'undefined' && params.validation) {
+		this.validation = params.validation;
+	}
 }
 
 Model.prototype.find = function(type, params, callback) {
@@ -23,7 +27,20 @@ Model.prototype.find = function(type, params, callback) {
 	});
 }
 
-Model.prototype.save = function(data) {}
+Model.prototype.save = function(data, callback) {
+	if (typeof data != 'undefined' && data) {
+		if (typeof data.id !='undefined' && data.id) {
+			this.dataSource.update(data, function(results) {
+				callback(results);
+			});
+		} else {
+			this.dataSource.create(data, function(results) {
+				callback(results);
+			});
+		}
+	}
+}
+
 Model.prototype.remove = function(conditions) {}
 
 exports.Model = Model;

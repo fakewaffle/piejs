@@ -11,18 +11,24 @@ exports.config = {
 			'controllers' : __dirname + '/../app/controllers/',
 			'views' : {
 				'path'    : __dirname + '/../app/views/',
-				'layouts' : __dirname + '/../app/views/layouts/',
+				'layouts' : __dirname + '/../app/views/layouts/'
 			}
 		},
 		'pie' : {
 			'dispatcher' : __dirname + '/dispatcher.js',
 			'model'      : __dirname + '/libs/model/model.js',
 			'datasource' : {
+				'path'  : __dirname + '/libs/model/datasources/',
 				'mysql' : __dirname + '/libs/model/datasources/mysql.js'
 			},
 			'controller' : __dirname + '/libs/controller/controller.js',
+			'views' : {
+				'path'    : __dirname + '/libs/view/',
+				'helpers' : __dirname + '/libs/view/helpers/',
+			},
 			'sanitize'   : __dirname + '/libs/sanitize.js',
-			'inflector'  : __dirname + '/libs/inflector.js'
+			'inflector'  : __dirname + '/libs/inflector.js',
+			'faker'      : __dirname + '/node_modules/Faker'
 		}
 	}
 };

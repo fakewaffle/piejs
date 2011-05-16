@@ -1,6 +1,6 @@
 function Controller(name) {
 	this.name       = name;
-	this[this.name] = require(config.paths.app.models + name.toLowerCase())[this.name];
+	this[this.name] = require(config.paths.app.models + this.name.toLowerCase())[this.name];
 }
 
 Controller.prototype.set = function(request, response, results) {
@@ -8,10 +8,11 @@ Controller.prototype.set = function(request, response, results) {
 		controller = params.controller,
 		action     = params.action;
 
-	response.render(controller + '/' + action, {
-		layout : config.paths.app.views.layouts + 'default.jade',
-		locals : results
-	});
-}
+	var responseParams = {
+		'layout' : config.paths.app.views.layouts + 'default.jade',
+		'locals' : results,
+	};
 
+	response.render(controller + '/' + action, responseParams);
+}
 exports.Controller = Controller;

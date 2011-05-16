@@ -5,7 +5,6 @@ function Mysql(model, dataSource, table) {
 	this.model        = model;
 	this.dataSource   = dataSource;
 	this.table        = this.startQuote + table + this.endQuote;
-	this.lastInsertId = null;
 
 	var Client  = require('mysql').Client;
 	this.client = new Client({
@@ -33,9 +32,9 @@ Mysql.prototype.read = function (type, params, callback) {
 
 	if (params) {
 		if (typeof params.fields != 'undefined') {
-			for (var i = params.fields.length - 1; i >= 0; i--){
+			for (var i = params.fields.length - 1; i >= 0; i--) {
 				params.fields[i] = this.startQuote + params.fields[i] + this.endQuote;
-			};
+			}
 			query += params.fields.join(', ') + ' ';
 		} else {
 			query += '* ';
@@ -65,8 +64,59 @@ Mysql.prototype.read = function (type, params, callback) {
 	});
 }
 
-Mysql.prototype.create = function(fields, values) {}
-Mysql.prototype.update = function (id) {}
+/**
+ * The "C" in CRUD
+ *
+ * @param object data { field:value } of data to be inserted into the database
+ * @param function callback Callback to be executed after create is finished
+ *
+ * 2011-05-12 23.55.47 - Justin Morris
+ */
+Mysql.prototype.create = function(data, callback) {
+	var query   = 'INSERT INTO ' + this.table + ' ',
+		columns = [],
+		values  = [];
+
+	for (var i in data) {
+		columns.push(this.startQuote + i + this.endQuote);
+		values.push(this.client.escape(data[i]));
+	}
+
+	query += '(' + columns.join(', ') + ') ';
+	query += 'VALUES (' + values.join(', ') + ')';
+
+	console.log('Mysql.create() query:', query);
+	this.client.query(query, function (error, info) {
+		if (error) {
+			throw error;
+		}
+
+		callback(info);
+	});
+}
+Mysql.prototype.update = function (data, callback) {
+	var query = 'UPDATE ' + this.table + ' SET ',
+		set   = [];
+
+	for (var i in data) {
+		if (i != 'id') {
+			set.push(this.startQuote + i + this.endQuote + ' = ' + 	this.client.escape(data[i]));
+		}
+	}
+
+	query += set.join(', ') + ' ';
+	query += 'WHERE ' + this.startQuote + 'id' + this.endQuote + ' = ' + this.client.escape(data.id);
+
+	console.log('Mysql.update() query:', query);
+	this.client.query(query, function (error, info) {
+		if (error) {
+			throw error;
+		}
+
+		callback(info);
+	});
+}
+
 Mysql.prototype.remove = function (id) {}
 
 /**
