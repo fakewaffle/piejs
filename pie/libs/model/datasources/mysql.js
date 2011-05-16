@@ -19,6 +19,37 @@ function Mysql(model, dataSource, table) {
 }
 
 /**
+ * The "C" in CRUD
+ *
+ * @param object data { field:value } of data to be inserted into the database
+ * @param function callback Callback to be executed after create is finished
+ *
+ * 2011-05-12 23.55.47 - Justin Morris
+ */
+Mysql.prototype.create = function(data, callback) {
+	var query   = 'INSERT INTO ' + this.table + ' ',
+		columns = [],
+		values  = [];
+
+	for (var i in data) {
+		columns.push(this.startQuote + i + this.endQuote);
+		values.push(this.client.escape(data[i]));
+	}
+
+	query += '(' + columns.join(', ') + ') ';
+	query += 'VALUES (' + values.join(', ') + ')';
+
+	console.log('Mysql.create() query:', query);
+	this.client.query(query, function (error, info) {
+		if (error) {
+			throw error;
+		}
+
+		callback(info);
+	});
+}
+
+/**
  * The "R" in CRUD.
  *
  * @param string type Type of find, such as 'first', 'all', 'count', 'list'
@@ -65,42 +96,11 @@ Mysql.prototype.read = function (type, params, callback) {
 }
 
 /**
- * The "C" in CRUD
- *
- * @param object data { field:value } of data to be inserted into the database
- * @param function callback Callback to be executed after create is finished
- *
- * 2011-05-12 23.55.47 - Justin Morris
- */
-Mysql.prototype.create = function(data, callback) {
-	var query   = 'INSERT INTO ' + this.table + ' ',
-		columns = [],
-		values  = [];
-
-	for (var i in data) {
-		columns.push(this.startQuote + i + this.endQuote);
-		values.push(this.client.escape(data[i]));
-	}
-
-	query += '(' + columns.join(', ') + ') ';
-	query += 'VALUES (' + values.join(', ') + ')';
-
-	console.log('Mysql.create() query:', query);
-	this.client.query(query, function (error, info) {
-		if (error) {
-			throw error;
-		}
-
-		callback(info);
-	});
-}
-
-/**
  * The "U" in CRUD
- * 
+ *
  * @param object data { field:value } of data to be updated in the database
  * @param function callback Callback to be executed after update is finished
- * 
+ *
  * 2011-05-16 14.47.19 - Justin Morris
  */
 Mysql.prototype.update = function (data, callback) {
