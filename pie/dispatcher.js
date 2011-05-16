@@ -1,6 +1,11 @@
 function setup() {
 	var express = require('express');
-	var server  = express.createServer(express.favicon(), express.bodyParser());
+	var server  = express.createServer(
+		express.favicon(),
+		express.cookieParser(),
+		express.session({ secret: config.app.core.secret }),
+		express.bodyParser()
+	);
 	var port    = 3000;
 
 	if (typeof config.app.core.port != 'undefined' && config.app.core.port && typeof config.app.core.port == 'number') {
