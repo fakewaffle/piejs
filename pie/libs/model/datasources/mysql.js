@@ -1,10 +1,10 @@
 function Mysql(model, dataSource, table) {
-	this.startQuote   = '`';
-	this.endQuote     = '`';
+	this.startQuote = '`';
+	this.endQuote   = '`';
 
-	this.model        = model;
-	this.dataSource   = dataSource;
-	this.table        = this.startQuote + table + this.endQuote;
+	this.model      = model;
+	this.dataSource = dataSource;
+	this.table      = this.startQuote + table + this.endQuote;
 
 	var Client  = require('mysql').Client;
 	this.client = new Client({
@@ -39,14 +39,7 @@ Mysql.prototype.create = function(data, callback) {
 	query += '(' + columns.join(', ') + ') ';
 	query += 'VALUES (' + values.join(', ') + ')';
 
-	console.log('Mysql.create() query:', query);
-	this.client.query(query, function (error, info) {
-		if (error) {
-			throw error;
-		}
-
-		callback(info);
-	});
+	this._query(query, callback);
 }
 
 /**
@@ -87,14 +80,7 @@ Mysql.prototype.read = function (type, params, callback) {
 		query += '* FROM ' + this.table;
 	}
 
-	console.log('Mysql.read() query:', query);
-	this.client.query(query, function (error, results, fields) {
-		if (error) {
-			throw error;
-		}
-
-		callback(results);
-	});
+	this._query(query, callback);
 }
 
 /**
@@ -118,17 +104,30 @@ Mysql.prototype.update = function (data, callback) {
 	query += set.join(', ') + ' ';
 	query += 'WHERE ' + this.startQuote + 'id' + this.endQuote + ' = ' + this.client.escape(data.id);
 
-	console.log('Mysql.update() query:', query);
-	this.client.query(query, function (error, info) {
+	this._query(query, callback);
+}
+
+Mysql.prototype.remove = function (id) {}
+
+/**
+ * Queries the database.
+ *
+ * @param string query Query string to run
+ * @param function callback Callback to be executed after query is finished
+ *
+ * 2011-05-16 21.56.06 - Justin Morris
+ */
+Mysql.prototype._query = function(query, callback) {
+	console.log('Mysql query:', query, '\n');
+
+	this.client.query(query, function (error, results) {
 		if (error) {
 			throw error;
 		}
 
-		callback(info);
+		callback(results);
 	});
 }
-
-Mysql.prototype.remove = function (id) {}
 
 /**
  * Construct a SQL statement for conditions.
