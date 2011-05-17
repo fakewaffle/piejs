@@ -31,7 +31,7 @@ exports.add = function(request, response) {
 
 	PostsController.Post.save(data, function(info) {
 		request.flash('info', 'Post has been added.');
-		response.redirect('posts/index');
+		response.redirect('posts');
 	});
 }
 
@@ -47,6 +47,6 @@ exports.edit = function(request, response, id) {
 
 	PostsController.Post.save(data, function(info) {
 		request.flash('info', 'Post has been edited.');
-		response.redirect('posts/index');
+		response.redirect('posts');
 	});
 }
