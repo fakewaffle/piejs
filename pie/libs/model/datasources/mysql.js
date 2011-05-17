@@ -149,7 +149,7 @@ Mysql.prototype._contsructConditionsSqlStatement = function(conditions) {
 			if (typeof condition == 'string') {
 				statements.push(this.startQuote + i + this.endQuote + ' = ' + this.client.escape(condition));
 			} else {
-				statements.push(this.statements + i + this.endQuote + ' = ' + this.client.escape(condition));
+				statements.push(this.startQuote + i + this.endQuote + ' = ' + this.client.escape(condition));
 			}
 		}
 	}
