@@ -6,6 +6,20 @@ function Model(params) {
 	if (typeof params.validation != 'undefined' && params.validation) {
 		this.validation = params.validation;
 	}
+
+	if (typeof params.belongsTo != 'undefined') {
+		for (var i in params.belongsTo) {
+			var model = require(config.paths.app.models + i.toLowerCase())[i];
+			this[i] = new Model(model);
+		}
+	}
+
+	if (typeof params.hasMany != 'undefined') {
+		for (var i in params.belongsTo) {
+			var model = require(config.paths.app.models + i.toLowerCase())[i];
+			this[i] = new Model(model);
+		}
+	}
 }
 
 Model.prototype.find = function(type, params, callback) {

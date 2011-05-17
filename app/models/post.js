@@ -1,5 +1,8 @@
-var Post = new Model({
+var Post = {
 	'model'      : 'Post',
-	'dataSource' : 'mysql'
-});
+	'dataSource' : 'mysql',
+	'belongsTo'  : {
+		'User' : null
+	}
+};
 exports.Post = Post;

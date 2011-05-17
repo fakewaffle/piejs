@@ -1,5 +1,8 @@
-var User = new Model({
+var User = {
 	'model'      : 'User',
-	'dataSource' : 'mysql'
-});
+	'dataSource' : 'mysql',
+	'hasMany'    : {
+		'Post' : null
+	}
+};
 exports.User = User;

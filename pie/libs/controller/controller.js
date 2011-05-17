@@ -1,6 +1,6 @@
 function Controller(name) {
 	this.name       = name;
-	this[this.name] = require(config.paths.app.models + this.name.toLowerCase())[this.name];
+	this[this.name] = new Model(require(config.paths.app.models + this.name.toLowerCase())[this.name]);
 }
 
 Controller.prototype.set = function(request, response, results) {
