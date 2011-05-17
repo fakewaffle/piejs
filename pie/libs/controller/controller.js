@@ -1,6 +1,21 @@
 function Controller(name) {
 	this.name       = name;
-	this[this.name] = new Model(require(config.paths.app.models + this.name.toLowerCase())[this.name]);
+	var model       = require(config.paths.app.models + this.name.toLowerCase())[this.name];
+	this[this.name] = new Model(model);
+
+	if (typeof model.belongsTo != 'undefined') {
+		for (var i in model.belongsTo) {
+			var belongsToModel = require(config.paths.app.models + i.toLowerCase())[i];
+			this[this.name][i] = new Model(belongsToModel);
+		}
+	}
+
+	if (typeof model.hasMany != 'undefined') {
+		for (var i in model.hasMany) {
+			var belongsToModel = require(config.paths.app.models + i.toLowerCase())[i];
+			this[this.name][i] = new Model(belongsToModel);
+		}
+	}
 }
 
 Controller.prototype.set = function(request, response, results) {
