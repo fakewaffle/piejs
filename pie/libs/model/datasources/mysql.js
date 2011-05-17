@@ -80,6 +80,8 @@ Mysql.prototype.read = function (type, params, callback) {
 
 		if (type == 'first') {
 			query += 'LIMIT 1';
+		} else if (typeof params.limit != 'undefined' && typeof	params.limit == 'number' ) {
+			query += 'LIMIT ' + params.limit;
 		}
 	} else {
 		query += '* FROM ' + this.table;
