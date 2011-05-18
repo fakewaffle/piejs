@@ -16,9 +16,14 @@ exports.view = function(request, response, id) {
 			'id' : id
 		},
 		'fields' : [
+			'id',
+			'user_id',
 			'name',
 			'content'
-		]
+		],
+		'contain' : {
+			'User' : null
+		}
 	}, function(results) {
 		PostsController.set(request, response, results);
 	});

@@ -16,9 +16,13 @@ exports.view = function(request, response, id) {
 			'id' : id
 		},
 		'fields' : [
+			'id',
 			'name',
 			'email'
-		]
+		],
+		'contain' : {
+			'Post' : null
+		}
 	}, function(results) {
 		UsersController.set(request, response, results);
 	});

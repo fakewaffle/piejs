@@ -55,7 +55,7 @@ Mysql.prototype.read = function (type, params, callback) {
 	var query = 'SELECT ';
 
 	if (params) {
-		if (typeof params.fields != 'undefined') {
+		if (typeof params.fields != 'undefined' && params.fields) {
 			for (var i = params.fields.length - 1; i >= 0; i--) {
 				params.fields[i] = this.startQuote + params.fields[i] + this.endQuote;
 			}
@@ -65,7 +65,7 @@ Mysql.prototype.read = function (type, params, callback) {
 		}
 		query += 'FROM ' + this.table + ' ';
 
-		if (typeof params.conditions != 'undefined') {
+		if (typeof params.conditions != 'undefined' && params.conditions) {
 			query += this._contsructConditionsSqlStatement(params.conditions);
 		} else {
 			query += '';
@@ -73,7 +73,7 @@ Mysql.prototype.read = function (type, params, callback) {
 
 		if (type == 'first') {
 			query += 'LIMIT 1';
-		} else if (typeof params.limit != 'undefined' && typeof	params.limit == 'number' ) {
+		} else if (typeof params.limit != 'undefined' && params.limit && typeof	params.limit == 'number' ) {
 			query += 'LIMIT ' + params.limit;
 		}
 	} else {
