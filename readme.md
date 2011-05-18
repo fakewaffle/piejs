@@ -1,4 +1,4 @@
-## Pie.JS
+## PieJS
 Rapid development framework for node.js with inspiration from CakePHP. See the [Wiki](https://github.com/fakewaffle/piejs/wiki) for more information.
 
 Prerequisites:
