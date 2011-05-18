@@ -1,10 +1,6 @@
 var UsersController = new Controller('User');
 
 exports.index = function(request, response, id) {
-	UsersController.User.Post.find('all', null, function(results) {
-		console.log('results:', results);
-	});
-
 	UsersController.User.find('all', null, function(results) {
 		UsersController.set(request, response, results);
 	});
