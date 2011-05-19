@@ -6,7 +6,7 @@ function setup() {
 		express.session({ secret: config.app.core.secret }),
 		express.bodyParser()
 	);
-	
+
 	// Use default port of 3000 unless specified in app/config/core.js
 	var port    = 3000;
 	if (typeof config.app.core.port != 'undefined' && config.app.core.port && typeof config.app.core.port == 'number') {
@@ -50,16 +50,12 @@ function setup() {
 			id         = Sanitize.dispatcher(params.id);
 
 		if (debug == true) {
-			console.log('dispatcher:', request.params, '\n');
+			console.log('dispatcher.get:', request.params, '\n');
 		}
 
 		// If there is a controller and an action, load the controller frm app/controllers/ and call the exported action
 		if (controller && action) {
-			try {
-				require(config.paths.app.controllers + controller + '_controller')[action](request, response, id);
-			} catch (error) {
-				console.log('dispatcher error:', error, '\n');
-			}
+			require(config.paths.app.controllers + controller + '_controller')[action](request, response, id);
 		} else { next(); }
 	});
 
@@ -74,15 +70,11 @@ function setup() {
 			id         = Sanitize.dispatcher(params.id);
 
 		if (debug == true) {
-			console.log('dispatcher:', request.params, '\n');
+			console.log('dispatcher.post:', request.params, '\n');
 		}
 
 		if (controller && action) {
-			try {
-				require(config.paths.app.controllers + controller + '_controller')[action](request, response, id);
-			} catch (error) {
-				console.log('dispatcher error:', error, '\n');
-			}
+			require(config.paths.app.controllers + controller + '_controller')[action](request, response, id);
 		} else { next(); }
 	});
 }
