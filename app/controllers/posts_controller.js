@@ -26,7 +26,7 @@ exports.view = function(request, response, id) {
 }
 
 exports.add = function(request, response) {
-	// var data = request.body;
+	var data = request.body;
 
 	if (typeof data != 'undefined') {
 		PostsController.Post.save(data, function(info) {
