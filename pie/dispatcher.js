@@ -93,6 +93,12 @@ function setupSiteConfig (server, name) {
 			'views' : {
 				'path'    : __dirname + '/../sites/' + name + '/views',
 				'layouts' : __dirname + '/../sites/' + name + '/views/layouts/'
+			},
+			'public' : {
+				'path'        : __dirname + '/../sites/' + name + '/public/',
+				'images'      : __dirname + '/../sites/' + name + '/public/images/',
+				'javascripts' : __dirname + '/../sites/' + name + '/public/javascripts/',
+				'stylesheets' : __dirname + '/../sites/' + name + '/public/stylesheets/'
 			}
 		};
 	}
