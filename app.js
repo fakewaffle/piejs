@@ -1,9 +1,5 @@
-config = require('./pie/config').config;
-config.app = {
-	'core'     : require(config.paths.app.config.core).core,
-	'database' : require(config.paths.app.config.database).database
-};
-debug = config.app.core.debug;
+config      = require('./pie/config').config;
+config.core = require(config.paths.sites.config).core;
 
 require(config.paths.pie.inflector).String;
 

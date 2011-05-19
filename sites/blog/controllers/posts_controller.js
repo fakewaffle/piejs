@@ -1,4 +1,4 @@
-var PostsController = new Controller('Post');
+var PostsController = new Controller('Post', 'blog');
 
 exports.index = function(request, response, id) {
 	PostsController.Post.find('all', null, function(results) {
@@ -33,7 +33,7 @@ exports.add = function(request, response) {
 	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been added.');
-			response.redirect('posts');
+			response.redirect('/blog/posts');
 		});
 	}
 }
@@ -52,7 +52,7 @@ exports.edit = function(request, response, id) {
 	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been edited.');
-			response.redirect('posts/view/' + data.id);
+			response.redirect('/blog/posts/view/' + data.id);
 		});
 	}
 }

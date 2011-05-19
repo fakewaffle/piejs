@@ -1,0 +1,16 @@
+!!!
+html
+	head
+		title Pie.JS
+	body
+		#header
+			p Layout Header
+
+		- if (flash.info)
+			#flash= flash.info
+
+		#content
+			!=body
+
+		#footer
+			p Layout Footer

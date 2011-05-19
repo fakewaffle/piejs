@@ -1,4 +1,4 @@
-var UsersController = new Controller('User');
+var UsersController = new Controller('User', 'blog');
 
 exports.index = function(request, response, id) {
 	UsersController.User.find('all', null, function(results) {

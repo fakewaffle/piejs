@@ -5,25 +5,27 @@
  * standard methods to find and save data in a data source agnostic way.
  *
  * @param string name Name of the model (ie: Post, Tag, User)
+ * @param string site Name of the site (ie: blog, evil-plan)
  *
  * 2011-05-17 23.16.13 - Justin Morris
  */
-function Controller(name) {
+function Controller(name, site) {
 	this.name       = name;
-	var model       = require(config.paths.app.models + this.name.toLowerCase())[this.name];
-	this[this.name] = new Model(model);
+	this.site       = site
+	var model       = require(config.paths.sites[this.site].models + this.name.toLowerCase())[this.name];
+	this[this.name] = new Model(model, this.site);
 
 	if (typeof model.belongsTo != 'undefined' && model.belongsTo) {
 		for (var i in model.belongsTo) {
-			var belongsToModel = require(config.paths.app.models + i.toLowerCase())[i];
-			this[this.name][i] = new Model(belongsToModel);
+			var belongsToModel = require(config.paths.sites[this.site].models + i.toLowerCase())[i];
+			this[this.name][i] = new Model(belongsToModel, this.site);
 		}
 	}
 
 	if (typeof model.hasMany != 'undefined' && model.hasMany) {
 		for (var i in model.hasMany) {
-			var belongsToModel = require(config.paths.app.models + i.toLowerCase())[i];
-			this[this.name][i] = new Model(belongsToModel);
+			var belongsToModel = require(config.paths.sites[this.site].models + i.toLowerCase())[i];
+			this[this.name][i] = new Model(belongsToModel, this.site);
 		}
 	}
 }
@@ -49,7 +51,7 @@ Controller.prototype.set = function(request, response, results) {
 	results.flash = request.flash();
 
 	var responseParams = {
-		'layout' : config.paths.app.views.layouts + 'default.jade',
+		'layout' : config.paths.sites[this.site].views.layouts + 'default.jade',
 		'locals' : results
 	};
 
