@@ -5,12 +5,12 @@ exports.setup = function () {
 		port = config.core.port;
 	}
 
-	Server.listen(port, function() {
-		console.log('Server running at http://localhost:' + port + '\n');
+	server.listen(port, function() {
+		console.log('server running at http://localhost:' + port + '\n');
 	});
 
-	// TODO: Anything not matching a controller in sites[name]/controllers should be handled by pie/controller/pages_controller.js and Server pages from sites[name]/views/pages
-	Server.get('/', function(request, response, next) {
+	// TODO: Anything not matching a controller in sites[name]/controllers should be handled by pie/controller/pages_controller.js and server pages from sites[name]/views/pages
+	server.get('/', function(request, response, next) {
 		var params = request.params;
 
 		if (params.length == 0) {
@@ -21,8 +21,24 @@ exports.setup = function () {
 		}
 	});
 
+	server.get('/:site/public/*', function(request, response, next) {
+		var params = request.params,
+			site   = params.site,
+			fs     = require('fs');
+
+		if (params) {
+			setupSiteConfig(site);
+
+			fs.readFile(config.paths.sites[site].public.path + params[0], 'utf8', function(error, data) {
+				response.send(data);
+			});
+		} else {
+			next();
+		}
+	});
+
 	// Main routing for Pie. TODO: allow for more named params pass 'id'
-	Server.get('/:site/:controller/:action?/:id?', function(request, response, next) {
+	server.get('/:site/:controller/:action?/:id?', function(request, response, next) {
 		if (typeof request.params.action == 'undefined') {
 			request.params.action = 'index';
 		}
@@ -46,7 +62,7 @@ exports.setup = function () {
 		}
 	});
 
-	Server.post('/:site/:controller/:action/:id?', function(request, response, next) {
+	server.post('/:site/:controller/:action/:id?', function(request, response, next) {
 		if (typeof request.params.id == 'undefined') {
 			request.params.id = null;
 		}

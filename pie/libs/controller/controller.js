@@ -55,8 +55,8 @@ Controller.prototype.set = function(request, response, results) {
 		'locals' : results
 	};
 
-	Server.set('views', config.paths.sites[this.site].views.path);
-	Server.set('view engine', config.sites[this.site].core.viewEngine);
+	server.set('views', config.paths.sites[this.site].views.path);
+	server.set('view engine', config.sites[this.site].core.viewEngine);
 
 	response.render(controller + '/' + action, responseParams);
 }
