@@ -2,6 +2,10 @@ exports.config = {
 
 	'paths' : {
 		'pie' : {
+			'modules' : {
+				'path' : __dirname + '/node_modules/',
+				'express' : __dirname + '/node_modules/express'
+			},
 			'dispatcher' : __dirname + '/dispatcher.js',
 			'model'      : __dirname + '/libs/model/model.js',
 			'datasource' : {

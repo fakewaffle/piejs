@@ -1,24 +1,16 @@
 exports.setup = function () {
-	var express = require('express');
-	var server  = express.createServer(
-		express.favicon(),
-		express.cookieParser(),
-		express.session({ secret: config.core.secret }),
-		express.bodyParser()
-	);
-
 	// Use default port of 3000 unless specified in sites/config.js
 	var port    = 3000;
 	if (typeof config.core.port != 'undefined' && config.core.port && typeof config.core.port == 'number') {
 		port = config.core.port;
 	}
 
-	server.listen(port, function() {
+	Server.listen(port, function() {
 		console.log('Server running at http://localhost:' + port + '\n');
 	});
 
-	// TODO: Anything not matching a controller in sites[name]/controllers should be handled by pie/controller/pages_controller.js and server pages from sites[name]/views/pages
-	server.get('/', function(request, response, next) {
+	// TODO: Anything not matching a controller in sites[name]/controllers should be handled by pie/controller/pages_controller.js and Server pages from sites[name]/views/pages
+	Server.get('/', function(request, response, next) {
 		var params = request.params;
 
 		if (params.length == 0) {
@@ -30,7 +22,7 @@ exports.setup = function () {
 	});
 
 	// Main routing for Pie. TODO: allow for more named params pass 'id'
-	server.get('/:site/:controller/:action?/:id?', function(request, response, next) {
+	Server.get('/:site/:controller/:action?/:id?', function(request, response, next) {
 		if (typeof request.params.action == 'undefined') {
 			request.params.action = 'index';
 		}
@@ -45,7 +37,7 @@ exports.setup = function () {
 			id         = Sanitize.dispatcher(params.id);
 
 		if (site && controller && action) {
-			setupSiteConfig(server, site);
+			setupSiteConfig(site);
 
 			console.log('dispatcher.get:', request.params, '\n');
 			require(config.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
@@ -54,7 +46,7 @@ exports.setup = function () {
 		}
 	});
 
-	server.post('/:site/:controller/:action/:id?', function(request, response, next) {
+	Server.post('/:site/:controller/:action/:id?', function(request, response, next) {
 		if (typeof request.params.id == 'undefined') {
 			request.params.id = null;
 		}
@@ -67,7 +59,7 @@ exports.setup = function () {
 
 
 		if (site && controller && action) {
-			setupSiteConfig(server, site);
+			setupSiteConfig(site);
 
 			console.log('dispatcher.post:', request.params, '\n');
 			require(config.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
@@ -77,7 +69,7 @@ exports.setup = function () {
 	});
 }
 
-function setupSiteConfig (server, name) {
+function setupSiteConfig (name) {
 
 	// Setup paths for the site if not already set
 	if (typeof config.paths.sites[name] == 'undefined' && !config.paths.sites[name]) {
@@ -109,15 +101,5 @@ function setupSiteConfig (server, name) {
 			'core'     : require(config.paths.sites[name].config.core).core,
 			'database' : require(config.paths.sites[name].config.database).database
 		};
-	}
-
-	// Set the view view folder
-	if (typeof server.set('views') == 'undefined' && !server.set('views')) {
-		server.set('views', config.paths.sites[name].views.path);
-	}
-
-	// Set the view engine as defined in the site's config
-	if (typeof server.set('view engine') == 'undefined' && !server.set('view engine')) {
-		server.set('view engine', config.sites[name].core.viewEngine);
 	}
 }
