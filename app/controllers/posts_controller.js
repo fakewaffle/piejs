@@ -28,16 +28,14 @@ exports.view = function(request, response, id) {
 exports.add = function(request, response) {
 	// var data = request.body;
 
-	var faker = require(config.paths.pie.faker);
-	var data = {
-		'name'    : faker.Lorem.sentence(),
-		'content' : faker.Lorem.paragraphs()
-	};
-
-	PostsController.Post.save(data, function(info) {
-		request.flash('info', 'Post has been added.');
-		response.redirect('posts');
-	});
+	if (typeof data != 'undefined') {
+		PostsController.Post.save(data, function(info) {
+			request.flash('info', 'Post has been added.');
+			response.redirect('posts');
+		});
+	} else {
+		PostsController.set(request, response, {});
+	}
 }
 
 exports.edit = function(request, response, id) {

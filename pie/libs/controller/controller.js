@@ -41,6 +41,10 @@ Controller.prototype.set = function(request, response, results) {
 	var	params     = request.params,
 		controller = params.controller,
 		action     = params.action;
+		
+	if (typeof results == 'undefined') {
+		results = {};
+	}
 
 	results.flash = request.flash();
 
