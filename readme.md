@@ -9,7 +9,7 @@ Prerequisites:
 To try out:
 
     git clone git://github.com/fakewaffle/piejs.git
-	set the correct values for mysql in app/config/database.js
+	set the correct values for mysql in sites/blog/config/database.js
     cd piejs/
     node app.js
 
@@ -28,7 +28,7 @@ Open your browser:
         * **models/** - User models such as posts.js, tags.js.
         * **public/** - Publicly accessible (stylesheets,javascripts, images).
         * **views/** - User views for each method in the user controllers.
-    * **default** - Copy this directory to a new one in **sites/** to create a new site.
+    * **default** - Copy this directory in **sites/** to create a new site.
 * **pie/** - Users should not (or try not to) edit code here.
     * **libs/** - Code for Pie.
         * **controller/** - Pie Controller, user controllers 'inherit' from this.
