@@ -1,21 +1,37 @@
-function Model(params) {
-	this.name       = params.model;
-	var dataSource  = require(config.paths.pie.datasource.path + params.dataSource)[params.dataSource.camelize()];
-	this.dataSource = new dataSource(params.model, config.app.database[params.dataSource], params.model.tableize());
+/**
+ * Provides standard methods to find and save data in a data source agnostic way.
+ *
+ * @param Object model Model object created in app/models
+ *
+ * 2011-05-18 15.28.38 - Justin Morris
+ */
+function Model(model) {
+	this.name       = model.name;
+	var dataSource  = require(config.paths.pie.datasource.path + model.dataSource)[model.dataSource.camelize()];
+	this.dataSource = new dataSource(this.name, config.app.database[model.dataSource], this.name.tableize());
 
-	if (typeof params.validation != 'undefined' && params.validation) {
-		this.validation = params.validation;
+	if (typeof model.validation != 'undefined' && model.validation) {
+		this.validation = model.validation;
 	}
 
-	if (typeof params.belongsTo != 'undefined' && params.belongsTo) {
-		this.belongsTo = params.belongsTo;
+	if (typeof model.belongsTo != 'undefined' && model.belongsTo) {
+		this.belongsTo = model.belongsTo;
 	}
 
-	if (typeof params.hasMany != 'undefined' && params.hasMany) {
-		this.hasMany = params.hasMany;
+	if (typeof model.hasMany != 'undefined' && model.hasMany) {
+		this.hasMany = model.hasMany;
 	}
 }
 
+/**
+ * Abstracted find for read methods on a datasource.
+ *
+ * @param string type Type of find ('first', 'all', 'count', 'list')
+ * @param Object params Parameters (conditions, fields, limit, contain)
+ * @param function callback Callback to be executed after find is finished
+ *
+ * 2011-05-18 20.13.16 - Justin Morris
+ */
 Model.prototype.find = function(type, params, callback) {
 	var self     = this,
 		params   = params,
@@ -41,6 +57,14 @@ Model.prototype.find = function(type, params, callback) {
 	});
 }
 
+/**
+ * Abstracted save for create and update methods on a datasource.
+ *
+ * @param Object data Data to be saved { key:value }
+ * @param function callback Callback to be executed after save is finished
+ *
+ * 2011-05-18 20.30.19 - Justin Morris
+ */
 Model.prototype.save = function(data, callback) {
 	if (typeof data != 'undefined' && data) {
 		if (typeof data.id !='undefined' && data.id) {
@@ -55,8 +79,28 @@ Model.prototype.save = function(data, callback) {
 	}
 }
 
+/**
+ * Abstracted delete/remove for delete/remove methods on a datasource.
+ *
+ * TODO: Implement.
+ *
+ * 2011-05-18 20.31.35 - Justin Morris
+ */
 Model.prototype.remove = function(conditions) {}
 
+/**
+ * Handle cantain for Model.find(...).
+ *
+ * TODO: Handle recursion.
+ * TODO: Handle params in a model contain, such as fields.
+ * TODO: Check whether it really works with more than one other model.
+ *
+ * @param Object results Results from the Model.find(...)
+ * @param Object contains An object that
+ * @param function callback Callback to be executed after contain is finished
+ *
+ * 2011-05-18 20.32.46 - Justin Morris
+ */
 Model.prototype._contain = function(results, contains, callback) {
 	var self = this;
 

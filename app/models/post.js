@@ -1,5 +1,5 @@
 var Post = {
-	'model'      : 'Post',
+	'name'       : 'Post',
 	'dataSource' : 'mysql',
 	'belongsTo'  : {
 		'User' : null
