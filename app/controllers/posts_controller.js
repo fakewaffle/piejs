@@ -41,13 +41,12 @@ exports.add = function(request, response) {
 exports.edit = function(request, response, id) {
 	var data = request.body;
 
-	if (typeof data == 'undefined') {		
+	if (typeof data == 'undefined') {
 		PostsController.Post.find('first', {
 			'conditions' : {
 				'id' : id
 			}
 		}, function(results) {
-			console.log(results);
 			PostsController.set(request, response, results);
 		});
 	} else {
