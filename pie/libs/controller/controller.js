@@ -40,12 +40,12 @@ function Controller(name) {
 Controller.prototype.set = function(request, response, results) {
 	var	params     = request.params,
 		controller = params.controller,
-		action     = params.action;
-		
+		action     = params.action,
+		results    = results;
+
 	if (typeof results == 'undefined') {
 		results = {};
 	}
-
 	results.flash = request.flash();
 
 	var responseParams = {

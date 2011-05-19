@@ -28,28 +28,32 @@ exports.view = function(request, response, id) {
 exports.add = function(request, response) {
 	var data = request.body;
 
-	if (typeof data != 'undefined') {
+	if (typeof data == 'undefined') {
+		PostsController.set(request, response);
+	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been added.');
 			response.redirect('posts');
 		});
-	} else {
-		PostsController.set(request, response, {});
 	}
 }
 
 exports.edit = function(request, response, id) {
-	// var data = request.body;
+	var data = request.body;
 
-	var faker = require(config.paths.pie.faker);
-	var data = {
-		'id'      : id,
-		'name'    : faker.Lorem.sentence(),
-		'content' : faker.Lorem.paragraphs()
-	};
-
-	PostsController.Post.save(data, function(info) {
-		request.flash('info', 'Post has been edited.');
-		response.redirect('posts');
-	});
+	if (typeof data == 'undefined') {		
+		PostsController.Post.find('first', {
+			'conditions' : {
+				'id' : id
+			}
+		}, function(results) {
+			console.log(results);
+			PostsController.set(request, response, results);
+		});
+	} else {
+		PostsController.Post.save(data, function(info) {
+			request.flash('info', 'Post has been edited.');
+			response.redirect('posts/view/' + data.id);
+		});
+	}
 }

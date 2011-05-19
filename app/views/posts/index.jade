@@ -1,6 +1,12 @@
+h1
+	\Posts Index
+	a(href='/posts/add') [add a post]
+
 ul
 	- Post.forEach(function(post){
 	li
-		h1 #{post.name}
+		h1
+			a(href='/posts/view/'+post.id) #{post.name}
+
 		p #{post.content}
 	- })
