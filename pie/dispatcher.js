@@ -44,12 +44,17 @@ exports.setup = function () {
 	server.get('/:site/public/*', function(request, response, next) {
 		var params = request.params,
 			site   = params.site,
-			fs     = require('fs');
+			file   = params[0];
 
 		if (params) {
+			var mime        = require(config.paths.pie.modules.mime),
+				fs          = require('fs'),
+				contentType = mime.lookup(file);
+
 			setupSiteConfig(site);
 
-			fs.readFile(config.paths.sites[site].public.path + params[0], 'utf8', function(error, data) {
+			fs.readFile(config.paths.sites[site].public.path + file, 'utf8', function(error, data) {
+				response.header('Content-Type', contentType);
 				response.send(data);
 			});
 		} else {
