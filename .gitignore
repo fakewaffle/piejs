@@ -1,2 +1,5 @@
 .monitor
 .nodemonignore
+sites/*
+!sites/default/
+!sites/blog/

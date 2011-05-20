@@ -9,16 +9,32 @@ exports.setup = function () {
 		console.log('server running at http://localhost:' + port + '\n');
 	});
 
+	server.get('/:site', function(request, response, next) {
+		var params = request.params,
+			site   = params.site;
+
+		if (params) {
+			response.redirect(site + '/pages/home');
+		} else {
+			next();
+		}
+	});
+
 	server.get('/:site/pages/*', function(request, response, next) {
 		var params = request.params,
-			site   = params.site,
-			fs     = require('fs');
+			site   = params.site;
 
 		if (params) {
 			setupSiteConfig(site);
 
-			fs.readFile(config.paths.sites[site].views.pages + params[0], 'utf8', function(error, data) {
-				response.send(data);
+			server.set('views', config.paths.sites[site].views.pages);
+			server.set('view engine', config.sites[site].core.viewEngine);
+
+			response.render(params[0], {
+				'layout' : config.paths.sites[site].views.layouts + 'default.jade',
+				'locals' : {
+					'flash' : request.flash()
+				}
 			});
 		} else {
 			next();
@@ -105,7 +121,7 @@ function setupSiteConfig (name) {
 			'views' : {
 				'path'    : __dirname + '/../sites/' + name + '/views',
 				'layouts' : __dirname + '/../sites/' + name + '/views/layouts/',
-				'pages'   : __dirname + '/../sites/' + name + '/views/pages/'
+				'pages'   : __dirname + '/../sites/' + name + '/views/pages'
 			},
 			'public' : {
 				'path'        : __dirname + '/../sites/' + name + '/public/',
