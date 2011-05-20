@@ -27,9 +27,9 @@ function Mysql(model, dataSource, table) {
  * 2011-05-12 23.55.47 - Justin Morris
  */
 Mysql.prototype.create = function(data, callback) {
-	var query   = 'INSERT INTO ' + this.table + ' ',
-		columns = [],
-		values  = [];
+	var query   = 'INSERT INTO ' + this.table + ' ';
+	var columns = [];
+	var values  = [];
 
 	for (var i in data) {
 		columns.push(this.startQuote + i + this.endQuote);
@@ -55,7 +55,7 @@ Mysql.prototype.read = function (type, params, callback) {
 	var query = 'SELECT ';
 
 	if (params) {
-		if (typeof params.fields != 'undefined' && params.fields) {
+		if (typeof params.fields !== 'undefined' && params.fields) {
 			for (var i = params.fields.length - 1; i >= 0; i--) {
 				params.fields[i] = this.startQuote + params.fields[i] + this.endQuote;
 			}
@@ -65,15 +65,15 @@ Mysql.prototype.read = function (type, params, callback) {
 		}
 		query += 'FROM ' + this.table + ' ';
 
-		if (typeof params.conditions != 'undefined' && params.conditions) {
+		if (typeof params.conditions !== 'undefined' && params.conditions) {
 			query += this._contsructConditionsSqlStatement(params.conditions);
 		} else {
 			query += '';
 		}
 
-		if (type == 'first') {
+		if (type === 'first') {
 			query += 'LIMIT 1';
-		} else if (typeof params.limit != 'undefined' && params.limit && typeof	params.limit == 'number' ) {
+		} else if (typeof params.limit !== 'undefined' && params.limit && typeof	params.limit === 'number' ) {
 			query += 'LIMIT ' + params.limit;
 		}
 	} else {
@@ -92,11 +92,11 @@ Mysql.prototype.read = function (type, params, callback) {
  * 2011-05-16 14.47.19 - Justin Morris
  */
 Mysql.prototype.update = function (data, callback) {
-	var query = 'UPDATE ' + this.table + ' SET ',
-		set   = [];
+	var query = 'UPDATE ' + this.table + ' SET ';
+	var set   = [];
 
 	for (var i in data) {
-		if (i != 'id') {
+		if (i !== 'id') {
 			set.push(this.startQuote + i + this.endQuote + ' = ' + 	this.client.escape(data[i]));
 		}
 	}
@@ -143,10 +143,10 @@ Mysql.prototype._contsructConditionsSqlStatement = function(conditions) {
 	for (var i in conditions) {
 		var condition = conditions[i];
 
-		if (i == 'SQL') {
+		if (i === 'SQL') {
 			statements.push(condition);
 		} else {
-			if (typeof condition == 'string') {
+			if (typeof condition === 'string') {
 				statements.push(this.startQuote + i + this.endQuote + ' = ' + this.client.escape(condition));
 			} else {
 				statements.push(this.startQuote + i + this.endQuote + ' = ' + this.client.escape(condition));

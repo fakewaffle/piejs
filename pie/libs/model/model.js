@@ -11,15 +11,15 @@ function Model(model, site) {
 	var dataSource  = require(config.paths.pie.datasource.path + model.dataSource)[model.dataSource.camelize()];
 	this.dataSource = new dataSource(this.name, config.sites[site].database[model.dataSource], this.name.tableize());
 
-	if (typeof model.validation != 'undefined' && model.validation) {
+	if (typeof model.validation !== 'undefined' && model.validation) {
 		this.validation = model.validation;
 	}
 
-	if (typeof model.belongsTo != 'undefined' && model.belongsTo) {
+	if (typeof model.belongsTo !== 'undefined' && model.belongsTo) {
 		this.belongsTo = model.belongsTo;
 	}
 
-	if (typeof model.hasMany != 'undefined' && model.hasMany) {
+	if (typeof model.hasMany !== 'undefined' && model.hasMany) {
 		this.hasMany = model.hasMany;
 	}
 }
@@ -34,14 +34,14 @@ function Model(model, site) {
  * 2011-05-18 20.13.16 - Justin Morris
  */
 Model.prototype.find = function(type, params, callback) {
-	var self     = this,
-		params   = params,
-		callback = callback;
+	var self     = this;
+	var params   = params;
+	var callback = callback;
 
 	this.dataSource.read(type, params, function(results) {
 		var tempResults;
 
-		if (results.length == 1) {
+		if (results.length === 1) {
 			tempResults = results[0];
 		} else {
 			tempResults = results;
@@ -50,7 +50,7 @@ Model.prototype.find = function(type, params, callback) {
 		results            = {};
 		results[self.name] = tempResults;
 
-		if (typeof params != 'undefined' && params && typeof params.contain != 'undefined' && params.contain) {
+		if (typeof params !== 'undefined' && params && typeof params.contain !== 'undefined' && params.contain) {
 			self._contain(results, params.contain, callback);
 		} else {
 			callback(results);
@@ -67,8 +67,8 @@ Model.prototype.find = function(type, params, callback) {
  * 2011-05-18 20.30.19 - Justin Morris
  */
 Model.prototype.save = function(data, callback) {
-	if (typeof data != 'undefined' && data) {
-		if (typeof data.id !='undefined' && data.id) {
+	if (typeof data !== 'undefined' && data) {
+		if (typeof data.id !=='undefined' && data.id) {
 			this.dataSource.update(data, function(results) {
 				callback(results);
 			});
@@ -111,11 +111,11 @@ Model.prototype._contain = function(results, contains, callback) {
 			'conditions' : {}
 		};
 
-		if (typeof this.belongsTo != 'undefined' && this.belongsTo && typeof this.belongsTo[i] != 'undefined') {
+		if (typeof this.belongsTo !== 'undefined' && this.belongsTo && typeof this.belongsTo[i] !== 'undefined') {
 			params.conditions.id = results[self.name][i.foreign_key()];
 		}
 
-		if (typeof this.hasMany != 'undefined' && this.hasMany && typeof this.hasMany[i] != 'undefined') {
+		if (typeof this.hasMany !== 'undefined' && this.hasMany && typeof this.hasMany[i] !== 'undefined') {
 			params.conditions[self.name.foreign_key()] = results[self.name].id;
 		}
 

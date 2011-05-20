@@ -1,7 +1,8 @@
 exports.setup = function () {
+
 	// Use default port of 3000 unless specified in sites/config.js
-	var port    = 3000;
-	if (typeof config.core.port != 'undefined' && config.core.port && typeof config.core.port == 'number') {
+	var port = 3000;
+	if (typeof config.core.port !== 'undefined' && config.core.port && typeof config.core.port === 'number') {
 		port = config.core.port;
 	}
 
@@ -10,8 +11,8 @@ exports.setup = function () {
 	});
 
 	server.get('/:site', function(request, response, next) {
-		var params = request.params,
-			site   = params.site;
+		var params = request.params;
+		var site   = params.site;
 
 		if (params) {
 			response.redirect(site + '/pages/home');
@@ -21,8 +22,8 @@ exports.setup = function () {
 	});
 
 	server.get('/:site/pages/*', function(request, response, next) {
-		var params = request.params,
-			site   = params.site;
+		var params = request.params;
+		var site   = params.site;
 
 		if (params) {
 			setupSiteConfig(site);
@@ -42,14 +43,14 @@ exports.setup = function () {
 	});
 
 	server.get('/:site/public/*', function(request, response, next) {
-		var params = request.params,
-			site   = params.site,
-			file   = params[0];
+		var params = request.params;
+		var site   = params.site;
+		var file   = params[0];
 
 		if (params) {
-			var mime        = require(config.paths.pie.modules.mime),
-				fs          = require('fs'),
-				contentType = mime.lookup(file);
+			var mime        = require(config.paths.pie.modules.mime);
+			var fs          = require('fs');
+			var contentType = mime.lookup(file);
 
 			setupSiteConfig(site);
 
@@ -64,18 +65,18 @@ exports.setup = function () {
 
 	// Main routing for Pie. TODO: allow for more named params pass 'id'
 	server.get('/:site/:controller/:action?/:id?', function(request, response, next) {
-		if (typeof request.params.action == 'undefined') {
+		if (typeof request.params.action === 'undefined') {
 			request.params.action = 'index';
 		}
-		if (typeof request.params.id == 'undefined') {
+		if (typeof request.params.id === 'undefined') {
 			request.params.id = null;
 		}
 
-		var	params     = request.params,
-			site       = Sanitize.dispatcher(params.site),
-			controller = Sanitize.dispatcher(params.controller),
-			action     = Sanitize.dispatcher(params.action),
-			id         = Sanitize.dispatcher(params.id);
+		var	params     = request.params;
+		var site       = Sanitize.dispatcher(params.site);
+		var controller = Sanitize.dispatcher(params.controller);
+		var action     = Sanitize.dispatcher(params.action);
+		var id         = Sanitize.dispatcher(params.id);
 
 		if (site && controller && action) {
 			setupSiteConfig(site);
@@ -88,15 +89,15 @@ exports.setup = function () {
 	});
 
 	server.post('/:site/:controller/:action/:id?', function(request, response, next) {
-		if (typeof request.params.id == 'undefined') {
+		if (typeof request.params.id === 'undefined') {
 			request.params.id = null;
 		}
 
-		var	params     = request.params,
-			site       = Sanitize.dispatcher(params.site),
-			controller = Sanitize.dispatcher(params.controller),
-			action     = Sanitize.dispatcher(params.action),
-			id         = Sanitize.dispatcher(params.id);
+		var	params     = request.params;
+		var site       = Sanitize.dispatcher(params.site);
+		var controller = Sanitize.dispatcher(params.controller);
+		var action     = Sanitize.dispatcher(params.action);
+		var id         = Sanitize.dispatcher(params.id);
 
 
 		if (site && controller && action) {
@@ -113,7 +114,7 @@ exports.setup = function () {
 function setupSiteConfig (name) {
 
 	// Setup paths for the site if not already set
-	if (typeof config.paths.sites[name] == 'undefined' && !config.paths.sites[name]) {
+	if (typeof config.paths.sites[name] === 'undefined' && !config.paths.sites[name]) {
 		config.paths.sites[name] = {
 			'path' : __dirname + '/../sites' + name + '/',
 			'config' : {
@@ -138,7 +139,7 @@ function setupSiteConfig (name) {
 	}
 
 	// Setup core and database for the site if not already set
-	if (typeof config.sites[name] == 'undefined' && !config.sites[name]) {
+	if (typeof config.sites[name] === 'undefined' && !config.sites[name]) {
 		config.sites[name] ={
 			'core'     : require(config.paths.sites[name].config.core).core,
 			'database' : require(config.paths.sites[name].config.database).database

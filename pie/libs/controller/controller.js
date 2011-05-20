@@ -15,14 +15,14 @@ function Controller(name, site) {
 	var model       = require(config.paths.sites[this.site].models + this.name.toLowerCase())[this.name];
 	this[this.name] = new Model(model, this.site);
 
-	if (typeof model.belongsTo != 'undefined' && model.belongsTo) {
+	if (typeof model.belongsTo !== 'undefined' && model.belongsTo) {
 		for (var i in model.belongsTo) {
 			var belongsToModel = require(config.paths.sites[this.site].models + i.toLowerCase())[i];
 			this[this.name][i] = new Model(belongsToModel, this.site);
 		}
 	}
 
-	if (typeof model.hasMany != 'undefined' && model.hasMany) {
+	if (typeof model.hasMany !== 'undefined' && model.hasMany) {
 		for (var i in model.hasMany) {
 			var belongsToModel = require(config.paths.sites[this.site].models + i.toLowerCase())[i];
 			this[this.name][i] = new Model(belongsToModel, this.site);
@@ -40,18 +40,18 @@ function Controller(name, site) {
  * 2011-05-17 23.20.50 - Justin Morris
  */
 Controller.prototype.set = function(request, response, results, layout) {
-	var	params     = request.params,
-		controller = params.controller,
-		action     = params.action,
-		results    = results,
-		layout     = layout;
+	var	params     = request.params;
+	var controller = params.controller;
+	var action     = params.action;
+	var results    = results;
+	var layout     = layout;
 
-	if (typeof results == 'undefined') {
+	if (typeof results === 'undefined') {
 		results = {};
 	}
 	results.flash = request.flash();
 
-	if (typeof layout == 'undefined') {
+	if (typeof layout === 'undefined') {
 		layout = 'default';
 	}
 
