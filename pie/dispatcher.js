@@ -9,13 +9,17 @@ exports.setup = function () {
 		console.log('server running at http://localhost:' + port + '\n');
 	});
 
-	// TODO: Anything not matching a controller in sites[name]/controllers should be handled by pie/controller/pages_controller.js and server pages from sites[name]/views/pages
-	server.get('/', function(request, response, next) {
-		var params = request.params;
+	server.get('/:site/pages/*', function(request, response, next) {
+		var params = request.params,
+			site   = params.site,
+			fs     = require('fs');
 
-		if (params.length == 0) {
-			console.log('dispatcher:\nin "/" and params.length is 0')
-			// require('./controllers/pages')[action](id);
+		if (params) {
+			setupSiteConfig(site);
+
+			fs.readFile(config.paths.sites[site].views.pages + params[0], 'utf8', function(error, data) {
+				response.send(data);
+			});
 		} else {
 			next();
 		}
@@ -100,7 +104,8 @@ function setupSiteConfig (name) {
 			'controllers' : __dirname + '/../sites/' + name + '/controllers/',
 			'views' : {
 				'path'    : __dirname + '/../sites/' + name + '/views',
-				'layouts' : __dirname + '/../sites/' + name + '/views/layouts/'
+				'layouts' : __dirname + '/../sites/' + name + '/views/layouts/',
+				'pages'   : __dirname + '/../sites/' + name + '/views/pages/'
 			},
 			'public' : {
 				'path'        : __dirname + '/../sites/' + name + '/public/',
