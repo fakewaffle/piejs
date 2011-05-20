@@ -54,7 +54,7 @@ exports.setup = function () {
 
 			setupSiteConfig(site);
 
-			fs.readFile(config.paths.sites[site].public.path + file, 'utf8', function(error, data) {
+			fs.readFile(config.paths.sites[site].public.path + file, function(error, data) {
 				response.header('Content-Type', contentType);
 				response.send(data);
 			});
