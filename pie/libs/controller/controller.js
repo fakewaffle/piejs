@@ -39,19 +39,24 @@ function Controller(name, site) {
  *
  * 2011-05-17 23.20.50 - Justin Morris
  */
-Controller.prototype.set = function(request, response, results) {
+Controller.prototype.set = function(request, response, results, layout) {
 	var	params     = request.params,
 		controller = params.controller,
 		action     = params.action,
-		results    = results;
+		results    = results,
+		layout     = layout;
 
 	if (typeof results == 'undefined') {
 		results = {};
 	}
 	results.flash = request.flash();
 
+	if (typeof layout == 'undefined') {
+		layout = 'default';
+	}
+
 	var responseParams = {
-		'layout' : config.paths.sites[this.site].views.layouts + 'default.jade',
+		'layout' : config.paths.sites[this.site].views.layouts + layout + '.' + config.sites[this.site].core.viewEngine,
 		'locals' : results
 	};
 
