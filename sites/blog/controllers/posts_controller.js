@@ -28,7 +28,7 @@ exports.view = function(request, response, id) {
 exports.add = function(request, response) {
 	var data = request.body;
 
-	if (typeof data == 'undefined') {
+	if (typeof data === 'undefined') {
 		PostsController.set(request, response);
 	} else {
 		PostsController.Post.save(data, function(info) {
@@ -41,7 +41,7 @@ exports.add = function(request, response) {
 exports.edit = function(request, response, id) {
 	var data = request.body;
 
-	if (typeof data == 'undefined') {
+	if (typeof data === 'undefined') {
 		PostsController.Post.find('first', {
 			'conditions' : {
 				'id' : id
