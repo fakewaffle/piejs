@@ -146,15 +146,11 @@ Mysql.prototype._contsructConditionsSqlStatement = function(conditions) {
 		if (i === 'SQL') {
 			statements.push(condition);
 		} else {
-			if (typeof condition === 'string') {
-				statements.push(this.startQuote + i + this.endQuote + ' = ' + this.client.escape(condition));
-			} else {
-				statements.push(this.startQuote + i + this.endQuote + ' = ' + this.client.escape(condition));
-			}
+			statements.push(this.startQuote + i + this.endQuote + ' = ' + this.client.escape(condition));
 		}
 	}
 
-	return 'WHERE ' + statements.join('AND ') + ' ';
+	return 'WHERE ' + statements.join(' AND ') + ' ';
 }
 
 exports.Mysql = Mysql;
