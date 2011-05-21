@@ -1,0 +1,4 @@
+<h1><%= Post.name %> <a href="/blog/posts/edit/<%= Post.id %>">[edit]</a></h1>
+<p><a href="/blog/users/view/<%= Post.User.id %>"><%= Post.User.name %></a> - <%= Post.User.email %></p>
+
+<p><%= Post.content %></p>

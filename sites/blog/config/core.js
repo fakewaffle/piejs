@@ -1,4 +1,4 @@
 exports.core = {
 	'debug'      : true,
-	'viewEngine' : 'jade'
+	'viewEngine' : 'ejs'
 };

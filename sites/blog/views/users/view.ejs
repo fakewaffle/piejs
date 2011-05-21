@@ -1,0 +1,11 @@
+<h1><%= User.name %></h1>
+<p><%= User.email %></p>
+
+<h2><%= User.email %></h2>
+
+<% User.Post.forEach(function(post) { %>
+	<li>
+		<h3><%= post.name %></h3>
+		<p><%= post.content %></p>
+	</li>
+<% }) %>
