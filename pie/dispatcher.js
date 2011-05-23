@@ -32,7 +32,7 @@ exports.setup = function () {
 			server.set('view engine', config.sites[site].core.viewEngine);
 
 			response.render(params[0], {
-				'layout' : config.paths.sites[site].views.layouts + 'default.jade',
+				'layout' : config.paths.sites[site].views.layouts + 'default'  + '.' + config.sites[site].core.viewEngine,
 				'locals' : {
 					'flash' : request.flash()
 				}
