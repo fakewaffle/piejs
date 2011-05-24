@@ -1,13 +1,13 @@
 exports.setup = function () {
 
-	// Use default port of 3000 unless specified in sites/config.js
+	// Use default port of 3000 unless specified in sites/pie.config.js
 	var port = 3000;
-	if (typeof config.core.port !== 'undefined' && config.core.port && typeof config.core.port === 'number') {
-		port = config.core.port;
+	if (typeof pie.config.core.port !== 'undefined' && pie.config.core.port && typeof pie.config.core.port === 'number') {
+		port = pie.config.core.port;
 	}
 
 	server.listen(port, function() {
-		console.log('server running at http://localhost:' + port + '\n');
+		console.log('server running at http://localhost:' + port);
 	});
 
 	server.get('/:site', function(request, response, next) {
@@ -26,13 +26,12 @@ exports.setup = function () {
 		var site   = params.site;
 
 		if (params) {
-			setupSiteConfig(site);
+			server.set('views', pie.config.paths.sites[site].views.pages);
+			server.set('view engine', pie.config.sites[site].core.viewEngine);
 
-			server.set('views', config.paths.sites[site].views.pages);
-			server.set('view engine', config.sites[site].core.viewEngine);
-
+			console.log('\ndispatcher site: ' + site + ' pages:', params[0]);
 			response.render(params[0], {
-				'layout' : config.paths.sites[site].views.layouts + 'default'  + '.' + config.sites[site].core.viewEngine,
+				'layout' : pie.config.paths.sites[site].views.layouts + 'default'  + '.' + pie.config.sites[site].core.viewEngine,
 				'locals' : {
 					'flash' : request.flash()
 				}
@@ -44,17 +43,16 @@ exports.setup = function () {
 
 	server.get('/:site/public/*', function(request, response, next) {
 		var params = request.params;
-		var site   = params.site;
+		var site   = Sanitize.dispatcher(params.site);
 		var file   = params[0];
 
 		if (params) {
-			var mime        = require(config.paths.pie.modules.mime);
+			var mime        = require(pie.config.paths.pie.modules.mime);
 			var fs          = require('fs');
 			var contentType = mime.lookup(file);
 
-			setupSiteConfig(site);
-
-			fs.readFile(config.paths.sites[site].public.path + file, function(error, data) {
+			fs.readFile(pie.config.paths.sites[site].public.path + file, function(error, data) {
+				console.log('\ndispatcher site: ' + site + ' public:', file);
 				response.header('Content-Type', contentType);
 				response.send(data);
 			});
@@ -79,10 +77,8 @@ exports.setup = function () {
 		var id         = Sanitize.dispatcher(params.id);
 
 		if (site && controller && action) {
-			setupSiteConfig(site);
-
-			console.log('dispatcher.get:', request.params, '\n');
-			require(config.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
+			console.log('\ndispatcher.get:', request.params);
+			require(pie.config.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
 		} else {
 			next();
 		}
@@ -99,50 +95,11 @@ exports.setup = function () {
 		var action     = Sanitize.dispatcher(params.action);
 		var id         = Sanitize.dispatcher(params.id);
 
-
 		if (site && controller && action) {
-			setupSiteConfig(site);
-
-			console.log('dispatcher.post:', request.params, '\n');
-			require(config.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
+			console.log('\ndispatcher.post:', request.params);
+			require(pie.config.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
 		} else {
 			next();
 		}
 	});
-}
-
-function setupSiteConfig (name) {
-
-	// Setup paths for the site if not already set
-	if (typeof config.paths.sites[name] === 'undefined' && !config.paths.sites[name]) {
-		config.paths.sites[name] = {
-			'path' : __dirname + '/../sites' + name + '/',
-			'config' : {
-				'path'     : __dirname + '/../sites/' + name + '/config/',
-				'core'     : __dirname + '/../sites/' + name + '/config/core.js',
-				'database' : __dirname + '/../sites/' + name + '/config/database.js'
-			},
-			'models' : __dirname + '/../sites/' + name + '/models/',
-			'controllers' : __dirname + '/../sites/' + name + '/controllers/',
-			'views' : {
-				'path'    : __dirname + '/../sites/' + name + '/views',
-				'layouts' : __dirname + '/../sites/' + name + '/views/layouts/',
-				'pages'   : __dirname + '/../sites/' + name + '/views/pages'
-			},
-			'public' : {
-				'path'        : __dirname + '/../sites/' + name + '/public/',
-				'images'      : __dirname + '/../sites/' + name + '/public/images/',
-				'javascripts' : __dirname + '/../sites/' + name + '/public/javascripts/',
-				'stylesheets' : __dirname + '/../sites/' + name + '/public/stylesheets/'
-			}
-		};
-	}
-
-	// Setup core and database for the site if not already set
-	if (typeof config.sites[name] === 'undefined' && !config.sites[name]) {
-		config.sites[name] ={
-			'core'     : require(config.paths.sites[name].config.core).core,
-			'database' : require(config.paths.sites[name].config.database).database
-		};
-	}
 }

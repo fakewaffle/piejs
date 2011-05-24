@@ -8,8 +8,8 @@
  */
 function Model(model, site) {
 	this.name       = model.name;
-	var dataSource  = require(config.paths.pie.datasource.path + model.dataSource)[model.dataSource.camelize()];
-	this.dataSource = new dataSource(this.name, config.sites[site].database[model.dataSource], this.name.tableize());
+	var dataSource  = require(pie.config.paths.pie.datasource.path + model.dataSource)[model.dataSource.camelize()];
+	this.dataSource = new dataSource(this.name, pie.config.sites[site].database[model.dataSource], this.name.tableize());
 
 	if (typeof model.validation !== 'undefined' && model.validation) {
 		this.validation = model.validation;
@@ -22,6 +22,8 @@ function Model(model, site) {
 	if (typeof model.hasMany !== 'undefined' && model.hasMany) {
 		this.hasMany = model.hasMany;
 	}
+
+	console.log('Setup model "' + model.name + '" for site "' + site + '"');
 }
 
 /**

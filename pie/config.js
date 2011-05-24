@@ -23,6 +23,7 @@ exports.config = {
 			'faker'      : __dirname + '/node_modules/Faker'
 		},
 		'sites' : {
+			'path'   : __dirname + '/../sites/',
 			'config' : __dirname + '/../sites/config.js'
 		}
 	},

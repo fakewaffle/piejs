@@ -12,22 +12,21 @@
 function Controller(name, site) {
 	this.name       = name;
 	this.site       = site
-	var model       = require(config.paths.sites[this.site].models + this.name.toLowerCase())[this.name];
-	this[this.name] = new Model(model, this.site);
+	this[this.name] = pie.sites[this.site].models[this.name];
 
-	if (typeof model.belongsTo !== 'undefined' && model.belongsTo) {
-		for (var i in model.belongsTo) {
-			var belongsToModel = require(config.paths.sites[this.site].models + i.toLowerCase())[i];
-			this[this.name][i] = new Model(belongsToModel, this.site);
+	if (typeof this[this.name].belongsTo !== 'undefined' && this[this.name].belongsTo) {
+		for (var i in this[this.name].belongsTo) {
+			this[this.name][i] = pie.sites[this.site].models[i];
 		}
 	}
 
-	if (typeof model.hasMany !== 'undefined' && model.hasMany) {
-		for (var i in model.hasMany) {
-			var belongsToModel = require(config.paths.sites[this.site].models + i.toLowerCase())[i];
-			this[this.name][i] = new Model(belongsToModel, this.site);
+	if (typeof this[this.name].hasMany !== 'undefined' && this[this.name].hasMany) {
+		for (var i in this[this.name].hasMany) {
+			this[this.name][i] = pie.sites[this.site].models[i];
 		}
 	}
+
+	console.log('Setup controller "' + name + '" for site "' + site + '"');
 }
 
 /**
@@ -56,12 +55,12 @@ Controller.prototype.set = function(request, response, results, layout) {
 	}
 
 	var responseParams = {
-		'layout' : config.paths.sites[this.site].views.layouts + layout + '.' + config.sites[this.site].core.viewEngine,
+		'layout' : pie.config.paths.sites[this.site].views.layouts + layout + '.' + pie.config.sites[this.site].core.viewEngine,
 		'locals' : results
 	};
 
-	server.set('views', config.paths.sites[this.site].views.path);
-	server.set('view engine', config.sites[this.site].core.viewEngine);
+	server.set('views', pie.config.paths.sites[this.site].views.path);
+	server.set('view engine', pie.config.sites[this.site].core.viewEngine);
 
 	response.render(controller + '/' + action, responseParams);
 }
