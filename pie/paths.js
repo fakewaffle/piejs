@@ -3,7 +3,8 @@ exports.paths = {
 		'modules' : {
 			'path'    : __dirname + '/node_modules/',
 			'express' : __dirname + '/node_modules/express',
-			'mime'    : __dirname + '/node_modules/mime'
+			'mime'    : __dirname + '/node_modules/mime',
+			'mysql'   : __dirname + '/node_modules/mysql'
 		},
 		'dispatcher' : __dirname + '/dispatcher.js',
 		'model'      : __dirname + '/libs/model/model.js',

@@ -6,7 +6,7 @@ function Mysql(model, dataSource, table) {
 	this.dataSource = dataSource;
 	this.table      = this.startQuote + table + this.endQuote;
 
-	var Client  = require('mysql').Client;
+	var Client  = require(pie.paths.pie.modules.mysql).Client;
 	this.client = new Client({
 		'host'     : dataSource.host,
 		'port'     : dataSource.port,
