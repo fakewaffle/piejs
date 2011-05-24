@@ -1,15 +1,17 @@
 exports.setup = function () {
 
-	// Use default port of 3000 unless specified in sites/pie.config.js
+	// Use default port of 3000 unless specified in sites/config.js
 	var port = 3000;
 	if (typeof pie.config.core.port !== 'undefined' && pie.config.core.port && typeof pie.config.core.port === 'number') {
 		port = pie.config.core.port;
 	}
+	server.listen(port, function() { console.log('server running at http://localhost:' + port); });
 
-	server.listen(port, function() {
-		console.log('server running at http://localhost:' + port);
-	});
-
+	/**
+	 * Redirects http://www.example.com/[site]/ -> http://www.example.com/[site]/pages/home
+	 *
+	 * 2011-05-24 09.32.10 - Justin Morris
+	 */
 	server.get('/:site', function(request, response, next) {
 		var params = request.params;
 		var site   = params.site;
@@ -21,6 +23,11 @@ exports.setup = function () {
 		}
 	});
 
+	/**
+	 * Serves pages in sites/[site]/views/pages for http://www.example.com/[site]/pages/*
+	 *
+	 * 2011-05-24 09.33.32 - Justin Morris
+	 */
 	server.get('/:site/pages/*', function(request, response, next) {
 		var params = request.params;
 		var site   = params.site;
@@ -41,6 +48,13 @@ exports.setup = function () {
 		}
 	});
 
+	/**
+	 * Exposes the files in sites/[site]/public/
+	 *
+	 * TODO: Sanitization should probably happen on the file variable?
+	 *
+	 * 2011-05-24 09.34.45 - Justin Morris
+	 */
 	server.get('/:site/public/*', function(request, response, next) {
 		var params = request.params;
 		var site   = Sanitize.dispatcher(params.site);
@@ -61,7 +75,17 @@ exports.setup = function () {
 		}
 	});
 
-	// Main routing for Pie. TODO: allow for more named params pass 'id'
+	/**
+	 * Main GET routing for Pie.
+	 *
+	 * The controller is loaded and the action is called. The request, response, and id (see below)
+	 * are passed.
+	 *
+	 * TODO: Allow for more named params pass 'id'.
+	 * TODO: Show gracefull errors for controllers and actions that are not found.
+	 *
+	 * 2011-05-24 09.37.25 - Justin Morris
+	 */
 	server.get('/:site/:controller/:action?/:id?', function(request, response, next) {
 		if (typeof request.params.action === 'undefined') {
 			request.params.action = 'index';
@@ -84,6 +108,16 @@ exports.setup = function () {
 		}
 	});
 
+	/**
+	 * Main POST routing for Pie.
+	 *
+	 * The controller is loaded and the action is called. The request, response, and id (see below)
+	 * are passed.
+	 *
+	 * TODO: Show gracefull errors for controllers and actions that are not found.
+	 *
+	 * 2011-05-24 09.44.25 - Justin Morris
+	 */
 	server.post('/:site/:controller/:action/:id?', function(request, response, next) {
 		if (typeof request.params.id === 'undefined') {
 			request.params.id = null;

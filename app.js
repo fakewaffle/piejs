@@ -20,6 +20,13 @@ files.forEach(function(file) {
 	}
 });
 
+/**
+ * Creates the paths for each given site.
+ * 
+ * @param string site Site nameS
+ * 
+ * 2011-05-24 09.30.50 - Justin Morris
+ */
 function setupSiteConfig(site) {
 	pie.paths.sites[site] = {
 		'path' : __dirname + '/sites' + site + '/',
@@ -49,6 +56,16 @@ function setupSiteConfig(site) {
 	};
 }
 
+/**
+ * Create all the models for a given site.
+ * 
+ * All the models are created when PieJS starts. Any model relations use the previously created
+ * model. Models are stored in pie.sites[site].models[name].
+ * 
+ * @param string site Site name
+ * 
+ * 2011-05-24 09.27.39 - Justin Morris
+ */
 function setupSiteModels(site) {
 	pie.sites[site] = { 'models' : {} };
 	var files       = fs.readdirSync(pie.paths.sites[site].models);
