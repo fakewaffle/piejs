@@ -12,7 +12,7 @@
  */
 exports.dispatcher = function(string) {
 	if (typeof string !== 'undefined' && string) {
-		return string.replace(/[^A-Za-z0-9_-]/g, '');
+		return string.replace(/[^A-Za-z0-9._-]/g, '');
 	}
 }
 
