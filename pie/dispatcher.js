@@ -26,12 +26,12 @@ exports.setup = function () {
 		var site   = params.site;
 
 		if (params) {
-			server.set('views', pie.config.paths.sites[site].views.pages);
+			server.set('views', pie.paths.sites[site].views.pages);
 			server.set('view engine', pie.config.sites[site].core.viewEngine);
 
 			console.log('\ndispatcher site: ' + site + ' pages:', params[0]);
 			response.render(params[0], {
-				'layout' : pie.config.paths.sites[site].views.layouts + 'default'  + '.' + pie.config.sites[site].core.viewEngine,
+				'layout' : pie.paths.sites[site].views.layouts + 'default'  + '.' + pie.config.sites[site].core.viewEngine,
 				'locals' : {
 					'flash' : request.flash()
 				}
@@ -47,11 +47,11 @@ exports.setup = function () {
 		var file   = params[0];
 
 		if (params) {
-			var mime        = require(pie.config.paths.pie.modules.mime);
+			var mime        = require(pie.paths.pie.modules.mime);
 			var fs          = require('fs');
 			var contentType = mime.lookup(file);
 
-			fs.readFile(pie.config.paths.sites[site].public.path + file, function(error, data) {
+			fs.readFile(pie.paths.sites[site].public.path + file, function(error, data) {
 				console.log('\ndispatcher site: ' + site + ' public:', file);
 				response.header('Content-Type', contentType);
 				response.send(data);
@@ -78,7 +78,7 @@ exports.setup = function () {
 
 		if (site && controller && action) {
 			console.log('\ndispatcher.get:', request.params);
-			require(pie.config.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
+			require(pie.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
 		} else {
 			next();
 		}
@@ -97,7 +97,7 @@ exports.setup = function () {
 
 		if (site && controller && action) {
 			console.log('\ndispatcher.post:', request.params);
-			require(pie.config.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
+			require(pie.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
 		} else {
 			next();
 		}

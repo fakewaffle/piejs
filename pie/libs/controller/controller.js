@@ -55,11 +55,11 @@ Controller.prototype.set = function(request, response, results, layout) {
 	}
 
 	var responseParams = {
-		'layout' : pie.config.paths.sites[this.site].views.layouts + layout + '.' + pie.config.sites[this.site].core.viewEngine,
+		'layout' : pie.paths.sites[this.site].views.layouts + layout + '.' + pie.config.sites[this.site].core.viewEngine,
 		'locals' : results
 	};
 
-	server.set('views', pie.config.paths.sites[this.site].views.path);
+	server.set('views', pie.paths.sites[this.site].views.path);
 	server.set('view engine', pie.config.sites[this.site].core.viewEngine);
 
 	response.render(controller + '/' + action, responseParams);
