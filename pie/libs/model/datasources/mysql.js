@@ -118,7 +118,7 @@ Mysql.prototype.remove = function (id) {}
  * 2011-05-16 21.56.06 - Justin Morris
  */
 Mysql.prototype._query = function(query, callback) {
-	console.log('Mysql query:', query, '\n');
+	console.log('Mysql query:', query, '');
 
 	this.client.query(query, function (error, results) {
 		if (error) {
