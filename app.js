@@ -40,7 +40,8 @@ function setupSiteConfig(site) {
 		'views' : {
 			'path'    : __dirname + '/sites/' + site + '/views',
 			'layouts' : __dirname + '/sites/' + site + '/views/layouts/',
-			'pages'   : __dirname + '/sites/' + site + '/views/pages'
+			'pages'   : __dirname + '/sites/' + site + '/views/pages',
+			'helpers' : __dirname + '/sites/' + site + '/views/helpers/'
 		},
 		'public' : {
 			'path'        : __dirname + '/sites/' + site + '/public/',
