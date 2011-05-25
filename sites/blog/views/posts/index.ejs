@@ -1,9 +1,9 @@
-<h1>Posts Index <a href="/blog/posts/add">[add a post]</a></h1>
+<h1>Posts Index <%- pie.Helper.Html.link('[add a post]', { 'action' : 'add' }) %></h1>
 
 <ul>
 	<% Post.forEach(function(post){ %>
 		<li>
-			<h1><a href="/blog/posts/view/<%= post.id %>"><%= post.name %></a></h1>
+			<h1><%- pie.Helper.Html.link(post.name, { 'action' : 'view', 'id' : post.id }) %></h1>
 			<p><%= post.content %></p>
 		</li>
 	<% }) %>

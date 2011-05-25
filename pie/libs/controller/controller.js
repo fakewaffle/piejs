@@ -4,16 +4,17 @@
  * Controller will load the model (and related models), and provide the model's
  * standard methods to find and save data in a data source agnostic way.
  *
- * @param string name Name of the model (ie: Post, Tag, User)
- * @param string site Name of the site (ie: blog, evil-plan)
+ * @param Object params Parameters for the controller (name, site, helpers)
  *
  * 2011-05-17 23.16.13 - Justin Morris
  */
-function Controller(name, site) {
-	var self        = this;
-	this.name       = name;
-	this.site       = site
-	this[this.name] = pie.sites[this.site].models[this.name];
+function Controller(params) {
+	var self              = this;
+	this.name             = params.name;
+	this.site             = params.site;
+	this.requestedHelpers = params.helpers;
+	this.helpers          = {};
+	this[this.name]       = pie.sites[this.site].models[this.name];
 
 	if (typeof this[this.name].belongsTo !== 'undefined' && this[this.name].belongsTo) {
 		Object.keys(self[self.name].belongsTo).forEach(function(key) {
@@ -27,7 +28,15 @@ function Controller(name, site) {
 		});
 	}
 
-	console.log('Setup controller "' + name + '" for site "' + site + '"');
+	if (typeof this.requestedHelpers !== 'undefined' && this.requestedHelpers) {
+		Object.keys(self.requestedHelpers).forEach(function(key) {
+			var requestedHelper           = self.requestedHelpers[key];
+			var Helper                    = require(pie.paths.pie.view.helpers  + requestedHelper.toLowerCase() + '.js')[requestedHelper];
+			self.helpers[requestedHelper] = new Helper(self.name, self.site);
+		});
+	}
+
+	console.log('Setup controller "' + this.name + '" for site "' + this.site + '"');
 }
 
 /**
@@ -56,8 +65,11 @@ Controller.prototype.set = function(request, response, results, layout) {
 	}
 
 	var responseParams = {
-		'layout' : pie.paths.sites[this.site].views.layouts + layout + '.' + pie.config.sites[this.site].core.viewEngine,
-		'locals' : results
+		'layout'  : pie.paths.sites[this.site].views.layouts + layout + '.' + pie.config.sites[this.site].core.viewEngine,
+		'locals'  : results,
+		'pie' : {
+			'Helper' : this.helpers
+		}
 	};
 
 	server.set('views', pie.paths.sites[this.site].views.path);

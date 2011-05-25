@@ -3,7 +3,7 @@
 <ul>
 	<% User.forEach(function(user){ %>
 		<li>
-			<h1><a href="/blog/users/view/<%= user.id %>"><%= user.name %></a></h1>
+			<h1><%- pie.Helper.Html.link(user.name, { 'action' : 'view', 'id' : user.id }) %></h1>
 			<p><%= user.email %></p>
 		</li>
 	<% }) %>

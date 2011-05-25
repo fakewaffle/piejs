@@ -1,4 +1,10 @@
-var PostsController = new Controller('Post', 'blog');
+var PostsController = new Controller({
+	'name' : 'Post',
+	'site' : 'blog',
+	'helpers' : [
+		'Html'
+	]
+});
 
 exports.index = function(request, response, id) {
 	PostsController.Post.find('all', null, function(results) {

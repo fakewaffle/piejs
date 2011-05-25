@@ -1,4 +1,4 @@
-<h1><%= Post.name %> <a href="/blog/posts/edit/<%= Post.id %>">[edit]</a></h1>
-<p><a href="/blog/users/view/<%= Post.User.id %>"><%= Post.User.name %></a> - <%= Post.User.email %></p>
+<h1><%= Post.name %> <%- pie.Helper.Html.link('[edit]', { 'action': 'edit', 'id' : Post.id }) %></h1>
+<p><%- pie.Helper.Html.link(Post.User.name, { 'controller' : 'posts', 'action' : 'view', 'id' : Post.User.id }) %> - <%= Post.User.email %></p>
 
 <p><%= Post.content %></p>

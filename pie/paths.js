@@ -13,7 +13,7 @@ exports.paths = {
 			'mysql' : __dirname + '/libs/model/datasources/mysql.js'
 		},
 		'controller' : __dirname + '/libs/controller/controller.js',
-		'views' : {
+		'view' : {
 			'path'    : __dirname + '/libs/view/',
 			'helpers' : __dirname + '/libs/view/helpers/',
 		},
