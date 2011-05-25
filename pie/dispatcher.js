@@ -36,7 +36,6 @@ exports.setup = function () {
 			server.set('views', pie.paths.sites[site].views.pages);
 			server.set('view engine', pie.config.sites[site].core.viewEngine);
 
-			console.log('\ndispatcher site: ' + site + ' pages:', params[0]);
 			response.render(params[0], {
 				'layout' : pie.paths.sites[site].views.layouts + 'default'  + '.' + pie.config.sites[site].core.viewEngine,
 				'locals' : {
@@ -66,7 +65,6 @@ exports.setup = function () {
 			var contentType = mime.lookup(file);
 
 			fs.readFile(pie.paths.sites[site].public.path + file, function(error, data) {
-				console.log('\ndispatcher site: ' + site + ' public:', file);
 				response.header('Content-Type', contentType);
 				response.send(data);
 			});
@@ -101,7 +99,6 @@ exports.setup = function () {
 		var id         = Sanitize.dispatcher(params.id);
 
 		if (site && controller && action) {
-			console.log('\ndispatcher.get:', request.params);
 			require(pie.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
 		} else {
 			next();
@@ -130,7 +127,6 @@ exports.setup = function () {
 		var id         = Sanitize.dispatcher(params.id);
 
 		if (site && controller && action) {
-			console.log('\ndispatcher.post:', request.params);
 			require(pie.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
 		} else {
 			next();

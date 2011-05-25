@@ -25,8 +25,6 @@ function Model(model, site) {
 	if (typeof model.hasMany !== 'undefined' && model.hasMany) {
 		this.hasMany = model.hasMany;
 	}
-
-	console.log('Setup model "' + model.name + '" for site "' + this.site + '"');
 }
 
 /**
