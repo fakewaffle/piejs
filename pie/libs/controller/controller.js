@@ -36,10 +36,12 @@ function Controller(params) {
 			var PieHelper       = null;
 			var SiteHelper      = null;
 
+			// Try to load the Helper form the Pie core - piejs/pie/libs/view/helpers/
 			try { PieHelper  = require(pie.paths.pie.view.helpers  + helperFile); } catch(e) {}
-			try { SiteHelper = require(pie.paths.sites[self.site].views.helpers  + helperFile); } catch(e) {}
-
 			if (PieHelper) { Helper  = PieHelper[requestedHelper]; }
+
+			// Try to load the Helper from the site - piejs/sites/[name]/views/helpers/
+			try { SiteHelper = require(pie.paths.sites[self.site].views.helpers  + helperFile); } catch(e) {}
 			if (SiteHelper) { Helper = SiteHelper[requestedHelper]; }
 
 			self.helpers[requestedHelper] = new Helper(self.name, self.site);
