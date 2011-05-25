@@ -10,20 +10,21 @@
  * 2011-05-17 23.16.13 - Justin Morris
  */
 function Controller(name, site) {
+	var self        = this;
 	this.name       = name;
 	this.site       = site
 	this[this.name] = pie.sites[this.site].models[this.name];
 
 	if (typeof this[this.name].belongsTo !== 'undefined' && this[this.name].belongsTo) {
-		for (var i in this[this.name].belongsTo) {
-			this[this.name][i] = pie.sites[this.site].models[i];
-		}
+		Object.keys(self[self.name].belongsTo).forEach(function(key) {
+			self[self.name][key] = pie.sites[self.site].models[key];
+		});
 	}
 
 	if (typeof this[this.name].hasMany !== 'undefined' && this[this.name].hasMany) {
-		for (var i in this[this.name].hasMany) {
-			this[this.name][i] = pie.sites[this.site].models[i];
-		}
+		Object.keys(self[self.name].hasMany).forEach(function(key) {
+			self[self.name][key] = pie.sites[self.site].models[key];
+		});
 	}
 
 	console.log('Setup controller "' + name + '" for site "' + site + '"');

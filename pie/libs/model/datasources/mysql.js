@@ -27,14 +27,15 @@ function Mysql(model, dataSource, table) {
  * 2011-05-12 23.55.47 - Justin Morris
  */
 Mysql.prototype.create = function(data, callback) {
+	var self    = this;
 	var query   = 'INSERT INTO ' + this.table + ' ';
 	var columns = [];
 	var values  = [];
 
-	for (var i in data) {
-		columns.push(this.startQuote + i + this.endQuote);
-		values.push(this.client.escape(data[i]));
-	}
+	Object.keys(data).forEach(function(key) {
+		columns.push(self.startQuote + key + self.endQuote);
+		values.push(self.client.escape(data[key]));
+	});
 
 	query += '(' + columns.join(', ') + ') ';
 	query += 'VALUES (' + values.join(', ') + ')';
@@ -92,14 +93,15 @@ Mysql.prototype.read = function (type, params, callback) {
  * 2011-05-16 14.47.19 - Justin Morris
  */
 Mysql.prototype.update = function (data, callback) {
+	var self  = this;
 	var query = 'UPDATE ' + this.table + ' SET ';
 	var set   = [];
 
-	for (var i in data) {
-		if (i !== 'id') {
-			set.push(this.startQuote + i + this.endQuote + ' = ' + 	this.client.escape(data[i]));
+	Object.keys(data).forEach(function(key) {
+		if (key !== 'id') {
+			set.push(self.startQuote + key	 + self.endQuote + ' = ' + 	self.client.escape(data[key]));
 		}
-	}
+	});
 
 	query += set.join(', ') + ' ';
 	query += 'WHERE ' + this.startQuote + 'id' + this.endQuote + ' = ' + this.client.escape(data.id);
@@ -138,17 +140,18 @@ Mysql.prototype._query = function(query, callback) {
  * 2011-05-03 16.38.03 - Justin Morris
  */
 Mysql.prototype._contsructConditionsSqlStatement = function(conditions) {
+	var self       = this;
 	var statements = [];
 
-	for (var i in conditions) {
-		var condition = conditions[i];
+	Object.keys(conditions).forEach(function(key) {
+		var condition = conditions[key];
 
-		if (i === 'SQL') {
+		if (key === 'SQL') {
 			statements.push(condition);
 		} else {
-			statements.push(this.startQuote + i + this.endQuote + ' = ' + this.client.escape(condition));
+			statements.push(self.startQuote + key + self.endQuote + ' = ' + self.client.escape(condition));
 		}
-	}
+	});
 
 	return 'WHERE ' + statements.join(' AND ') + ' ';
 }

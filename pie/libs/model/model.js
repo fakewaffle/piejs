@@ -132,27 +132,27 @@ Model.prototype.remove = function(conditions) {}
 Model.prototype._contain = function(results, contains, callback) {
 	var self = this;
 
-	for (var i in contains) {
-		var contain = contains[i];
+	Object.keys(contains).forEach(function(key) {
+		var contain = contains[key];
 		var params  = {
 			'conditions' : {}
 		};
 
-		if (typeof this.belongsTo !== 'undefined' && this.belongsTo && typeof this.belongsTo[i] !== 'undefined') {
-			params.conditions.id = results[self.name][i.foreign_key()];
+		if (typeof self.belongsTo !== 'undefined' && self.belongsTo && typeof self.belongsTo[key] !== 'undefined') {
+			params.conditions.id = results[self.name][key.foreign_key()];
 		}
 
-		if (typeof this.hasMany !== 'undefined' && this.hasMany && typeof this.hasMany[i] !== 'undefined') {
+		if (typeof self.hasMany !== 'undefined' && self.hasMany && typeof self.hasMany[key] !== 'undefined') {
 			params.conditions[self.name.foreign_key()] = results[self.name].id;
 		}
 
 		if (!contain) {
-			self[i].find('all', params, function(containResults) {
-				results[self.name][i] = containResults[i];
+			self[key].find('all', params, function(containResults) {
+				results[self.name][key] = containResults[key];
 				callback(results);
 			});
 		}
-	}
+	});
 }
 
 exports.Model = Model;
