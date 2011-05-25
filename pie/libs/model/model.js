@@ -8,8 +8,11 @@
  */
 function Model(model, site) {
 	this.name       = model.name;
+	this.site       = site;
+	this.modelPath  = pie.paths.sites[this.site].models + this.name.toLowerCase();
+
 	var dataSource  = require(pie.paths.pie.datasource.path + model.dataSource)[model.dataSource.camelize()];
-	this.dataSource = new dataSource(this.name, pie.config.sites[site].database[model.dataSource], this.name.tableize());
+	this.dataSource = new dataSource(this.name, pie.config.sites[this.site].database[model.dataSource], this.name.tableize());
 
 	if (typeof model.validation !== 'undefined' && model.validation) {
 		this.validation = model.validation;
@@ -23,7 +26,7 @@ function Model(model, site) {
 		this.hasMany = model.hasMany;
 	}
 
-	console.log('Setup model "' + model.name + '" for site "' + site + '"');
+	console.log('Setup model "' + model.name + '" for site "' + this.site + '"');
 }
 
 /**
@@ -43,6 +46,7 @@ Model.prototype.find = function(type, params, callback) {
 	this.dataSource.read(type, params, function(results) {
 		var tempResults;
 
+		// TODO: If the find type is 'all', do not pull results with a length of 1 out of the array.
 		if (results.length === 1) {
 			tempResults = results[0];
 		} else {
@@ -69,15 +73,36 @@ Model.prototype.find = function(type, params, callback) {
  * 2011-05-18 20.30.19 - Justin Morris
  */
 Model.prototype.save = function(data, callback) {
+	var self       = this;
+	var beforeSave = require(this.modelPath).beforeSave;
+	var afterSave  = require(this.modelPath).afterSave;
+
 	if (typeof data !== 'undefined' && data) {
-		if (typeof data.id !=='undefined' && data.id) {
-			this.dataSource.update(data, function(results) {
-				callback(results);
-			});
+
+		var save = function() {
+			if (typeof data.id !=='undefined' && data.id) {
+				self.dataSource.update(data, function(results) {
+					if (afterSave) {
+						afterSave(false, results, callback);
+					} else {
+						callback(results);
+					}
+				});
+			} else {
+				self.dataSource.create(data, function(results) {
+					if (afterSave) {
+						afterSave(true, results, callback);
+					} else {
+						callback(results);
+					}
+				});
+			}
+		};
+
+		if (beforeSave) {
+			beforeSave(data, save);
 		} else {
-			this.dataSource.create(data, function(results) {
-				callback(results);
-			});
+			save();
 		}
 	}
 }
