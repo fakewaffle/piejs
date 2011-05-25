@@ -1,3 +1,5 @@
+I am looking for help with this framework. If you are interested, please email me at morris.justin@gmail.com.
+
 ## PieJS
 Rapid development framework for node.js with inspiration from CakePHP. See the [Wiki](https://github.com/fakewaffle/piejs/wiki) for more information.
 
