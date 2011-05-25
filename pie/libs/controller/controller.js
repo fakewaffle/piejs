@@ -30,8 +30,18 @@ function Controller(params) {
 
 	if (typeof this.requestedHelpers !== 'undefined' && this.requestedHelpers) {
 		Object.keys(self.requestedHelpers).forEach(function(key) {
-			var requestedHelper           = self.requestedHelpers[key];
-			var Helper                    = require(pie.paths.pie.view.helpers  + requestedHelper.toLowerCase() + '.js')[requestedHelper];
+			var requestedHelper = self.requestedHelpers[key];
+			var helperFile      = requestedHelper.underscore() + '.js';
+			var Helper          = null;
+			var PieHelper       = null;
+			var SiteHelper      = null;
+
+			try { PieHelper  = require(pie.paths.pie.view.helpers  + helperFile); } catch(e) {}
+			try { SiteHelper = require(pie.paths.sites[self.site].views.helpers  + helperFile); } catch(e) {}
+
+			if (PieHelper) { Helper  = PieHelper[requestedHelper]; }
+			if (SiteHelper) { Helper = SiteHelper[requestedHelper]; }
+
 			self.helpers[requestedHelper] = new Helper(self.name, self.site);
 		});
 	}
