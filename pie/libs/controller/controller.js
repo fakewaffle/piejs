@@ -47,7 +47,7 @@ function Controller(params) {
 			self.helpers[requestedHelper] = new Helper(self.name, self.site);
 		});
 	}
-3}
+}
 
 /**
  * Sets the variables to the view, and renders the view for the requester.
