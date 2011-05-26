@@ -1,0 +1,46 @@
+* { margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, sans-serif;
+	font-size: 10pt;
+	color: #393733;
+	background: #FFF;
+}
+
+/********************************************************************************************************* Layout */
+div#header {
+	width: 90%;
+	margin: 0 auto 40px;
+	background: #CCC;
+	padding: 20px;
+	font-size: 12pt;
+	
+	-webkit-border-bottom-left-radius:10px; -webkit-border-bottom-right-radius:10px;
+	-khtml-border-radius-bottomleft:10px; -khtml-border-radius-bottomright:10px;
+	-moz-border-radius-bottomleft:10px; -moz-border-radius-bottomright:10px;
+	border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+}
+
+div#content {
+	width: 80%;
+	margin: 0 auto;
+}
+
+/********************************************************************************************************* Typography */
+p {
+	padding: 10px;
+}
+
+a {
+	cursor: pointer;
+	color: #3876B4;
+	text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+a img { color: transparent; }
+
+/********************************************************************************************************* Lists */
+ul, ol { margin: 10px 0; padding-left: 40px; }
+ul { list-style-type: square; }

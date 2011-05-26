@@ -3,13 +3,16 @@
 
 	<head>
 		<title>PieJS Example Blog</title>
+		<%- pie.Helper.Html.css('default') %>
+		<%- pie.Helper.Html.js('alert') %>
 	</head>
 
 	<body>
 		<% if (flash && flash.info) { %>
 			<div><%= flash.info %></div>
 		<% } %>
-
-		<%- body %>
+		
+		<div id="header"><h1>PieJS Example Blog</h1></div>
+		<div id="content"><%- body %></div>
 	</body>
 </html>
