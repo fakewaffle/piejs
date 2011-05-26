@@ -69,7 +69,7 @@ Html.prototype.link = function(text, hrefs, attributes) {
 	} else if (typeof hrefs === 'string') {
 		html += hrefs;
 	}
-	
+
 	html += '"';
 
 	if (typeof attributes !== 'undefined' && attributes) {
@@ -80,6 +80,28 @@ Html.prototype.link = function(text, hrefs, attributes) {
 	}
 
 	return html += '>' + text + '</a>';
+}
+
+/**
+ * Creates a link for a stylesheet.
+ *
+ * @param string file File name to provide link for
+ *
+ * 2011-05-26 16.19.21 - Justin Morris
+ */
+Html.prototype.css = function(file) {
+	return '<link rel="stylesheet" href="/' + this.site + '/public/stylesheets/' + file + '.css" type="text/css">';
+}
+
+/**
+ * Creats a link for a javascript file.
+ *
+ * @param string file File name to provide link for
+ *
+ * 2011-05-26 16.20.27 - Justin Morris
+ */
+Html.prototype.js = function(file) {
+	return '<script src="/' + this.site + '/public/javascripts/' + file + '.js" type="text/javascript"></script>';
 }
 
 exports.Html = Html;
