@@ -2,7 +2,8 @@ var PostsController = new Controller({
 	'name' : 'Post',
 	'site' : 'blog',
 	'helpers' : [
-		'Html'
+		'Html',
+		'Form'
 	]
 });
 

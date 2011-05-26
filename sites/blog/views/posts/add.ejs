@@ -1,9 +1,8 @@
-<form method="post" action="/blog/posts/add">
+<%- pie.Helper.Form.create({ 'action' : 'add' }) %>
 	<label>Name</label>
 	<input type="text" name="name">
 	<label>User ID</label>
 	<input type="text" name="user_id">
 	<label>Content</label>
 	<input type="text" name="content">
-	<input type="submit">
-</form>
+<%- pie.Helper.Form.end('Create Post') %>
