@@ -86,9 +86,9 @@ Form.prototype.create = function(links, attributes) {
 }
 
 /**
- * Creates a closing tag for a form with an option submit button.
+ * Creates a closing tag for a form with an optional submit button.
  *
- * @param string submitButtonValue Value for the option submit button
+ * @param string submitButtonValue Value for the optional submit button
  *
  * 2011-05-25 23.10.58 - Justin Morris
  */
