@@ -8,13 +8,45 @@
 	</head>
 
 	<body>
-		<div id="header"><h1>PieJS Example Blog</h1></div>
-		<div id="content">
-			<% if (flash && flash.info) { %>
+		<div id="header" class="corner-bottom"><h1>PieJS Example Blog</h1></div>
+
+		<div id="content" class="corner-all">
+			<% if (typeof flash !== 'undefined' && flash && flash.info) { %>
 				<div id="flash"><%= flash.info %></div>
 			<% } %>
 
 			<%- body %>
+			
+			<div class="code">
+				<h3>Code for the layout:</h3>
+			<pre>
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot;&gt;
+&lt;html&gt;
+
+    &lt;head&gt;
+        &lt;title&gt;PieJS Example Blog&lt;/title&gt;
+        &lt;%- pie.Helper.Html.css(&#x27;default&#x27;) %&gt;
+        &lt;%- pie.Helper.Html.js(&#x27;alert&#x27;) %&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;div id=&quot;header&quot; class=&quot;corner-bottom&quot;&gt;&lt;h1&gt;PieJS Example Blog&lt;/h1&gt;&lt;/div&gt;
+
+        &lt;div id=&quot;content&quot; class=&quot;corner-all&quot;&gt;
+            &lt;% if (typeof flash !== &#x27;undefined&#x27; &amp;&amp; flash &amp;&amp; flash.info) { %&gt;
+                &lt;div id=&quot;flash&quot;&gt;&lt;%= flash.info %&gt;&lt;/div&gt;
+            &lt;% } %&gt;
+
+            &lt;%- body %&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;footer&quot;&gt;&amp;copy; &lt;%- new Date().getFullYear() %&gt; &lt;%- pie.Helper.Html.link(&#x27;fakewaffle&#x27;, &#x27;https://github.com/fakewaffle/piejs&#x27;)%&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+			</pre>
+			</div>
 		</div>
+
+		<div id="footer">&copy; <%- new Date().getFullYear() %> <%- pie.Helper.Html.link('fakewaffle', 'https://github.com/fakewaffle/piejs')%></div>
 	</body>
 </html>

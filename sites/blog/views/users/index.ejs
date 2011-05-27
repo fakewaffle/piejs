@@ -3,8 +3,35 @@
 <ul>
 	<% User.forEach(function(user){ %>
 		<li>
-			<h1><%- pie.Helper.Html.link(user.name, { 'action' : 'view', 'id' : user.id }) %></h1>
+			<h3><%- pie.Helper.Html.link(user.name, { 'action' : 'view', 'id' : user.id }) %></h3>
 			<p><%= user.email %></p>
 		</li>
 	<% }) %>
 </ul>
+
+<div class="code">
+	<h3>Code for this controller action:</h3>
+<pre>
+exports.index = function(request, response, id) {
+    UsersController.User.find('all', null, function(results) {
+        UsersController.set(request, response, results);
+    });
+}
+</pre>
+</div>
+
+<div class="code">
+	<h3>Code for this view:</h3>
+<pre>
+&lt;h1&gt;Users Index&lt;/h1&gt;
+
+&lt;ul&gt;
+    &lt;% User.forEach(function(user){ %&gt;
+        &lt;li&gt;
+            &lt;h3&gt;&lt;%- pie.Helper.Html.link(user.name, { &#x27;action&#x27; : &#x27;view&#x27;, &#x27;id&#x27; : user.id }) %&gt;&lt;/h3&gt;
+            &lt;p&gt;&lt;%= user.email %&gt;&lt;/p&gt;
+        &lt;/li&gt;
+    &lt;% }) %&gt;
+&lt;/ul&gt;
+</pre>
+</div>

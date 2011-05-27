@@ -5,29 +5,92 @@ body {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, sans-serif;
 	font-size: 10pt;
 	color: #393733;
-	background: #FFF;
+	background: #F0F0F0;
 }
 
 /********************************************************************************************************* Layout */
 div#header {
 	width: 80%;
-	margin: 0 auto 40px;
 	background: #CCC;
+	margin: 0 auto 40px;
 	padding: 20px;
 	font-size: 12pt;
-	
-	-webkit-border-bottom-left-radius:10px; -webkit-border-bottom-right-radius:10px;
-	-khtml-border-radius-bottomleft:10px; -khtml-border-radius-bottomright:10px;
-	-moz-border-radius-bottomleft:10px; -moz-border-radius-bottomright:10px;
-	border-bottom-left-radius:10px; border-bottom-right-radius:10px;
 }
 
 div#content {
 	width: 80%;
+	background: #FFF;
 	margin: 0 auto;
-	background: #F0F0F0;
 	padding: 20px;
-	
+}
+
+div#footer {
+	width: 80%;
+	margin: 0 auto;
+	padding: 30px;
+}
+
+div#flash {
+	background: #444;
+	margin-bottom: 10px;
+	padding: 15px;
+	color: #EEE;
+
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+
+/********************************************************************************************************* Typography */
+p { padding: 10px; }
+
+a {
+	cursor: pointer;
+	color: #3876B4;
+	text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+a img { color: transparent; }
+
+h1 div { font-size: 10pt; }
+
+.small-text, .small-text * { font-size: 8pt; }
+
+/********************************************************************************************************* Lists */
+ul, ol { margin: 10px 0; padding-left: 40px; }
+ul { list-style-type: square; }
+
+/********************************************************************************************************* Positioning */
+.fixed { position: absolute;}
+.relative { position: relative; }
+
+.float-left { float: left; }
+.float-right { float: right; }
+.float-center {
+	margin: 0 auto;
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+.clear-left { clear: left; }
+.clear-right { clear: right; }
+.clear-both { clear: both; }
+
+.align-left { text-align: left; }
+.align-right { text-align: right; }
+.align-center { text-align: center; }
+
+/********************************************************************************************************* Corners */
+.corner-all {
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.corner-top {
 	-webkit-border-top-left-radius: 5px;
 	-khtml-border-radius-topleft: 5px;
 	-moz-border-radius-topleft: 5px;
@@ -39,32 +102,27 @@ div#content {
 	border-top-right-radius: 5px;
 }
 
-div#flash {
-	background: #444;
-	padding: 15px;
-	margin-bottom: 10px;
-	color: #EEE;
-	
-	-moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
+.corner-bottom {
+	-webkit-border-bottom-left-radius: 5px;
+	-khtml-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-left-radius: 5px;
+
+	-webkit-border-bottom-right-radius: 5px;
+	-khtml-border-radius-bottomright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-bottom-right-radius: 5px;
 }
 
-/********************************************************************************************************* Typography */
-p {
+/********************************************************************************************************* Code */
+div.code {
 	padding: 10px;
+	border-top: 1px solid #DDD;
 }
-
-a {
-	cursor: pointer;
-	color: #3876B4;
-	text-decoration: none;
+pre {
+	font-size: 9pt;
+	margin: 10px;
+	padding: 10px;
+	border: 2px solid #26661E;
+	background: #E2F8E4;
 }
-
-a:hover { text-decoration: underline; }
-a img { color: transparent; }
-
-/********************************************************************************************************* Lists */
-ul, ol { margin: 10px 0; padding-left: 40px; }
-ul { list-style-type: square; }

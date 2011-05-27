@@ -1,4 +1,10 @@
-<h1>Posts Index <%- pie.Helper.Html.link('[add a post]', { 'action' : 'add' }) %></h1>
+<h1>Posts Index
+	<div class="float-right">
+		<%- pie.Helper.Html.link('[add a post]', { 'action' : 'add' }) %>
+		<%- pie.Helper.Html.link('[create fake post]', { 'action' : 'add_fake' }) %>
+	</div>
+</h1>
+<div class="clear-both"></div>
 
 <ul>
 	<% Post.forEach(function(post){ %>
@@ -8,3 +14,36 @@
 		</li>
 	<% }) %>
 </ul>
+
+<div class="code">
+	<h3>Code for this controller action:</h3>
+<pre>
+exports.index = function(request, response, id) {
+    PostsController.Post.find('all', null, function(results) {
+        PostsController.set(request, response, results);
+    });
+}
+</pre>
+</div>
+
+<div class="code">
+	<h3>Code for this view:</h3>
+<pre>
+&lt;h1&gt;Posts Index
+    &lt;div class=&quot;float-right&quot;&gt;
+        &lt;%- pie.Helper.Html.link(&#x27;[add a post]&#x27;, { &#x27;action&#x27; : &#x27;add&#x27; }) %&gt;
+        &lt;%- pie.Helper.Html.link(&#x27;[create fake post]&#x27;, { &#x27;action&#x27; : &#x27;add_fake&#x27; }) %&gt;
+    &lt;/div&gt;
+&lt;/h1&gt;
+&lt;div class=&quot;clear-both&quot;&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+    &lt;% Post.forEach(function(post){ %&gt;
+        &lt;li&gt;
+            &lt;h1&gt;&lt;%- pie.Helper.Html.link(post.name, { &#x27;action&#x27; : &#x27;view&#x27;, &#x27;id&#x27; : post.id }) %&gt;&lt;/h1&gt;
+            &lt;p&gt;&lt;%= post.content %&gt;&lt;/p&gt;
+        &lt;/li&gt;
+    &lt;% }) %&gt;
+&lt;/ul&gt;
+</pre>
+</div>

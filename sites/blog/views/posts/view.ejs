@@ -1,4 +1,50 @@
-<h1><%= Post.name %> <%- pie.Helper.Html.link('[edit]', { 'action': 'edit', 'id' : Post.id }) %><%- pie.Helper.Html.link('[delete]', { 'action': 'remove', 'id' : Post.id }) %></h1>
+<h1><%= Post.name %>
+	<div class="float-right">
+		<%- pie.Helper.Html.link('[edit]', { 'action': 'edit', 'id' : Post.id }) %>
+		<%- pie.Helper.Html.link('[delete]', { 'action': 'remove', 'id' : Post.id }) %>
+	</div>
+</h1>
+<div class="clear-both"></div>
 <p><%- pie.Helper.Html.link(Post.User.name, { 'controller' : 'users', 'action' : 'view', 'id' : Post.User.id }) %> - <%= Post.User.email %></p>
 
 <p><%= Post.content %></p>
+
+<div class="code">
+	<h3>Code for this controller action:</h3>
+<pre>
+exports.view = function(request, response, id) {
+    PostsController.Post.find('first', {
+        'conditions' : {
+            'id' : id
+        },
+        'fields' : [
+            'id',
+            'user_id',
+            'name',
+            'content'
+        ],
+        'contain' : {
+            'User' : null
+        }
+    }, function(results) {
+        PostsController.set(request, response, results);
+    });
+}
+</pre>
+</div>
+
+<div class="code">
+	<h3>Code for this view:</h3>
+<pre>
+&lt;h1&gt;&lt;%= Post.name %&gt;
+    &lt;div class=&quot;float-right&quot;&gt;
+        &lt;%- pie.Helper.Html.link(&#x27;[edit]&#x27;, { &#x27;action&#x27;: &#x27;edit&#x27;, &#x27;id&#x27; : Post.id }) %&gt;
+        &lt;%- pie.Helper.Html.link(&#x27;[delete]&#x27;, { &#x27;action&#x27;: &#x27;remove&#x27;, &#x27;id&#x27; : Post.id }) %&gt;
+    &lt;/div&gt;
+&lt;/h1&gt;
+&lt;div class=&quot;clear-both&quot;&gt;&lt;/div&gt;
+&lt;p&gt;&lt;%- pie.Helper.Html.link(Post.User.name, { &#x27;controller&#x27; : &#x27;users&#x27;, &#x27;action&#x27; : &#x27;view&#x27;, &#x27;id&#x27; : Post.User.id }) %&gt; - &lt;%= Post.User.email %&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;%= Post.content %&gt;&lt;/p&gt;
+</pre>
+</div>

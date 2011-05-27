@@ -1,7 +1,5 @@
 <h1><%= User.name %></h1>
-<p><%= User.email %></p>
-
-<h2><%= User.email %></h2>
+<p><%- pie.Helper.Html.link(User.email, 'mailto:' + User.email) %></p>
 
 <% User.Post.forEach(function(post) { %>
 	<li>
@@ -9,3 +7,41 @@
 		<p><%= post.content %></p>
 	</li>
 <% }) %>
+
+<div class="code">
+	<h3>Code for this controller action:</h3>
+<pre>
+exports.view = function(request, response, id) {
+    UsersController.User.find('first', {
+        'conditions' : {
+            'id' : id
+        },
+        'fields' : [
+            'id',
+            'name',
+            'email'
+        ],
+        'contain' : {
+            'Post' : null
+        }
+    }, function(results) {
+        UsersController.set(request, response, results);
+    });
+}
+</pre>
+</div>
+
+<div class="code">
+	<h3>Code for this view:</h3>
+<pre>
+&lt;h1&gt;&lt;%= User.name %&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;%- pie.Helper.Html.link(User.email, &#x27;mailto:&#x27; + User.email) %&gt;&lt;/p&gt;
+
+&lt;% User.Post.forEach(function(post) { %&gt;
+    &lt;li&gt;
+        &lt;h3&gt;&lt;%- pie.Helper.Html.link(post.name, { &#x27;controller&#x27; : &#x27;posts&#x27;, &#x27;action&#x27; : &#x27;view&#x27;, &#x27;id&#x27; : post.id }) %&gt;&lt;/h3&gt;
+        &lt;p&gt;&lt;%= post.content %&gt;&lt;/p&gt;
+    &lt;/li&gt;
+&lt;% }) %&gt;
+</pre>
+</div>
