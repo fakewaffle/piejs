@@ -8,11 +8,13 @@
 	</head>
 
 	<body>
-		<% if (flash && flash.info) { %>
-			<div><%= flash.info %></div>
-		<% } %>
-		
 		<div id="header"><h1>PieJS Example Blog</h1></div>
-		<div id="content"><%- body %></div>
+		<div id="content">
+			<% if (flash && flash.info) { %>
+				<div id="flash"><%= flash.info %></div>
+			<% } %>
+
+			<%- body %>
+		</div>
 	</body>
 </html>

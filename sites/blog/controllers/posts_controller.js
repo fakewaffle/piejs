@@ -63,3 +63,20 @@ exports.edit = function(request, response, id) {
 		});
 	}
 }
+
+exports.remove = function(request, response, id) {
+	PostsController.Post.remove({
+		'id' : id
+	}, function(results) {
+		var	success;
+
+		if (results) {
+			success = 'Post deleted.';
+		} else {
+			success = 'Failed to delete post.';
+		}
+
+		request.flash('info', success);
+		response.redirect('/blog/posts');
+	});
+}
