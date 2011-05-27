@@ -99,7 +99,33 @@ exports.setup = function () {
 		var id         = Sanitize.dispatcher(params.id);
 
 		if (site && controller && action) {
-			require(pie.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
+			var controllerFile   = pie.paths.sites[site].controllers + controller + '_controller';
+			var controllerExists = false;
+			var actionExists     = false;
+
+			console.log('controllerFile:', controllerFile);
+
+			// Check whether the requested controller exists
+			try	{
+				if (require(controllerFile)) {
+					controllerExists = true;
+				}
+			} catch(e) {}
+
+			// If the controller exists, move onto the action
+			if (controllerExists) {
+				var requiring = require(controllerFile)[action];
+
+				// Check whether the requested action exists
+				if (requiring) {
+					requiring(request, response, id);
+				} else {
+					response.send('Cannot find the requested action.');
+				}
+
+			} else {
+				response.send('Cannot find the requested controller.');
+			}
 		} else {
 			next();
 		}
