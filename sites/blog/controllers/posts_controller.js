@@ -45,6 +45,20 @@ exports.add = function(request, response) {
 	}
 }
 
+exports.add_fake = function(request, response) {
+	var faker = require(pie.paths.pie.faker);
+	var data = {
+		'user_id' : 1,
+		'name'    : faker.Lorem.sentence(),
+		'content' : faker.Lorem.paragraphs()
+	};
+
+	PostsController.Post.save(data, function(info) {
+		request.flash('info', 'A fake post has been added.');
+		response.redirect('/blog/posts');
+	});
+}
+
 exports.edit = function(request, response, id) {
 	var data = request.body;
 
