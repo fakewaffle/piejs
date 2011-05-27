@@ -112,7 +112,27 @@ Model.prototype.save = function(data, callback) {
  *
  * 2011-05-18 20.31.35 - Justin Morris
  */
-Model.prototype.remove = function(conditions) {}
+Model.prototype.remove = function(conditions, callback) {
+	var self         = this;
+	var beforeDelete = require(this.modelPath).beforeDelete;
+	var afterDelete  = require(this.modelPath).afterDelete;
+
+	var remove = function() {
+		self.dataSource.remove(conditions, function(results) {
+			if (afterDelete) {
+				afterDelete(conditions, callback);
+			} else {
+				callback(results);
+			}
+		});
+	}
+
+	if (beforeDelete) {
+		beforeDelete(conditions, remove);
+	} else {
+		remove();
+	}
+}
 
 /**
  * Handle cantain for Model.find(...).

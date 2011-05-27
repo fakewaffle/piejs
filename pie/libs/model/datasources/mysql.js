@@ -109,7 +109,24 @@ Mysql.prototype.update = function (data, callback) {
 	this._query(query, callback);
 }
 
-Mysql.prototype.remove = function (id) {}
+Mysql.prototype.remove = function (conditions, callback) {
+	var self  = this;
+	var query = 'DELETE FROM ' + this.table;
+
+	query += this._contsructConditionsSqlStatement(conditions);
+
+	this.client.query(query, function (error, results) {
+		if (error) {
+			throw error;
+		}
+
+		if (results.affectedRows >= 1) {
+			callback(true);
+		} else {
+			callback(false);
+		}
+	});
+}
 
 /**
  * Queries the database.
