@@ -11,26 +11,7 @@
 
 <div class="code">
 	<h3>Code for this controller action:</h3>
-<pre>
-exports.view = function(request, response, id) {
-    PostsController.Post.find('first', {
-        'conditions' : {
-            'id' : id
-        },
-        'fields' : [
-            'id',
-            'user_id',
-            'name',
-            'content'
-        ],
-        'contain' : {
-            'User' : null
-        }
-    }, function(results) {
-        PostsController.set(request, response, results);
-    });
-}
-</pre>
+<pre><%- ControllerActionCode %></pre>
 </div>
 
 <div class="code">

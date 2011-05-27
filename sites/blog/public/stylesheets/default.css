@@ -118,11 +118,14 @@ ul { list-style-type: square; }
 div.code {
 	padding: 10px;
 	border-top: 1px solid #DDD;
+	margin-top: 10px;
 }
 pre {
-	font-size: 9pt;
+	max-height: 500px;
+	font-size: 10pt;
 	margin: 10px;
-	padding: 10px;
+	padding: 10px 15px;
 	border: 2px solid #26661E;
 	background: #E2F8E4;
+	overflow-x: auto;
 }

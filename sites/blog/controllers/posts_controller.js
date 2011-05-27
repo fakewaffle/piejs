@@ -8,12 +8,18 @@ var PostsController = new Controller({
 });
 
 exports.index = function(request, response, id) {
+	// Find all posts
 	PostsController.Post.find('all', null, function(results) {
+		// Send this function's code to the view for display in "Code for this controller action:"
+		results.ControllerActionCode = exports.index.toString().replace(/\t/g, '    ');
+
+		// Send the results to render the view
 		PostsController.set(request, response, results);
 	});
 }
 
 exports.view = function(request, response, id) {
+	// Find the first post that matches the passed id
 	PostsController.Post.find('first', {
 		'conditions' : {
 			'id' : id
@@ -28,6 +34,10 @@ exports.view = function(request, response, id) {
 			'User' : null
 		}
 	}, function(results) {
+		// Send this function's code to the view for display in "Code for this controller action:"
+		results.ControllerActionCode = exports.view.toString().replace(/\t/g, '    ');
+
+		// Send the results to render the view
 		PostsController.set(request, response, results);
 	});
 }
@@ -62,12 +72,17 @@ exports.add_fake = function(request, response) {
 exports.edit = function(request, response, id) {
 	var data = request.body;
 
+	// Find the post data since nothing has been POSTed
 	if (typeof data === 'undefined') {
 		PostsController.Post.find('first', {
 			'conditions' : {
 				'id' : id
 			}
 		}, function(results) {
+			// Send this function's code to the view for display in "Code for this controller action:"
+			results.ControllerActionCode = exports.edit.toString().replace(/\t/g, '    ');
+
+			// Send the results to render the view
 			PostsController.set(request, response, results);
 		});
 	} else {
