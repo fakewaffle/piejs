@@ -11,7 +11,7 @@ exports.index = function(request, response, id) {
 	// Find all posts
 	PostsController.Post.find('all', null, function(results) {
 		// Send this function's code to the view for display in "Code for this controller action:"
-		results.ControllerActionCode = exports.index.toString().replace(/\t/g, '    ');
+		results.controllerActionCode = exports.index.toString().replace(/\t/g, '    ');
 
 		// Send the results to render the view
 		PostsController.set(request, response, results);
@@ -35,7 +35,7 @@ exports.view = function(request, response, id) {
 		}
 	}, function(results) {
 		// Send this function's code to the view for display in "Code for this controller action:"
-		results.ControllerActionCode = exports.view.toString().replace(/\t/g, '    ');
+		results.controllerActionCode = exports.view.toString().replace(/\t/g, '    ');
 
 		// Send the results to render the view
 		PostsController.set(request, response, results);
@@ -80,7 +80,7 @@ exports.edit = function(request, response, id) {
 			}
 		}, function(results) {
 			// Send this function's code to the view for display in "Code for this controller action:"
-			results.ControllerActionCode = exports.edit.toString().replace(/\t/g, '    ');
+			results.controllerActionCode = exports.edit.toString().replace(/\t/g, '    ');
 
 			// Send the results to render the view
 			PostsController.set(request, response, results);
