@@ -49,7 +49,7 @@ exports.add = function(request, response) {
 	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been added.');
-			response.redirect('/posts');
+			PostsController.redirect(response, { 'controller' : 'posts' });
 		});
 	}
 }
@@ -64,7 +64,7 @@ exports.add_fake = function(request, response) {
 
 	PostsController.Post.save(data, function(info) {
 		request.flash('info', 'A fake post has been added.');
-		response.redirect('/posts');
+		PostsController.redirect(response, { 'controller' : 'posts' });
 	});
 }
 
@@ -87,7 +87,7 @@ exports.edit = function(request, response, id) {
 	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been edited.');
-			response.redirect('/posts/view/' + data.id);
+			PostsController.redirect(response, { 'action' : 'view', 'id' : data.id });
 		});
 	}
 }
@@ -105,6 +105,6 @@ exports.remove = function(request, response, id) {
 		}
 
 		request.flash('info', success);
-		response.redirect('/posts');
+		PostsController.redirect(response, { 'controller' : 'posts' });
 	});
 }
