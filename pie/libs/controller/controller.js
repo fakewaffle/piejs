@@ -47,6 +47,7 @@ function Controller(params) {
 			self.helpers[requestedHelper] = new Helper(self.name);
 		});
 	}
+	this.helpers.Sanitize = Sanitize;
 }
 
 /**
