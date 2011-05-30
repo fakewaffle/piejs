@@ -17,7 +17,7 @@ exports.dispatcher = function(string) {
 }
 
 /**
- * Removes any none alphanumeric characters
+ * Removes any none alphanumeric and white space characters
  *
  * @paranoid string string String to clean
  * @return string
@@ -26,6 +26,6 @@ exports.dispatcher = function(string) {
  */
 exports.paranoid = function(string) {
 	if (typeof string !== 'undefined' && string) {
-		return string.replace(/[^A-Za-z0-9]/g, '');
+		return string.replace(/[^A-Za-z0-9\s]/g, '');
 	}
 }
