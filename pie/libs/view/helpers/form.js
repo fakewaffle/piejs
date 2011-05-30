@@ -9,7 +9,7 @@
  */
 function Form(model) {
 	this.model      = model;
-	this.controller = model.toLowerCase().tableize();
+	this.controller = Inflector.tableize(model.toLowerCase());
 	this.webroot    = pie.config.app.core.webroot;
 }
 

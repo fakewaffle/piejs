@@ -8,7 +8,7 @@
  * 2011-05-25 11.23.13 - Justin Morris
  */
 function Html(model) {
-	this.controller = model.toLowerCase().tableize();
+	this.controller = Inflector.tableize(model.toLowerCase());
 	this.webroot    = pie.config.app.core.webroot;
 }
 

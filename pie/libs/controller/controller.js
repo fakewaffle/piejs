@@ -31,7 +31,7 @@ function Controller(params) {
 	if (typeof this.requestedHelpers !== 'undefined' && this.requestedHelpers) {
 		Object.keys(self.requestedHelpers).forEach(function(key) {
 			var requestedHelper = self.requestedHelpers[key];
-			var helperFile      = requestedHelper.underscore() + '.js';
+			var helperFile      = Inflector.underscore(requestedHelper) + '.js';
 			var Helper          = null;
 			var PieHelper       = null;
 			var SiteHelper      = null;
@@ -47,7 +47,8 @@ function Controller(params) {
 			self.helpers[requestedHelper] = new Helper(self.name);
 		});
 	}
-	this.helpers.Sanitize = Sanitize;
+	this.helpers.Sanitize  = Sanitize;
+	this.helpers.Inflector = Inflector;
 }
 
 /**
@@ -107,7 +108,7 @@ Controller.prototype.redirect = function(response, params) {
 		if (typeof controller !== 'undefined' && controller) {
 			link += controller
 		} else {
-			link += this.name.tableize();
+			link += Inflector.tableize(this.name);
 		}
 		delete(params.controller);
 		link += '/';

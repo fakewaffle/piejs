@@ -9,8 +9,7 @@ pie.config.app = {
 	'database' : require(pie.paths.app.config.database).database
 };
 
-require(pie.paths.pie.inflector).String;
-
+Inflector  = require(pie.paths.pie.inflector);
 Model      = require(pie.paths.pie.model).Model;
 Controller = require(pie.paths.pie.controller).Controller;
 Sanitize   = require(pie.paths.pie.sanitize);
@@ -21,7 +20,7 @@ Sanitize   = require(pie.paths.pie.sanitize);
 	pie.app   = { 'models' : {} };
 
 	files.forEach(function(file) {
-		var modelName = file.split('.')[0].capitalize();
+		var modelName = Inflector.capitalize(file.split('.')[0]);
 
 		if (typeof pie.app.models[modelName] === 'undefined' && ! pie.app.models[modelName]) {
 			pie.app.models[modelName] = new Model(require(pie.paths.app.models + modelName.toLowerCase())[modelName]);

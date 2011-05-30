@@ -9,8 +9,8 @@ function Model(model) {
 	this.name       = model.name;
 	this.modelPath  = pie.paths.app.models + this.name.toLowerCase();
 
-	var dataSource  = require(pie.paths.pie.datasource.path + model.dataSource)[model.dataSource.camelize()];
-	this.dataSource = new dataSource(this.name, pie.config.app.database[model.dataSource], this.name.tableize());
+	var dataSource  = require(pie.paths.pie.datasource.path + model.dataSource)[Inflector.camelize(model.dataSource)];
+	this.dataSource = new dataSource(this.name, pie.config.app.database[model.dataSource], Inflector.tableize(this.name));
 
 	if (typeof model.validation !== 'undefined' && model.validation) {
 		this.validation = model.validation;
@@ -155,11 +155,11 @@ Model.prototype._contain = function(results, contains, callback) {
 		};
 
 		if (typeof self.belongsTo !== 'undefined' && self.belongsTo && typeof self.belongsTo[key] !== 'undefined') {
-			params.conditions.id = results[self.name][key.foreign_key()];
+			params.conditions.id = results[self.name][Inflector.foreignKey(key)];
 		}
 
 		if (typeof self.hasMany !== 'undefined' && self.hasMany && typeof self.hasMany[key] !== 'undefined') {
-			params.conditions[self.name.foreign_key()] = results[self.name].id;
+			params.conditions[Inflector.foreignKey(self.name)] = results[self.name].id;
 		}
 
 		if (!contain) {
