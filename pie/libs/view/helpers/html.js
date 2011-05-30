@@ -22,13 +22,12 @@ function Html(model) {
  * 2011-05-25 11.23.10 - Justin Morris
  */
 Html.prototype.link = function(text, hrefs, attributes) {
-	var html = '<a href="';
+	var html = '<a href="' + pie.config.app.core.folder;
 
 	if (typeof hrefs === 'object') {
 		var controller = hrefs.controller;
 		var action     = hrefs.action;
 
-		html += '/';
 		if (typeof controller !== 'undefined' && controller) {
 			html += controller
 		} else {
