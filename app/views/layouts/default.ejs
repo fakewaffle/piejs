@@ -8,7 +8,12 @@
 	</head>
 
 	<body>
-		<div id="header" class="corner-bottom"><h1>PieJS Example Blog</h1></div>
+		<div id="header" class="corner-bottom">
+			<ul id="site-links" class="inline">
+				<li><%- pie.Helper.Html.link('posts', { 'controller' : 'posts' }) %></li>
+			</ul>
+			<h1>PieJS Example Blog</h1>
+		</div>
 
 		<div id="content" class="corner-all">
 			<% if (typeof flash !== 'undefined' && flash && flash.info) { %>
