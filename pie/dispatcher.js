@@ -1,11 +1,12 @@
 exports.setup = function () {
+	var sys = require('sys');
 
 	// Use default port of 3000 unless specified in config.js
 	var port = 3000;
 	if (typeof pie.config.app.core.port !== 'undefined' && pie.config.app.core.port && typeof pie.config.app.core.port === 'number') {
 		port = pie.config.app.core.port;
 	}
-	server.listen(port, function() { console.log('server running at http://localhost:' + port); });
+	server.listen(port, function() { sys.log('PieJS running at http://localhost:' + port + pie.config.app.core.folder); });
 
 	/**
 	 * Redirects http://www.example.com/ -> http://www.example.com/pages/home
@@ -93,14 +94,14 @@ exports.setup = function () {
 		var controller = Sanitize.dispatcher(params.controller);
 		var action     = Sanitize.dispatcher(params.action);
 		var id         = Sanitize.dispatcher(params.id);
-		
+
 		if (controller && action) {
 			var controllerFile   = pie.paths.app.controllers + controller + '_controller';
 			var controllerExists = false;
 			var actionExists     = false;
-			
+
 			require(controllerFile);
-			
+
 			// Check whether the requested controller exists
 			try	{
 				if (require(controllerFile)) {
