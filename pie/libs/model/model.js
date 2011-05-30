@@ -2,17 +2,15 @@
  * Provides standard methods to find and save data in a data source agnostic way.
  *
  * @param Object model Model object created in app/models
- * @param string site Name of the site (ie: blog, evil-plan)
  *
  * 2011-05-18 15.28.38 - Justin Morris
  */
-function Model(model, site) {
+function Model(model) {
 	this.name       = model.name;
-	this.site       = site;
-	this.modelPath  = pie.paths.sites[this.site].models + this.name.toLowerCase();
+	this.modelPath  = pie.paths.app.models + this.name.toLowerCase();
 
 	var dataSource  = require(pie.paths.pie.datasource.path + model.dataSource)[model.dataSource.camelize()];
-	this.dataSource = new dataSource(this.name, pie.config.sites[this.site].database[model.dataSource], this.name.tableize());
+	this.dataSource = new dataSource(this.name, pie.config.app.database[model.dataSource], this.name.tableize());
 
 	if (typeof model.validation !== 'undefined' && model.validation) {
 		this.validation = model.validation;

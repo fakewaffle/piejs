@@ -4,13 +4,11 @@
  * Convenience function for creating html entities with PieJS conventions.
  *
  * @param string model Model name
- * @param string site Site name
  *
  * 2011-05-25 11.23.13 - Justin Morris
  */
-function Html(model, site) {
+function Html(model) {
 	this.controller = model.toLowerCase().tableize();
-	this.site       = site;
 }
 
 /**
@@ -27,19 +25,10 @@ Html.prototype.link = function(text, hrefs, attributes) {
 	var html = '<a href="';
 
 	if (typeof hrefs === 'object') {
-		var site       = hrefs.site;
 		var controller = hrefs.controller;
 		var action     = hrefs.action;
 
 		html += '/';
-		if (typeof site !== 'undefined' && site) {
-			html += site;
-		} else {
-			html += this.site;
-		}
-		delete(hrefs.site);
-		html += '/';
-
 		if (typeof controller !== 'undefined' && controller) {
 			html += controller
 		} else {
@@ -90,7 +79,7 @@ Html.prototype.link = function(text, hrefs, attributes) {
  * 2011-05-26 16.19.21 - Justin Morris
  */
 Html.prototype.css = function(file) {
-	return '<link rel="stylesheet" href="/' + this.site + '/public/stylesheets/' + file + '.css" type="text/css">';
+	return '<link rel="stylesheet" href="' + '/public/stylesheets/' + file + '.css" type="text/css">';
 }
 
 /**
@@ -101,7 +90,7 @@ Html.prototype.css = function(file) {
  * 2011-05-26 16.20.27 - Justin Morris
  */
 Html.prototype.js = function(file) {
-	return '<script src="/' + this.site + '/public/javascripts/' + file + '.js" type="text/javascript"></script>';
+	return '<script src="' + '/public/javascripts/' + file + '.js" type="text/javascript"></script>';
 }
 
 exports.Html = Html;

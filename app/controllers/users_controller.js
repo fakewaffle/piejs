@@ -1,6 +1,5 @@
 var UsersController = new Controller({
 	'name' : 'User',
-	'site' : 'blog',
 	'helpers' : [
 		'Html'
 	]

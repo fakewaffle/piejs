@@ -11,25 +11,24 @@ Prerequisites:
 To try out:
 
     git clone git://github.com/fakewaffle/piejs.git
-	set the correct values for mysql in sites/blog/config/database.js
+	set the correct values for mysql in config/database.js
     cd piejs/
     node app.js
 
 Open your browser:
 
-    http://localhost:3000/blog/posts
-    http://localhost:3000/blog/posts/add
-    http://localhost:3000/blog/posts/view/1
-    http://localhost:3000/blog/posts/edit/1
-    http://localhost:3000/blog/posts
+    http://localhost:3000/posts
+    http://localhost:3000/posts/add
+    http://localhost:3000/posts/view/1
+    http://localhost:3000/posts/edit/1
+    http://localhost:3000/posts
 
 ## Folder structure
-* **sites/** - You can have multiple sites served from Pie (all user code goes here)
-    * **your-site-name**
-        * **controllers/** - User controllers, such as posts_controller.js, tags_controller.js.
-        * **models/** - User models such as posts.js, tags.js.
-        * **public/** - Publicly accessible (stylesheets,javascripts, images).
-        * **views/** - User views for each method in the user controllers.
+* **app/** - All user code goes here
+    * **controllers/** - User controllers, such as posts_controller.js, tags_controller.js.
+    * **models/** - User models such as posts.js, tags.js.
+    * **public/** - Publicly accessible (stylesheets,javascripts, images).
+    * **views/** - User views for each method in the user controllers.
 * **pie/** - Users should not (or try not to) edit code here.
     * **libs/** - Code for Pie.
         * **controller/** - Pie Controller, user controllers 'inherit' from this.

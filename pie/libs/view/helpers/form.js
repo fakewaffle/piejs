@@ -4,14 +4,12 @@
 * Convenience function for creating form elements with PieJS conventions.
 *
 * @param string model Model name
-* @param string site Site name
 *
 * 2011-05-25 22.18.01 - Justin Morris
  */
-function Form(model, site) {
+function Form(model) {
 	this.model      = model;
 	this.controller = model.toLowerCase().tableize();
-	this.site       = site;
 }
 
 /**
@@ -30,19 +28,10 @@ Form.prototype.create = function(links, attributes) {
 	}
 
 	if (typeof links === 'object') {
-		var site       = links.site;
 		var controller = links.controller;
 		var action     = links.action;
 
 		html += 'action="/';
-		if (typeof site !== 'undefined' && site) {
-			html += site;
-		} else {
-			html += this.site;
-		}
-		delete(links.site);
-		html += '/';
-
 		if (typeof controller !== 'undefined' && controller) {
 			html += controller
 		} else {

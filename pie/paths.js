@@ -21,8 +21,26 @@ exports.paths = {
 		'inflector'  : __dirname + '/libs/inflector.js',
 		'faker'      : __dirname + '/node_modules/Faker'
 	},
-	'sites' : {
-		'path'   : __dirname + '/../sites/',
-		'config' : __dirname + '/../sites/config.js'
+	'app' : {
+		'path' : __dirname + '/../app' + '/',
+		'config' : {
+			'path'     : __dirname + '/../app/config/',
+			'core'     : __dirname + '/../app/config/core.js',
+			'database' : __dirname + '/../app/config/database.js'
+		},
+		'models' : __dirname + '/../app/models/',
+		'controllers' : __dirname + '/../app/controllers/',
+		'views' : {
+			'path'    : __dirname + '/../app/views',
+			'layouts' : __dirname + '/../app/views/layouts/',
+			'pages'   : __dirname + '/../app/views/pages',
+			'helpers' : __dirname + '/../app/views/helpers/'
+		},
+		'public' : {
+			'path'        : __dirname + '/../app/public/',
+			'images'      : __dirname + '/../app/public/images/',
+			'javascripts' : __dirname + '/../app/public/javascripts/',
+			'stylesheets' : __dirname + '/../app/public/stylesheets/'
+		}
 	}
 };

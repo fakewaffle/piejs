@@ -1,6 +1,5 @@
 var PostsController = new Controller({
 	'name' : 'Post',
-	'site' : 'blog',
 	'helpers' : [
 		'Html',
 		'Form'
@@ -50,7 +49,7 @@ exports.add = function(request, response) {
 	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been added.');
-			response.redirect('/blog/posts');
+			response.redirect('/posts');
 		});
 	}
 }
@@ -65,7 +64,7 @@ exports.add_fake = function(request, response) {
 
 	PostsController.Post.save(data, function(info) {
 		request.flash('info', 'A fake post has been added.');
-		response.redirect('/blog/posts');
+		response.redirect('/posts');
 	});
 }
 
@@ -88,7 +87,7 @@ exports.edit = function(request, response, id) {
 	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been edited.');
-			response.redirect('/blog/posts/view/' + data.id);
+			response.redirect('/posts/view/' + data.id);
 		});
 	}
 }
@@ -106,6 +105,6 @@ exports.remove = function(request, response, id) {
 		}
 
 		request.flash('info', success);
-		response.redirect('/blog/posts');
+		response.redirect('/posts');
 	});
 }

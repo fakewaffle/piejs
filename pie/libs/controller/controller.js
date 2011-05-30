@@ -4,27 +4,26 @@
  * Controller will load the model (and related models), and provide the model's
  * standard methods to find and save data in a data source agnostic way.
  *
- * @param Object params Parameters for the controller (name, site, helpers)
+ * @param Object params Parameters for the controller (name, helpers)
  *
  * 2011-05-17 23.16.13 - Justin Morris
  */
 function Controller(params) {
 	var self              = this;
 	this.name             = params.name;
-	this.site             = params.site;
 	this.requestedHelpers = params.helpers;
 	this.helpers          = {};
-	this[this.name]       = pie.sites[this.site].models[this.name];
+	this[this.name]       = pie.app.models[this.name];
 
 	if (typeof this[this.name].belongsTo !== 'undefined' && this[this.name].belongsTo) {
 		Object.keys(self[self.name].belongsTo).forEach(function(key) {
-			self[self.name][key] = pie.sites[self.site].models[key];
+			self[self.name][key] = pie.app.models[key];
 		});
 	}
 
 	if (typeof this[this.name].hasMany !== 'undefined' && this[this.name].hasMany) {
 		Object.keys(self[self.name].hasMany).forEach(function(key) {
-			self[self.name][key] = pie.sites[self.site].models[key];
+			self[self.name][key] = pie.app.models[key];
 		});
 	}
 
@@ -40,11 +39,11 @@ function Controller(params) {
 			try { PieHelper  = require(pie.paths.pie.view.helpers  + helperFile); } catch(e) {}
 			if (PieHelper) { Helper  = PieHelper[requestedHelper]; }
 
-			// Try to load the Helper from the site - piejs/sites/[name]/views/helpers/
-			try { SiteHelper = require(pie.paths.sites[self.site].views.helpers  + helperFile); } catch(e) {}
+			// Try to load the Helper from the app - piejs/app/views/helpers/
+			try { SiteHelper = require(pie.paths.app.views.helpers  + helperFile); } catch(e) {}
 			if (SiteHelper) { Helper = SiteHelper[requestedHelper]; }
 
-			self.helpers[requestedHelper] = new Helper(self.name, self.site);
+			self.helpers[requestedHelper] = new Helper(self.name);
 		});
 	}
 }
@@ -75,15 +74,15 @@ Controller.prototype.set = function(request, response, results, layout) {
 	}
 
 	var responseParams = {
-		'layout'  : pie.paths.sites[this.site].views.layouts + layout + '.' + pie.config.sites[this.site].core.viewEngine,
+		'layout'  : pie.paths.app.views.layouts + layout + '.' + pie.config.app.core.viewEngine,
 		'locals'  : results,
 		'pie' : {
 			'Helper' : this.helpers
 		}
 	};
 
-	server.set('views', pie.paths.sites[this.site].views.path);
-	server.set('view engine', pie.config.sites[this.site].core.viewEngine);
+	server.set('views', pie.paths.app.views.path);
+	server.set('view engine', pie.config.app.core.viewEngine);
 
 	response.render(controller + '/' + action, responseParams);
 }

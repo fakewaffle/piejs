@@ -1,43 +1,41 @@
 exports.setup = function () {
 
-	// Use default port of 3000 unless specified in sites/config.js
+	// Use default port of 3000 unless specified in config.js
 	var port = 3000;
-	if (typeof pie.config.core.port !== 'undefined' && pie.config.core.port && typeof pie.config.core.port === 'number') {
-		port = pie.config.core.port;
+	if (typeof pie.config.app.core.port !== 'undefined' && pie.config.app.core.port && typeof pie.config.app.core.port === 'number') {
+		port = pie.config.app.core.port;
 	}
 	server.listen(port, function() { console.log('server running at http://localhost:' + port); });
 
 	/**
-	 * Redirects http://www.example.com/[site]/ -> http://www.example.com/[site]/pages/home
+	 * Redirects http://www.example.com/ -> http://www.example.com/pages/home
 	 *
 	 * 2011-05-24 09.32.10 - Justin Morris
 	 */
-	server.get('/:site', function(request, response, next) {
+	server.get('/', function(request, response, next) {
 		var params = request.params;
-		var site   = params.site;
 
 		if (params) {
-			response.redirect(site + '/pages/home');
+			response.redirect('/pages/home');
 		} else {
 			next();
 		}
 	});
 
 	/**
-	 * Serves pages in sites/[site]/views/pages for http://www.example.com/[site]/pages/*
+	 * Serves pages in app/views/pages for http://www.example.com/pages/*
 	 *
 	 * 2011-05-24 09.33.32 - Justin Morris
 	 */
-	server.get('/:site/pages/*', function(request, response, next) {
+	server.get('/pages/*', function(request, response, next) {
 		var params = request.params;
-		var site   = params.site;
 
 		if (params) {
-			server.set('views', pie.paths.sites[site].views.pages);
-			server.set('view engine', pie.config.sites[site].core.viewEngine);
+			server.set('views', pie.paths.app.views.pages);
+			server.set('view engine', pie.config.app.core.viewEngine);
 
 			response.render(params[0], {
-				'layout' : pie.paths.sites[site].views.layouts + 'default'  + '.' + pie.config.sites[site].core.viewEngine,
+				'layout' : pie.paths.app.views.layouts + 'default'  + '.' + pie.config.app.core.viewEngine,
 				'locals' : {
 					'flash' : request.flash()
 				}
@@ -48,15 +46,14 @@ exports.setup = function () {
 	});
 
 	/**
-	 * Exposes the files in sites/[site]/public/
+	 * Exposes the files in app/public/
 	 *
 	 * TODO: Sanitization should probably happen on the file variable?
 	 *
 	 * 2011-05-24 09.34.45 - Justin Morris
 	 */
-	server.get('/:site/public/*', function(request, response, next) {
+	server.get('/public/*', function(request, response, next) {
 		var params = request.params;
-		var site   = Sanitize.dispatcher(params.site);
 		var file   = params[0];
 
 		if (params) {
@@ -64,7 +61,7 @@ exports.setup = function () {
 			var fs          = require('fs');
 			var contentType = mime.lookup(file);
 
-			fs.readFile(pie.paths.sites[site].public.path + file, function(error, data) {
+			fs.readFile(pie.paths.app.public.path + file, function(error, data) {
 				response.header('Content-Type', contentType);
 				response.send(data);
 			});
@@ -84,7 +81,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.37.25 - Justin Morris
 	 */
-	server.get('/:site/:controller/:action?/:id?', function(request, response, next) {
+	server.get('/:controller/:action?/:id?', function(request, response, next) {
 		if (typeof request.params.action === 'undefined') {
 			request.params.action = 'index';
 		}
@@ -93,16 +90,17 @@ exports.setup = function () {
 		}
 
 		var	params     = request.params;
-		var site       = Sanitize.dispatcher(params.site);
 		var controller = Sanitize.dispatcher(params.controller);
 		var action     = Sanitize.dispatcher(params.action);
 		var id         = Sanitize.dispatcher(params.id);
-
-		if (site && controller && action) {
-			var controllerFile   = pie.paths.sites[site].controllers + controller + '_controller';
+		
+		if (controller && action) {
+			var controllerFile   = pie.paths.app.controllers + controller + '_controller';
 			var controllerExists = false;
 			var actionExists     = false;
-
+			
+			require(controllerFile);
+			
 			// Check whether the requested controller exists
 			try	{
 				if (require(controllerFile)) {
@@ -139,19 +137,18 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.44.25 - Justin Morris
 	 */
-	server.post('/:site/:controller/:action/:id?', function(request, response, next) {
+	server.post('/:controller/:action/:id?', function(request, response, next) {
 		if (typeof request.params.id === 'undefined') {
 			request.params.id = null;
 		}
 
 		var	params     = request.params;
-		var site       = Sanitize.dispatcher(params.site);
 		var controller = Sanitize.dispatcher(params.controller);
 		var action     = Sanitize.dispatcher(params.action);
 		var id         = Sanitize.dispatcher(params.id);
 
-		if (site && controller && action) {
-			require(pie.paths.sites[site].controllers + controller + '_controller')[action](request, response, id);
+		if (controller && action) {
+			require(pie.paths.app.controllers + controller + '_controller')[action](request, response, id);
 		} else {
 			next();
 		}
