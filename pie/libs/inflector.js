@@ -250,7 +250,7 @@ if (typeof Array.prototype.indexOf === 'undefined' && !Array.prototype.indexOf) 
  *
  * 2011-05-30 12.32.33 - Updated by Justin Morris
  */
-var pluralize = function(string, plural) {
+var pluralize = exports.pluralize = function(string, plural) {
 	return applyRules(
 		string,
 		pluralRules,
@@ -258,7 +258,6 @@ var pluralize = function(string, plural) {
 		plural
 	);
 }
-exports.pluralize = pluralize;
 
 /**
  * This function adds singularization support to every String object
@@ -277,7 +276,7 @@ exports.pluralize = pluralize;
  *
  * 2011-05-30 12.34.39 - Updated by Justin Morris
  */
-var singularize = function(string, singular) {
+var singularize = exports.singularize = function(string, singular) {
 	return applyRules(
 		string,
 		singularRules,
@@ -285,7 +284,6 @@ var singularize = function(string, singular) {
 		singular
 	);
 }
-exports.singularize = singularize;
 
 /**
  * This function adds camelization support to every String object
@@ -303,7 +301,7 @@ exports.singularize = singularize;
  *
  * 2011-05-30 12.40.23 - Updated by Justin Morris
  */
-var camelize = function(string, lowFirstLetter) {
+var camelize = exports.camelize = function(string, lowFirstLetter) {
 	var string        = string.toLowerCase();
 	var stringingPath = string.split('/');
 
@@ -321,7 +319,6 @@ var camelize = function(string, lowFirstLetter) {
 	string = stringingPath.join('::');
 	return string;
 }
-exports.camelize = camelize;
 
 /**
  * This function adds underscore support to every String object
@@ -338,7 +335,7 @@ exports.camelize = camelize;
  *
  * 2011-05-30 12.41.18 - Updated by Justin Morris
  */
-var underscore = function(string) {
+var underscore = exports.underscore = function(string) {
 	var stringingPath = string.split('::');
 
 	for (var i = 0; i < stringingPath.length; i++) {
@@ -349,7 +346,6 @@ var underscore = function(string) {
 	string = stringingPath.join('/').toLowerCase();
 	return string;
 }
-exports.underscore = underscore;
 
 /**
  * This function adds humanize support to every String object
@@ -367,7 +363,7 @@ exports.underscore = underscore;
  *
  * 2011-05-30 12.42.28 - Updated by Justin Morris
  */
-var humanize = function(string, lowFirstLetter) {
+var humanize = exports.humanize = function(string, lowFirstLetter) {
 	var string = string.toLowerCase();
 	string     = string.replace(idSuffix, '');
 	string     = string.replace(underbar, ' ');
@@ -378,7 +374,6 @@ var humanize = function(string, lowFirstLetter) {
 
 	return string;
 }
-exports.humanize = humanize;
 
 /**
  * This function adds capitalization support to every String object
@@ -395,13 +390,12 @@ exports.humanize = humanize;
  *
  * 2011-05-30 12.43.49 - Updated by Justin Morris
  */
-var capitalize = function(string) {
+var capitalize = exports.capitalize = function(string) {
 	var string = string.toLowerCase();
 	string     = string.substring(0, 1).toUpperCase() + string.substring(1);
 
 	return string;
 }
-exports.capitalize = capitalize;
 
 /**
  * This function adds dasherization support to every String object
@@ -439,7 +433,7 @@ exports.dasherize = function(string) {
  *
  * 2011-05-30 12.47.36 - Updated by Justin Morris
  */
-var titleize = function(string) {
+var titleize = exports.titleize = function(string) {
 	string        = string.toLowerCase();
 	string        = string.replace(underbar, ' ');
 	var stringArr = string.split(' ');
@@ -461,7 +455,6 @@ var titleize = function(string) {
 
 	return string;
 }
-exports.titleize = titleize;
 
 /**
  * This function adds demodulize support to every String object
@@ -480,13 +473,12 @@ exports.titleize = titleize;
  *
  * 2011-05-30 12.49.35 - Updated by Justin Morris
  */
-var demodulize = function(string) {
+var demodulize = exports.demodulize = function(string) {
 	var stringArr = string.split('::');
 	string        = stringArr[stringArr.length - 1];
 
 	return string;
 }
-exports.demodulize = demodulize;
 
 /**
  * This function adds tableize support to every String object
@@ -505,13 +497,12 @@ exports.demodulize = demodulize;
  *
  * 2011-05-30 12.53.05 - Updated by Justin Morris
  */
-var tableize = function(string) {
+var tableize = exports.tableize = function(string) {
 	string = underscore(string)
 	string = pluralize(string);
 
 	return string;
 }
-exports.tableize = tableize;
 
 /**
  * This function adds classification support to every String object
@@ -530,13 +521,12 @@ exports.tableize = tableize;
  *
  * 2011-05-30 12.54.06 - Updated by Justin Morris
  */
-var classify = function(string) {
+var classify = exports.classify = function(string) {
 	string = camelize(string);
 	string = singularize(string);
 
 	return string;
 }
-exports.classify = classify;
 
 /**
  * This function adds foreign key support to every String object
@@ -556,13 +546,12 @@ exports.classify = classify;
  *
  * 2011-05-30 13.16.10 - Updated by Justin Morris
  */
-var foreignKey = function(string, dropIdUbar) {
+var foreignKey = exports.foreignKey = function(string, dropIdUbar) {
 	string = demodulize(string);
 	string = underscore(string) + ((dropIdUbar) ? ('') : ('_')) + 'id';
 
 	return string;
 }
-exports.foreignKey = foreignKey;
 
 /**
  * This function adds ordinalize support to every String object
@@ -581,7 +570,7 @@ exports.foreignKey = foreignKey;
  *
  * 2011-05-30 13.17.00 - Updated by Justin Morris
  */
-var ordinalize = function(string) {
+var ordinalize = exports.ordinalize = function(string) {
 	var stringArr = string.split(' ');
 
 	for (var x = 0; x < stringArr.length; x++) {
@@ -610,4 +599,3 @@ var ordinalize = function(string) {
 
 	return string;
 }
-exports.ordinalize = ordinalize;
