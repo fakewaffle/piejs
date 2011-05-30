@@ -34,15 +34,21 @@ function Controller(params) {
 			var helperFile      = Inflector.underscore(requestedHelper) + '.js';
 			var Helper          = null;
 			var PieHelper       = null;
-			var SiteHelper      = null;
+			var AppHelper       = null;
 
 			// Try to load the Helper form the Pie core - piejs/pie/libs/view/helpers/
 			try { PieHelper  = require(pie.paths.pie.view.helpers  + helperFile); } catch(e) {}
-			if (PieHelper) { Helper  = PieHelper[requestedHelper]; }
+
+			if (PieHelper) {
+				Helper  = PieHelper[requestedHelper];
+			}
 
 			// Try to load the Helper from the app - piejs/app/views/helpers/
-			try { SiteHelper = require(pie.paths.app.views.helpers  + helperFile); } catch(e) {}
-			if (SiteHelper) { Helper = SiteHelper[requestedHelper]; }
+			try { AppHelper = require(pie.paths.app.views.helpers  + helperFile); } catch(e) {}
+
+			if (AppHelper) {
+				Helper = AppHelper[requestedHelper];
+			}
 
 			self.helpers[requestedHelper] = new Helper(self.name);
 		});
