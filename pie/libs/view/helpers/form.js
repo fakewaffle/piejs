@@ -31,7 +31,7 @@ Form.prototype.create = function(links, attributes) {
 		var controller = links.controller;
 		var action     = links.action;
 
-		html += 'action="/';
+		html += 'action="' + pie.config.app.core.webroot;
 		if (typeof controller !== 'undefined' && controller) {
 			html += controller
 		} else {

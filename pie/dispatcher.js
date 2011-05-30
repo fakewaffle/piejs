@@ -6,14 +6,14 @@ exports.setup = function () {
 	if (typeof pie.config.app.core.port !== 'undefined' && pie.config.app.core.port && typeof pie.config.app.core.port === 'number') {
 		port = pie.config.app.core.port;
 	}
-	server.listen(port, function() { sys.log('PieJS running at http://localhost:' + port + pie.config.app.core.folder); });
+	server.listen(port, function() { sys.log('PieJS running at http://localhost:' + port + pie.config.app.core.webroot); });
 
 	/**
 	 * Redirects http://www.example.com/ -> http://www.example.com/pages/home
 	 *
 	 * 2011-05-24 09.32.10 - Justin Morris
 	 */
-	server.get(pie.config.app.core.folder, function(request, response, next) {
+	server.get(pie.config.app.core.webroot, function(request, response, next) {
 		var params = request.params;
 
 		if (params) {
@@ -28,7 +28,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.33.32 - Justin Morris
 	 */
-	server.get(pie.config.app.core.folder + 'pages/*', function(request, response, next) {
+	server.get(pie.config.app.core.webroot + 'pages/*', function(request, response, next) {
 		var params = request.params;
 
 		if (params) {
@@ -53,7 +53,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.34.45 - Justin Morris
 	 */
-	server.get(pie.config.app.core.folder + 'public/*', function(request, response, next) {
+	server.get(pie.config.app.core.webroot + 'public/*', function(request, response, next) {
 		var params = request.params;
 		var file   = params[0];
 
@@ -82,7 +82,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.37.25 - Justin Morris
 	 */
-	server.get(pie.config.app.core.folder + ':controller/:action?/:id?', function(request, response, next) {
+	server.get(pie.config.app.core.webroot + ':controller/:action?/:id?', function(request, response, next) {
 		if (typeof request.params.action === 'undefined') {
 			request.params.action = 'index';
 		}
@@ -138,7 +138,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.44.25 - Justin Morris
 	 */
-	server.post(pie.config.app.core.folder + ':controller/:action/:id?', function(request, response, next) {
+	server.post(pie.config.app.core.webroot + ':controller/:action/:id?', function(request, response, next) {
 		if (typeof request.params.id === 'undefined') {
 			request.params.id = null;
 		}
