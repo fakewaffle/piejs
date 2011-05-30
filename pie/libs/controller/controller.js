@@ -4,16 +4,17 @@
  * Controller will load the model (and related models), and provide the model's
  * standard methods to find and save data in a data source agnostic way.
  *
- * @param Object params Parameters for the controller (name, helpers)
+ * @param object params Parameters for the controller (name, helpers)
  *
  * 2011-05-17 23.16.13 - Justin Morris
  */
 function Controller(params) {
 	var self              = this;
 	this.name             = params.name;
+	this[this.name]       = pie.app.models[this.name];
+	this.webroot          = pie.config.app.core.webroot;
 	this.requestedHelpers = params.helpers;
 	this.helpers          = {};
-	this[this.name]       = pie.app.models[this.name];
 
 	if (typeof this[this.name].belongsTo !== 'undefined' && this[this.name].belongsTo) {
 		Object.keys(self[self.name].belongsTo).forEach(function(key) {
@@ -86,4 +87,53 @@ Controller.prototype.set = function(request, response, results, layout) {
 
 	response.render(controller + '/' + action, responseParams);
 }
+
+/**
+ * Convenience wrapper of express redirect with PieJS conventions.
+ *
+ * @param object response Response object from express
+ * @param object OR string params If params is an object, construct the link with convention and passed params. If params is a string use it for the link.
+ *
+ * 2011-05-30 09.13.41 - Justin Morris
+ */
+Controller.prototype.redirect = function(response, params) {
+	var link = this.webroot;
+
+	if (typeof params === 'object') {
+		var controller = params.controller;
+		var action     = params.action;
+
+		if (typeof controller !== 'undefined' && controller) {
+			link += controller
+		} else {
+			link += this.name.tableize();
+		}
+		delete(params.controller);
+		link += '/';
+
+		if (typeof action !== 'undefined' && action) {
+			link += action;
+		}
+		delete(params.action);
+
+		if (params) {
+			Object.keys(params).forEach(function(key) {
+				var param = params[key];
+
+				if (key === 'id') {
+					link += '/' + param;
+				} else {
+					link += '/' + key + ':' + param
+				}
+			});
+		} else {
+			link += '/';
+		}
+	} else if (typeof params === 'string') {
+		link += params;
+	}
+
+	response.redirect(link);
+}
+
 exports.Controller = Controller;
