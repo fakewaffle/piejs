@@ -12,7 +12,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.32.10 - Justin Morris
 	 */
-	server.get('/', function(request, response, next) {
+	server.get(pie.config.app.core.folder, function(request, response, next) {
 		var params = request.params;
 
 		if (params) {
@@ -27,7 +27,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.33.32 - Justin Morris
 	 */
-	server.get('/pages/*', function(request, response, next) {
+	server.get(pie.config.app.core.folder + 'pages/*', function(request, response, next) {
 		var params = request.params;
 
 		if (params) {
@@ -52,7 +52,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.34.45 - Justin Morris
 	 */
-	server.get('/public/*', function(request, response, next) {
+	server.get(pie.config.app.core.folder + 'public/*', function(request, response, next) {
 		var params = request.params;
 		var file   = params[0];
 
@@ -81,7 +81,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.37.25 - Justin Morris
 	 */
-	server.get('/:controller/:action?/:id?', function(request, response, next) {
+	server.get(pie.config.app.core.folder + ':controller/:action?/:id?', function(request, response, next) {
 		if (typeof request.params.action === 'undefined') {
 			request.params.action = 'index';
 		}
@@ -137,7 +137,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.44.25 - Justin Morris
 	 */
-	server.post('/:controller/:action/:id?', function(request, response, next) {
+	server.post(pie.config.app.core.folder + ':controller/:action/:id?', function(request, response, next) {
 		if (typeof request.params.id === 'undefined') {
 			request.params.id = null;
 		}

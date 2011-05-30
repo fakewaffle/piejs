@@ -79,7 +79,7 @@ Html.prototype.link = function(text, hrefs, attributes) {
  * 2011-05-26 16.19.21 - Justin Morris
  */
 Html.prototype.css = function(file) {
-	return '<link rel="stylesheet" href="' + '/public/stylesheets/' + file + '.css" type="text/css">';
+	return '<link rel="stylesheet" href="' + pie.config.app.core.folder + 'public/stylesheets/' + file + '.css" type="text/css">';
 }
 
 /**
@@ -90,7 +90,7 @@ Html.prototype.css = function(file) {
  * 2011-05-26 16.20.27 - Justin Morris
  */
 Html.prototype.js = function(file) {
-	return '<script src="' + '/public/javascripts/' + file + '.js" type="text/javascript"></script>';
+	return '<script src="' + pie.config.app.core.folder + 'public/javascripts/' + file + '.js" type="text/javascript"></script>';
 }
 
 exports.Html = Html;
