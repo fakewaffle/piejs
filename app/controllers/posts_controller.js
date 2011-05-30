@@ -45,7 +45,12 @@ exports.add = function(request, response) {
 	var data = request.body;
 
 	if (typeof data === 'undefined') {
-		PostsController.set(request, response);
+		// Send this function's code to the view for display in "Code for this controller action:"
+		var results = {
+			'controllerActionCode' : exports.add.toString().replace(/\t/g, '    ')
+		};
+		
+		PostsController.set(request, response, results);
 	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been added.');
