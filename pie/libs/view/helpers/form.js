@@ -10,6 +10,7 @@
 function Form(model) {
 	this.model      = model;
 	this.controller = model.toLowerCase().tableize();
+	this.webroot    = pie.config.app.core.webroot;
 }
 
 /**
@@ -31,7 +32,7 @@ Form.prototype.create = function(links, attributes) {
 		var controller = links.controller;
 		var action     = links.action;
 
-		html += 'action="' + pie.config.app.core.webroot;
+		html += 'action="' + this.webroot;
 		if (typeof controller !== 'undefined' && controller) {
 			html += controller
 		} else {

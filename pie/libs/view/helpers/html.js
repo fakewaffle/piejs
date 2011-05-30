@@ -9,6 +9,7 @@
  */
 function Html(model) {
 	this.controller = model.toLowerCase().tableize();
+	this.webroot    = pie.config.app.core.webroot;
 }
 
 /**
@@ -22,7 +23,7 @@ function Html(model) {
  * 2011-05-25 11.23.10 - Justin Morris
  */
 Html.prototype.link = function(text, hrefs, attributes) {
-	var html = '<a href="' + pie.config.app.core.webroot;
+	var html = '<a href="' + this.webroot;
 
 	if (typeof hrefs === 'object') {
 		var controller = hrefs.controller;
@@ -78,7 +79,7 @@ Html.prototype.link = function(text, hrefs, attributes) {
  * 2011-05-26 16.19.21 - Justin Morris
  */
 Html.prototype.css = function(file) {
-	return '<link rel="stylesheet" href="' + pie.config.app.core.webroot + 'public/stylesheets/' + file + '.css" type="text/css">';
+	return '<link rel="stylesheet" href="' + this.webroot + 'public/stylesheets/' + file + '.css" type="text/css">';
 }
 
 /**
@@ -89,7 +90,7 @@ Html.prototype.css = function(file) {
  * 2011-05-26 16.20.27 - Justin Morris
  */
 Html.prototype.js = function(file) {
-	return '<script src="' + pie.config.app.core.webroot + 'public/javascripts/' + file + '.js" type="text/javascript"></script>';
+	return '<script src="' + this.webroot + 'public/javascripts/' + file + '.js" type="text/javascript"></script>';
 }
 
 exports.Html = Html;
