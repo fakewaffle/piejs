@@ -1,7 +1,7 @@
 /**
  * Creates a controller in which a users controller will inherit from.
  *
- * Controller will load the model (and related models), and provide the model's
+ * Controller will use its model (and related models), and provide the model's
  * standard methods to find and save data in a data source agnostic way.
  *
  * @param object params Parameters for the controller (name, helpers)
