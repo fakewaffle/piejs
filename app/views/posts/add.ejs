@@ -1,13 +1,25 @@
 <%- pie.Helper.Form.create({ 'action' : 'add' }) %>
-	<label>Name</label>
-	<input type="text" name="name">
-	<label>User ID</label>
-	<input type="text" name="user_id">
-	<label>Content</label>
-	<input type="text" name="content">
-<%- pie.Helper.Form.end('Create Post') %>
+	<%- pie.Helper.Form.hidden('id') %>
+	<%- pie.Helper.Form.input('name') %>
+	<%- pie.Helper.Form.input('user_id') %>
+	<%- pie.Helper.Form.input('content') %>
+<%- pie.Helper.Form.end('Add Post') %>
+<div class="clear-left"></div>
 
 <div class="code">
 	<h3>Code for this controller action:</h3>
 <pre><%- controllerActionCode %></pre>
+</div>
+
+<div class="code">
+	<h3>Code for this view:</h3>
+<pre>
+&lt;%- pie.Helper.Form.create({ &#x27;action&#x27; : &#x27;add&#x27; }) %&gt;
+    &lt;%- pie.Helper.Form.hidden(&#x27;id&#x27;) %&gt;
+    &lt;%- pie.Helper.Form.input(&#x27;name&#x27;) %&gt;
+    &lt;%- pie.Helper.Form.input(&#x27;user_id&#x27;) %&gt;
+    &lt;%- pie.Helper.Form.input(&#x27;content&#x27;) %&gt;
+&lt;%- pie.Helper.Form.end(&#x27;Add Post&#x27;) %&gt;
+&lt;div class=&quot;clear-left&quot;&gt;&lt;/div&gt;
+</pre>
 </div>
