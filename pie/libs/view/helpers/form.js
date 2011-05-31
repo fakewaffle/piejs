@@ -4,13 +4,15 @@
 * Convenience function for creating form elements with PieJS conventions.
 *
 * @param string model Model name
+* @param object results Results from a Model.find()
 *
 * 2011-05-25 22.18.01 - Justin Morris
  */
-function Form(model) {
+function Form(model, results) {
 	this.model      = model;
 	this.controller = Inflector.tableize(model.toLowerCase());
 	this.webroot    = pie.config.app.core.webroot;
+	this.results    = results;
 }
 
 /**
@@ -62,17 +64,9 @@ Form.prototype.create = function(links, attributes) {
 	} else if (typeof links === 'string') {
 		html += links;
 	}
-
 	html += '"';
 
-	if (typeof attributes !== 'undefined' && attributes) {
-		Object.keys(attributes).forEach(function(key) {
-			var attribute = attributes[key];
-			html += ' ' + key + '="' + attribute + '"';
-		});
-	}
-
-	return html += '>';
+	return html += this._constructAttributes(attributes) + '>';
 }
 
 /**
@@ -92,5 +86,91 @@ Form.prototype.end = function(submitButtonValue) {
 	return html += '</form>';
 }
 
+/**
+ * Convenience function to create an input tag using PieJS conventions.
+ *
+ * @param string field Value for the name attribute
+ * @param object options Options for creating the input
+ * @param object attributes Html attributes
+ *
+ * 2011-05-30 20.03.48 - Justin Morris
+ */
+Form.prototype.input = function(field, options, attributes) {
+	var modelData = this.results[this.model];
+
+	var labelHtml = '';
+	var labelText = Inflector.titleize(field);
+	var showLabel = true;
+
+	var inputHtml = '';
+	var type      = 'text';
+	var id        = this.model + Inflector.classify(field);
+	var name      = ['data', this.model, field].join('.');
+
+	if (typeof attributes != 'undefined' && attributes) {
+		if (typeof attributes.type != 'undefined' && attributes.type) {
+			type = attributes.type;
+		}
+		delete(attributes.type)
+	}
+
+	if (typeof options != 'undefined' && options) {
+		if (typeof options.label != 'undefined' && options.label === false) {
+			showLabel = false;
+		} else if (typeof options.label === 'string' && options.label) {
+			labelText = options.label
+		}
+	}
+
+	if (showLabel === true) {
+		labelHtml = '<label for="' + id + '">' + labelText + '</label>';
+	}
+
+	inputHtml = '<input type="' + type + '" id="' + id + '" name="' + name + '"';
+
+	if (typeof modelData !== 'undefined' && modelData && typeof modelData[field] !== 'undefined' && modelData[field]) {
+		inputHtml += ' value="' + modelData[field] + '"';
+	}
+
+	inputHtml += this._constructAttributes(attributes) + '>';
+
+	return labelHtml + inputHtml;
+}
+
+/**
+ * Convenience wrapper to create hidden input fields.
+ *
+ * @param string field Value for the name attribute
+ * @param object options Options for creating the input
+ * @param object attributes Html attributes
+ *
+ * 2011-05-30 21.01.34 - Justin Morris
+ */
+Form.prototype.hidden = function (field, options, attributes) {
+	if (typeof options === 'undefined') {
+		options = {};
+	}
+	options.label = false;
+
+	if (typeof attributes === 'undefined') {
+		attributes = {};
+	}
+	attributes.type = 'hidden';
+
+	return this.input(field, options, attributes);
+}
+
+Form.prototype._constructAttributes = function(attributes) {
+	var attributesHtml = '';
+
+	if (typeof attributes !== 'undefined' && attributes) {
+		Object.keys(attributes).forEach(function(key) {
+			var attribute = attributes[key];
+			attributesHtml += ' ' + key + '="' + attribute + '"';
+		});
+	}
+
+	return attributesHtml;
+}
 
 exports.Form = Form;

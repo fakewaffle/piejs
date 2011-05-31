@@ -27,6 +27,32 @@ function Controller(params) {
 			self[self.name][key] = pie.app.models[key];
 		});
 	}
+}
+
+/**
+ * Sets the variables to the view, and renders the view for the requester.
+ *
+ * @param Object request Request object from express
+ * @param Object response Response object from express
+ * @param Object results Data to send to the view
+ *
+ * 2011-05-17 23.20.50 - Justin Morris
+ */
+Controller.prototype.set = function(request, response, results, layout) {
+	var self       = this;
+	var helpers    = {};
+	var	params     = request.params;
+	var controller = params.controller;
+	var action     = params.action;
+
+	if (typeof results === 'undefined') {
+		results = {};
+	}
+	results.flash = request.flash();
+
+	if (typeof layout === 'undefined') {
+		layout = 'default';
+	}
 
 	if (typeof this.requestedHelpers !== 'undefined' && this.requestedHelpers) {
 		Object.keys(self.requestedHelpers).forEach(function(key) {
@@ -50,43 +76,18 @@ function Controller(params) {
 				Helper = AppHelper[requestedHelper];
 			}
 
-			self.helpers[requestedHelper] = new Helper(self.name);
+			helpers[requestedHelper] = new Helper(self.name, results);
 		});
 	}
-	this.helpers.Sanitize  = Sanitize;
-	this.helpers.Inflector = Inflector;
-}
 
-/**
- * Sets the variables to the view, and renders the view for the requester.
- *
- * @param Object request Request object from express
- * @param Object response Response object from express
- * @param Object results Data to send to the view
- *
- * 2011-05-17 23.20.50 - Justin Morris
- */
-Controller.prototype.set = function(request, response, results, layout) {
-	var	params     = request.params;
-	var controller = params.controller;
-	var action     = params.action;
-	var results    = results;
-	var layout     = layout;
-
-	if (typeof results === 'undefined') {
-		results = {};
-	}
-	results.flash = request.flash();
-
-	if (typeof layout === 'undefined') {
-		layout = 'default';
-	}
+	helpers.Sanitize  = Sanitize;
+	helpers.Inflector = Inflector;
 
 	var responseParams = {
 		'layout'  : pie.paths.app.views.layouts + layout + '.' + pie.config.app.core.viewEngine,
 		'locals'  : results,
 		'pie' : {
-			'Helper' : this.helpers
+			'Helper' : helpers
 		}
 	};
 
