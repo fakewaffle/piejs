@@ -1,19 +1,20 @@
-## PieJS
+### PieJS
 PieJS is an open source rapid development framework for [node.js](http://nodejs.org/). PieJS is used for developing and maintaining web applications. It is written in JavaScript, modeled after the concepts of CakePHP, using the well known design patterns of [MVC](http://en.wikipedia.org/wiki/Model-view-controller) and [ORM](http://en.wikipedia.org/wiki/Object-relational_mapping). PieJS follows convention over configuration.
 
 If you wish to contribute to PieJS, please email [fakewaffle](mailto:morris.justin@gmail.com).
 
+###Try it Out
 Prerequisites:
 
 * [node.js](https://github.com/joyent/node)
 * MySQL (for now, but more data sources are going to be supported!) - get the SQL below
 
-To try out:
+Terminal:
 
     git clone git://github.com/fakewaffle/piejs.git
-    copy /piejs/app/config/database.default.js to /piejs/app/config/database.js
-	set the correct values for mysql in /piejs/app/config/database.js
-    cd /piejs/
+    cd piejs/
+    cp app/config/database.default.js app/config/database.js
+	[set the correct values for mysql in app/config/database.js]
     node app.js
 
 Open your browser:
@@ -24,7 +25,7 @@ Open your browser:
     http://localhost:3000/posts/edit/1
     http://localhost:3000/posts
 
-## Folder structure
+### Folder structure
 * **app/** - All user code goes here
     * **controllers/** - User controllers, such as posts_controller.js, tags_controller.js.
     * **models/** - User models such as posts.js, tags.js.
@@ -40,7 +41,7 @@ Open your browser:
             * **datasources/** - Data sources for Pie Model. Pie is planning on supporting many data sources (such as MySQL, MongoDB, etc). Each data source should present the model and controller with the same basic CRUD methods and data structure.
     * **node_modules/** - node.js modules used for Pie.
 
-## SQL for the example above
+### SQL for the example above
     SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 	DROP DATABASE `pie`;
 	CREATE DATABASE `pie` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
