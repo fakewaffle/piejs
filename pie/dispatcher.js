@@ -149,7 +149,26 @@ exports.setup = function () {
 		var id         = Sanitize.dispatcher(params.id);
 
 		if (controller && action) {
-			require(pie.paths.app.controllers + controller + '_controller')[action](request, response, id);
+			var data   = {};
+			var values = request.body;
+
+			Object.keys(values).forEach(function(key) {
+				var value = values[key];
+				var keys  = key.split('.');
+				var model = keys[1];
+				var field = keys[2];
+
+				if (typeof data[model] === 'undefined' && !data[model]) {
+					data[model] = {};
+				}
+
+				data[model][field] = value;
+			});
+			request.body = undefined;
+			request.data = data;
+
+			var requestedController = require(pie.paths.app.controllers + controller + '_controller');
+			requestedController[action](request, response, id);
 		} else {
 			next();
 		}

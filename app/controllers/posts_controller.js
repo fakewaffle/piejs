@@ -42,14 +42,14 @@ exports.view = function(request, response, id) {
 }
 
 exports.add = function(request, response) {
-	var data = request.body;
+	var data = request.data;
 
 	if (typeof data === 'undefined') {
 		// Send this function's code to the view for display in "Code for this controller action:"
 		var results = {
 			'controllerActionCode' : exports.add.toString()
 		};
-		
+
 		PostsController.set(request, response, results);
 	} else {
 		PostsController.Post.save(data, function(info) {
@@ -62,9 +62,11 @@ exports.add = function(request, response) {
 exports.add_fake = function(request, response) {
 	var faker = require(pie.paths.pie.faker);
 	var data = {
-		'user_id' : 1,
-		'name'    : faker.Lorem.sentence(),
-		'content' : faker.Lorem.paragraphs()
+		'Post' : {
+			'user_id' : 1,
+			'name'    : faker.Lorem.sentence(),
+			'content' : faker.Lorem.paragraphs()
+		}
 	};
 
 	PostsController.Post.save(data, function(info) {
@@ -74,10 +76,10 @@ exports.add_fake = function(request, response) {
 }
 
 exports.edit = function(request, response, id) {
-	var data = request.body;
+	var data = request.data;
 
 	// Find the post data since nothing has been POSTed
-	if (typeof data === 'undefined') {
+	if (typeof data === 'undefined' && !data) {
 		PostsController.Post.find('first', {
 			'conditions' : {
 				'id' : id
@@ -92,7 +94,7 @@ exports.edit = function(request, response, id) {
 	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been edited.');
-			PostsController.redirect(response, { 'action' : 'view', 'id' : data.id });
+			PostsController.redirect(response, { 'action' : 'view', 'id' : data.Post.id });
 		});
 	}
 }

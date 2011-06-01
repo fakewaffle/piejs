@@ -72,12 +72,13 @@ Model.prototype.save = function(data, callback) {
 	var self       = this;
 	var beforeSave = require(this.modelPath).beforeSave;
 	var afterSave  = require(this.modelPath).afterSave;
+	var modelData  = data[this.name];
 
-	if (typeof data !== 'undefined' && data) {
+	if (typeof modelData !== 'undefined' && modelData) {
 
 		var save = function() {
-			if (typeof data.id !=='undefined' && data.id) {
-				self.dataSource.update(data, function(results) {
+			if (typeof modelData.id !=='undefined' && modelData.id) {
+				self.dataSource.update(modelData, function(results) {
 					if (afterSave) {
 						afterSave(false, results, callback);
 					} else {
@@ -85,7 +86,7 @@ Model.prototype.save = function(data, callback) {
 					}
 				});
 			} else {
-				self.dataSource.create(data, function(results) {
+				self.dataSource.create(modelData, function(results) {
 					if (afterSave) {
 						afterSave(true, results, callback);
 					} else {
@@ -96,7 +97,7 @@ Model.prototype.save = function(data, callback) {
 		};
 
 		if (beforeSave) {
-			beforeSave(data, save);
+			beforeSave(modelData, save);
 		} else {
 			save();
 		}
