@@ -167,8 +167,7 @@ exports.setup = function () {
 			request.body = undefined;
 			request.data = data;
 
-			var requestedController = require(pie.paths.app.controllers + controller + '_controller');
-			requestedController[action](request, response, id);
+			require(pie.paths.app.controllers + controller + '_controller')[action](request, response, id);
 		} else {
 			next();
 		}
