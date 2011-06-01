@@ -1,7 +1,7 @@
-I am looking for help with this framework. If you are interested, please email me at [morris.justin@gmail.com](mailto:morris.justin@gmail.com).
-
 ## PieJS
-Rapid development framework for node.js with inspiration from CakePHP. See the [Wiki](https://github.com/fakewaffle/piejs/wiki) for more information.
+PieJS is an open source rapid development framework for [node.js](http://nodejs.org/). PieJS is used for developing and maintaining web applications. It is written in JavaScript, modeled after the concepts of CakePHP, using the well known design patterns of [MVC](http://en.wikipedia.org/wiki/Model-view-controller) and [ORM](http://en.wikipedia.org/wiki/Object-relational_mapping). PieJS follows convention over configuration.
+
+If you wish to contribute to PieJS, please email [fakewaffle](mailto:morris.justin@gmail.com).
 
 Prerequisites:
 
@@ -11,8 +11,9 @@ Prerequisites:
 To try out:
 
     git clone git://github.com/fakewaffle/piejs.git
-	set the correct values for mysql in config/database.js
-    cd piejs/
+    copy /piejs/app/config/database.default.js to /piejs/app/config/database.js
+	set the correct values for mysql in /piejs/app/config/database.js
+    cd /piejs/
     node app.js
 
 Open your browser:
@@ -29,6 +30,9 @@ Open your browser:
     * **models/** - User models such as posts.js, tags.js.
     * **public/** - Publicly accessible (stylesheets,javascripts, images).
     * **views/** - User views for each method in the user controllers.
+        * **helpers/** - User helpers (see pie/libs/view/helpers/* for the built in helpers).
+        * **layouts/** - User layouts for all views.
+        * **pages/** - Static pages served by PieJS (http://www.example.com/pages/*) (http://www.example.com/ -> http://www.example.com/pages/home).
 * **pie/** - Users should not (or try not to) edit code here.
     * **libs/** - Code for Pie.
         * **controller/** - Pie Controller, user controllers 'inherit' from this.
