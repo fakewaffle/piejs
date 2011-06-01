@@ -100,8 +100,6 @@ exports.setup = function () {
 			var controllerExists = false;
 			var actionExists     = false;
 
-			require(controllerFile);
-
 			// Check whether the requested controller exists
 			try	{
 				if (require(controllerFile)) {
