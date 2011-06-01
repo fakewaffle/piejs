@@ -3,8 +3,18 @@
 
 	<head>
 		<title>PieJS Example Blog</title>
-		<%- pie.Helper.Html.css('default') %>
-		<%- pie.Helper.Html.js('alert') %>
+		<%- pie.Helper.Html.css('default.css') %>
+
+		<%- pie.Helper.Html.js('https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js') %>
+
+		<script type="text/javascript">
+			$(function() {
+				$('pre').each(function(index) {
+					$this = $(this);
+					$this.html($this.html().replace(/\t/g, '    '));
+				});
+			});
+		</script>
 	</head>
 
 	<body>
@@ -25,32 +35,38 @@
 			<div class="code">
 				<h3>Code for the layout:</h3>
 <pre>
-&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot;&gt;
-&lt;html&gt;
+	&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot;&gt;
+	&lt;html&gt;
 
-    &lt;head&gt;
-        &lt;title&gt;PieJS Example Blog&lt;/title&gt;
-        &lt;%- pie.Helper.Html.css(&#x27;default&#x27;) %&gt;
-        &lt;%- pie.Helper.Html.js(&#x27;alert&#x27;) %&gt;
-    &lt;/head&gt;
+		&lt;head&gt;
+			&lt;title&gt;PieJS Example Blog&lt;/title&gt;
+			&lt;%- pie.Helper.Html.css(&#x27;default.css&#x27;) %&gt;
 
-    &lt;body&gt;
-        &lt;div id=&quot;header&quot; class=&quot;corner-bottom&quot;&gt;&lt;h1&gt;PieJS Example Blog&lt;/h1&gt;&lt;/div&gt;
+			&lt;%- pie.Helper.Html.js(&#x27;https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js&#x27;) %&gt;
+		&lt;/head&gt;
 
-        &lt;div id=&quot;content&quot; class=&quot;corner-all&quot;&gt;
-            &lt;% if (typeof flash !== &#x27;undefined&#x27; &amp;&amp; flash &amp;&amp; flash.info) { %&gt;
-                &lt;div id=&quot;flash&quot;&gt;&lt;%= flash.info %&gt;&lt;/div&gt;
-            &lt;% } %&gt;
+		&lt;body&gt;
+			&lt;div id=&quot;header&quot; class=&quot;corner-bottom&quot;&gt;
+				&lt;ul id=&quot;site-links&quot; class=&quot;inline&quot;&gt;
+					&lt;li&gt;&lt;%- pie.Helper.Html.link(&#x27;posts&#x27;, { &#x27;controller&#x27; : &#x27;posts&#x27; }) %&gt;&lt;/li&gt;
+				&lt;/ul&gt;
+				&lt;h1&gt;PieJS Example Blog&lt;/h1&gt;
+			&lt;/div&gt;
 
-            &lt;%- body %&gt;
-        &lt;/div&gt;
+			&lt;div id=&quot;content&quot; class=&quot;corner-all&quot;&gt;
+				&lt;% if (typeof flash !== &#x27;undefined&#x27; &amp;&amp; flash &amp;&amp; flash.info) { %&gt;
+					&lt;div id=&quot;flash&quot;&gt;&lt;%= flash.info %&gt;&lt;/div&gt;
+				&lt;% } %&gt;
 
-        &lt;div id=&quot;footer&quot;&gt;&amp;copy; &lt;%- new Date().getFullYear() %&gt; &lt;%- pie.Helper.Html.link(&#x27;fakewaffle&#x27;, &#x27;https://github.com/fakewaffle/piejs&#x27;)%&gt;&lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
+				&lt;%- body %&gt;
+			&lt;/div&gt;
+
+			&lt;div id=&quot;footer&quot;&gt;&amp;copy; &lt;%- new Date().getFullYear() %&gt; &lt;%- pie.Helper.Html.link(&#x27;fakewaffle&#x27;, &#x27;https://github.com/fakewaffle/piejs&#x27;)%&gt;&lt;/div&gt;
+		&lt;/body&gt;
+	&lt;/html&gt;
 </pre>
 			</div>
-			
+
 		</div>
 
 		<div id="footer">&copy; <%- new Date().getFullYear() %> <%- pie.Helper.Html.link('fakewaffle', 'https://github.com/fakewaffle/piejs')%></div>

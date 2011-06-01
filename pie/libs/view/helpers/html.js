@@ -79,7 +79,13 @@ Html.prototype.link = function(text, hrefs, attributes) {
  * 2011-05-26 16.19.21 - Justin Morris
  */
 Html.prototype.css = function(file) {
-	return '<link rel="stylesheet" href="' + this.webroot + 'public/stylesheets/' + file + '.css" type="text/css">';
+	var localStylesheet = '';
+
+	if (!file.match(/^http/)) {
+		localStylesheet = this.webroot + 'public/stylesheets/';
+	}
+
+	return '<link rel="stylesheet" href="' + localStylesheet + file + '" type="text/css">';
 }
 
 /**
@@ -90,7 +96,13 @@ Html.prototype.css = function(file) {
  * 2011-05-26 16.20.27 - Justin Morris
  */
 Html.prototype.js = function(file) {
-	return '<script src="' + this.webroot + 'public/javascripts/' + file + '.js" type="text/javascript"></script>';
+	var localJavascript = '';
+
+	if (!file.match(/^http/)) {
+		localJavascript = this.webroot + 'public/javascripts/';
+	}
+
+	return '<script src="' + localJavascript + file + '" type="text/javascript"></script>';
 }
 
 exports.Html = Html;

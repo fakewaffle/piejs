@@ -10,7 +10,7 @@ exports.index = function(request, response, id) {
 	// Find all posts
 	PostsController.Post.find('all', null, function(results) {
 		// Send this function's code to the view for display in "Code for this controller action:"
-		results.controllerActionCode = exports.index.toString().replace(/\t/g, '    ');
+		results.controllerActionCode = exports.index.toString();
 
 		// Send the results to render the view
 		PostsController.set(request, response, results);
@@ -34,7 +34,7 @@ exports.view = function(request, response, id) {
 		}
 	}, function(results) {
 		// Send this function's code to the view for display in "Code for this controller action:"
-		results.controllerActionCode = exports.view.toString().replace(/\t/g, '    ');
+		results.controllerActionCode = exports.view.toString();
 
 		// Send the results to render the view
 		PostsController.set(request, response, results);
@@ -47,7 +47,7 @@ exports.add = function(request, response) {
 	if (typeof data === 'undefined') {
 		// Send this function's code to the view for display in "Code for this controller action:"
 		var results = {
-			'controllerActionCode' : exports.add.toString().replace(/\t/g, '    ')
+			'controllerActionCode' : exports.add.toString()
 		};
 		
 		PostsController.set(request, response, results);
@@ -84,7 +84,7 @@ exports.edit = function(request, response, id) {
 			}
 		}, function(results) {
 			// Send this function's code to the view for display in "Code for this controller action:"
-			results.controllerActionCode = exports.edit.toString().replace(/\t/g, '    ');
+			results.controllerActionCode = exports.edit.toString();
 
 			// Send the results to render the view
 			PostsController.set(request, response, results);
