@@ -40,8 +40,7 @@ Model.prototype.find = function(type, params, callback) {
 	this.dataSource.read(type, params, function(results) {
 		var tempResults;
 
-		// TODO: If the find type is 'all', do not pull results with a length of 1 out of the array.
-		if (results.length === 1) {
+		if (results.length === 1 && type !== 'all') {
 			tempResults = results[0];
 		} else {
 			tempResults = results;
@@ -149,20 +148,23 @@ Model.prototype._contain = function(results, contains, callback) {
 
 	Object.keys(contains).forEach(function(key) {
 		var contain = contains[key];
-		var params  = {
-			'conditions' : {}
-		};
+		var type    = '';
+		var params  = { 'conditions' : {} };
 
 		if (typeof self.belongsTo !== 'undefined' && self.belongsTo && typeof self.belongsTo[key] !== 'undefined') {
+			type = 'first';
+
 			params.conditions.id = results[self.name][Inflector.foreignKey(key)];
 		}
 
 		if (typeof self.hasMany !== 'undefined' && self.hasMany && typeof self.hasMany[key] !== 'undefined') {
+			type = 'all';
+
 			params.conditions[Inflector.foreignKey(self.name)] = results[self.name].id;
 		}
 
 		if (!contain) {
-			self[key].find('all', params, function(containResults) {
+			self[key].find(type, params, function(containResults) {
 				results[self.name][key] = containResults[key];
 				callback(results);
 			});
