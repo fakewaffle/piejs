@@ -35,26 +35,41 @@ function Model(model) {
  * 2011-05-18 20.13.16 - Justin Morris
  */
 Model.prototype.find = function(type, params, callback) {
-	var self     = this;
+	var self       = this;
+	var beforeFind = require(this.modelPath).beforeFind;
+	var afterFind  = require(this.modelPath).afterFind;
 
-	this.dataSource.read(type, params, function(results) {
-		var tempResults;
+	var find = function() {
+		self.dataSource.read(type, params, function(results) {
+			var tempResults;
 
-		if (results.length === 1 && type !== 'all') {
-			tempResults = results[0];
-		} else {
-			tempResults = results;
-		}
+			if (results.length === 1 && type !== 'all') {
+				tempResults = results[0];
+			} else {
+				tempResults = results;
+			}
 
-		results            = {};
-		results[self.name] = tempResults;
+			results            = {};
+			results[self.name] = tempResults;
 
-		if (typeof params !== 'undefined' && params && typeof params.contain !== 'undefined' && params.contain) {
-			self._contain(results, params.contain, callback);
-		} else {
-			callback(results);
-		}
-	});
+			if (typeof params !== 'undefined' && params && typeof params.contain !== 'undefined' && params.contain) {
+				self._contain(results, params.contain, callback);
+			} else {
+				if (afterFind) {
+					afterFind(results, callback);
+				} else {
+					callback(results);
+				}
+			}
+		});
+	};
+
+	if (beforeFind) {
+		beforeFind(params, find);
+	} else {
+		find();
+	}
+
 }
 
 /**
