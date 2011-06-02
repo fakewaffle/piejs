@@ -36,8 +36,6 @@ function Model(model) {
  */
 Model.prototype.find = function(type, params, callback) {
 	var self     = this;
-	var params   = params;
-	var callback = callback;
 
 	this.dataSource.read(type, params, function(results) {
 		var tempResults;
