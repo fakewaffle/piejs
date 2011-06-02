@@ -61,14 +61,21 @@
 			&lt;%- body %&gt;
 		&lt;/div&gt;
 
+		&lt;div class=&quot;code&quot;&gt;
+			&lt;div class=&quot;pre align-center&quot;&gt;&lt;%- pie.Helper.Html.link(&#x27;View the full source code.&#x27;, &#x27;https://github.com/fakewaffle/piejs&#x27;) %&gt;&lt;/div&gt;
+		&lt;/div&gt;
+
 		&lt;div id=&quot;footer&quot;&gt;&amp;copy; &lt;%- new Date().getFullYear() %&gt; &lt;%- pie.Helper.Html.link(&#x27;fakewaffle&#x27;, &#x27;https://github.com/fakewaffle/piejs&#x27;)%&gt;&lt;/div&gt;
 	&lt;/body&gt;
 &lt;/html&gt;
 </pre>
 			</div>
 
+			<div class="code">
+				<div class="pre align-center"><%- pie.Helper.Html.link('View the full source code.', 'https://github.com/fakewaffle/piejs') %></div>
+			</div>
 		</div>
 
-		<div id="footer">&copy; <%- new Date().getFullYear() %> <%- pie.Helper.Html.link('fakewaffle', 'https://github.com/fakewaffle/piejs')%></div>
+		<div id="footer">&copy; <%- new Date().getFullYear() %> <%- pie.Helper.Html.link('fakewaffle', 'mailto:morris.justin@gmail.com')%></div>
 	</body>
 </html>
