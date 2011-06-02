@@ -14,7 +14,6 @@ function Controller(params) {
 	this[this.name]       = pie.app.models[this.name];
 	this.webroot          = pie.config.app.core.webroot;
 	this.requestedHelpers = params.helpers;
-	this.helpers          = {};
 
 	if (typeof this[this.name].belongsTo !== 'undefined' && this[this.name].belongsTo) {
 		Object.keys(self[self.name].belongsTo).forEach(function(key) {
