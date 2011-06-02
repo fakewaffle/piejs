@@ -23,12 +23,13 @@ function Html(model) {
  * 2011-05-25 11.23.10 - Justin Morris
  */
 Html.prototype.link = function(text, hrefs, attributes) {
-	var html = '<a href="' + this.webroot;
+	var html = '<a href="';
 
 	if (typeof hrefs === 'object') {
 		var controller = hrefs.controller;
 		var action     = hrefs.action;
 
+		html += this.webroot;
 		if (typeof controller !== 'undefined' && controller) {
 			html += controller
 		} else {
