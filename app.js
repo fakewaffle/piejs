@@ -23,7 +23,7 @@ Sanitize   = require(pie.paths.pie.sanitize);
  *
  * We only want to load the models once, so we load them (with blocking!)
  * when the app starts. All references to the models (such as hasMany,
- * belongsTo, hasAndBelongsToMany) will refer 
+ * belongsTo, hasAndBelongsToMany) will refer to pie.app.models[name].
  *
  * 2011-06-02 19.43.48 - Justin Morris
  */
