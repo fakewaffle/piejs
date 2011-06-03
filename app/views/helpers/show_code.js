@@ -71,7 +71,7 @@ ShowCode.prototype.view = function() {
 
 	return '<div class="code">' +
 		'<h3>Code for this view:</h3>' +
-		'<pre class="reset">' +
+		'<pre>' +
 			encodeEntities(fs.readFileSync(this.viewFile, 'utf8')) +
 		'</pre>' +
 	'</div>';
