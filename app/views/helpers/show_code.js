@@ -16,75 +16,103 @@ function ShowCode(model, params) {
 }
 
 /**
- * Show the current model code
+ * Show the current model code.
  *
  * 2011-06-03 00.22.21 - Justin Morris
  */
 ShowCode.prototype.model = function() {
 	var fs = require('fs');
 
-	var html = '<div class="code">';
-			html += '<h3>Code for the ' + this.modelName + ' Model:</h3>';
-			html += '<pre>'
-				html += fs.readFileSync(this.modelFile, 'utf8');
-			html += '</pre>'
-		html += '</div>'
-
-	return html;
+	return '<div class="code">' +
+		'<h3>Code for the ' + this.modelName + ' Model:</h3>' +
+		'<pre>' +
+			fs.readFileSync(this.modelFile, 'utf8') +
+		'</pre>' +
+	'</div>';
 }
 
 /**
- * Show the current controller code
+ * Show the current controller code.
  *
  * 2011-06-03 00.22.33 - Justin Morris
  */
 ShowCode.prototype.controller = function() {
 	var fs = require('fs');
 
-	var html = '<div class="code">';
-			html += '<h3>Code for the ' + Inflector.pluralize(this.modelName) + 'Controller:</h3>';
-			html += '<pre>'
-				html += fs.readFileSync(this.controllerFile, 'utf8');
-			html += '</pre>'
-		html += '</div>'
-
-	return html;
+	return '<div class="code">' +
+		'<h3>Code for the ' + Inflector.pluralize(this.modelName) + 'Controller:</h3>' +
+		'<pre>' +
+			fs.readFileSync(this.controllerFile, 'utf8') +
+		'</pre>' +
+	'</div>';
 }
 
 /**
- * Show the current controller action code
+ * Show the current controller action code.
  *
  * 2011-06-03 00.22.40 - Justin Morris
  */
 ShowCode.prototype.controllerAction = function() {
-	var html = '<div class="code">';
-			html += '<h3>Code for the "' + this.actionName + '" action in the ' + Inflector.pluralize(this.modelName) + 'Controller:</h3>';
-			html += '<pre>'
-				html += require(this.controllerFile)[this.actionName];
-			html += '</pre>'
-		html += '</div>'
-
-	return html;
+	return '<div class="code">' +
+		'<h3>Code for the "' + this.actionName + '" action in the ' + Inflector.pluralize(this.modelName) + 'Controller:</h3>' +
+		'<pre>' +
+			require(this.controllerFile)[this.actionName] +
+		'</pre>' +
+	'</div>' ;
 }
 
 /**
- * Show the current view code
- *
- * TODO: Make this work. Needs to be escaped with HTML entities, but not the <pre> tags.
+ * Show the current view code.
  *
  * 2011-06-03 00.23.00 - Justin Morris
  */
 ShowCode.prototype.view = function() {
 	var fs = require('fs');
 
-	var html = '<div class="code">';
-			html += '<h3>Code for this view:</h3>';
-			html += '<pre class="reset">'
-				html += fs.readFileSync(this.viewFile, 'utf8');
-			html += '</pre>'
-		html += '</div>'
+	return '<div class="code">' +
+		'<h3>Code for this view:</h3>' +
+		'<pre class="reset">' +
+			encodeEntities(fs.readFileSync(this.viewFile, 'utf8')) +
+		'</pre>' +
+	'</div>';
+}
 
-	return html;
+/**
+ * Shows a link to the GitHub repo for PieJS.
+ *
+ * 2011-06-03 09.20.09 - Justin Morris
+ */
+ShowCode.prototype.githubLink = function() {
+	return '<div class="code">' +
+		'<div class="pre align-center"><a href="https://github.com/fakewaffle/piejs">View the full source code.</a></div>' +
+	'</div>';
+}
+
+/**
+ * Standard way to show code for a view.
+ *
+ * 2011-06-03 09.13.23 - Justin Morris
+ */
+ShowCode.prototype.standard = function() {
+	return this.view() + this.controllerAction() + this.model() + this.githubLink();
+}
+
+/**
+ * Encode the basic HTML characters into entities.
+ *
+ * @param string string String to encode
+ *
+ * 2011-06-03 09.01.57 - Justin Morris
+ */
+var encodeEntities = function(string) {
+	var encodeString = '';
+
+	for (var i = 0; i < string.length; i++) {
+		var character = string.charAt(i);
+		encodeString += { '<' : '&lt;', '>' : '&gt;', '&' : '&amp;', '"' : '&quot;' }[character] || character;
+	}
+
+	return encodeString;
 }
 
 exports.ShowCode = ShowCode;
