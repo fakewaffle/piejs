@@ -2,16 +2,14 @@ var PostsController = new Controller({
 	'name' : 'Post',
 	'helpers' : [
 		'Html',
-		'Form'
+		'Form',
+		'ShowCode'
 	]
 });
 
 exports.index = function(request, response, id) {
 	// Find all posts
 	PostsController.Post.find('all', null, function(results) {
-		// Send this function's code to the view for display in "Code for this controller action:"
-		results.controllerActionCode = exports.index.toString();
-
 		// Send the results to render the view
 		PostsController.set(request, response, results);
 	});
@@ -33,9 +31,6 @@ exports.view = function(request, response, id) {
 			'User' : null
 		}
 	}, function(results) {
-		// Send this function's code to the view for display in "Code for this controller action:"
-		results.controllerActionCode = exports.view.toString();
-
 		// Send the results to render the view
 		PostsController.set(request, response, results);
 	});
@@ -45,12 +40,7 @@ exports.add = function(request, response) {
 	var data = request.data;
 
 	if (typeof data === 'undefined') {
-		// Send this function's code to the view for display in "Code for this controller action:"
-		var results = {
-			'controllerActionCode' : exports.add.toString()
-		};
-
-		PostsController.set(request, response, results);
+		PostsController.set(request, response);
 	} else {
 		PostsController.Post.save(data, function(info) {
 			request.flash('info', 'Post has been added.');
@@ -85,9 +75,6 @@ exports.edit = function(request, response, id) {
 				'id' : id
 			}
 		}, function(results) {
-			// Send this function's code to the view for display in "Code for this controller action:"
-			results.controllerActionCode = exports.edit.toString();
-
 			// Send the results to render the view
 			PostsController.set(request, response, results);
 		});
