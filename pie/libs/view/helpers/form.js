@@ -4,15 +4,15 @@
 * Convenience function for creating form elements with PieJS conventions.
 *
 * @param string model Model name
-* @param object results Results from a Model.find()
+* @param object params Params including esults from a Model.find(), and request from express
 *
 * 2011-05-25 22.18.01 - Justin Morris
  */
-function Form(model, results) {
+function Form(model, params) {
 	this.model      = model;
 	this.controller = Inflector.tableize(model.toLowerCase());
 	this.webroot    = pie.config.app.core.webroot;
-	this.results    = results;
+	this.results    = params.results;
 }
 
 /**

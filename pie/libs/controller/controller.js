@@ -75,7 +75,10 @@ Controller.prototype.set = function(request, response, results, layout) {
 				Helper = AppHelper[requestedHelper];
 			}
 
-			helpers[requestedHelper] = new Helper(self.name, results);
+			helpers[requestedHelper] = new Helper(self.name, {
+				'results' : results,
+				'request' : request
+			});
 		});
 	}
 
