@@ -9,21 +9,4 @@
 
 <p><%= Post.content %></p>
 
-<div class="code">
-	<h3>Code for this view:</h3>
-<pre>
-&lt;h1&gt;&lt;%= Post.name %&gt;
-	&lt;div class=&quot;float-right&quot;&gt;
-		&lt;%- pie.Helper.Html.link(&#x27;[edit]&#x27;, { &#x27;action&#x27;: &#x27;edit&#x27;, &#x27;id&#x27; : Post.id }) %&gt;
-		&lt;%- pie.Helper.Html.link(&#x27;[delete]&#x27;, { &#x27;action&#x27;: &#x27;remove&#x27;, &#x27;id&#x27; : Post.id }) %&gt;
-	&lt;/div&gt;
-&lt;/h1&gt;
-&lt;div class=&quot;clear-both&quot;&gt;&lt;/div&gt;
-&lt;p&gt;&lt;%- pie.Helper.Html.link(pie.Helper.Sanitize.paranoid(Post.User.name), { &#x27;controller&#x27; : &#x27;users&#x27;, &#x27;action&#x27; : &#x27;view&#x27;, &#x27;id&#x27; : Post.User.id }) %&gt; - &lt;%= Post.User.email %&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;%= Post.content %&gt;&lt;/p&gt;
-</pre>
-</div>
-
-<%- pie.Helper.ShowCode.controllerAction() %>
-<%- pie.Helper.ShowCode.model() %>
+<%- pie.Helper.ShowCode.standard() %>

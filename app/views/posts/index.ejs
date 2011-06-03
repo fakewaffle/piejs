@@ -15,27 +15,4 @@
 	<% }) %>
 </ul>
 
-<div class="code">
-	<h3>Code for this view:</h3>
-<pre>
-&lt;h1&gt;Posts Index
-	&lt;div class=&quot;float-right&quot;&gt;
-		&lt;%- pie.Helper.Html.link(&#x27;[add a post]&#x27;, { &#x27;action&#x27; : &#x27;add&#x27; }) %&gt;
-		&lt;%- pie.Helper.Html.link(&#x27;[create fake post]&#x27;, { &#x27;action&#x27; : &#x27;add_fake&#x27; }) %&gt;
-	&lt;/div&gt;
-&lt;/h1&gt;
-&lt;div class=&quot;clear-both&quot;&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-	&lt;% Post.forEach(function(post){ %&gt;
-		&lt;li&gt;
-			&lt;h1&gt;&lt;%- pie.Helper.Html.link(post.name, { &#x27;action&#x27; : &#x27;view&#x27;, &#x27;id&#x27; : post.id }) %&gt;&lt;/h1&gt;
-			&lt;p&gt;&lt;%= post.content %&gt;&lt;/p&gt;
-		&lt;/li&gt;
-	&lt;% }) %&gt;
-&lt;/ul&gt;
-</pre>
-</div>
-
-<%- pie.Helper.ShowCode.controllerAction() %>
-<%- pie.Helper.ShowCode.model() %>
+<%- pie.Helper.ShowCode.standard() %>
