@@ -1,5 +1,6 @@
 exports.setup = function () {
-	var sys = require('sys');
+	var sys       = require('sys');
+	var appRoutes = require(pie.paths.app.config.routes).routes;
 
 	// Use default port of 3000 unless specified in config.js
 	var port = 3000;
@@ -7,6 +8,12 @@ exports.setup = function () {
 		port = pie.config.app.core.port;
 	}
 	server.listen(port, function() { sys.log('PieJS running at http://localhost:' + port + pie.config.app.core.webroot); });
+
+	if (appRoutes.length >= 1) {
+		appRoutes.forEach(function(appRoute) {
+			appRoute();
+		});
+	}
 
 	/**
 	 * Redirects http://www.example.com/ -> http://www.example.com/pages/home
@@ -17,7 +24,7 @@ exports.setup = function () {
 		var params = request.params;
 
 		if (params) {
-			response.redirect('/pages/home');
+			response.redirect(pie.config.app.core.webroot + '/pages/home');
 		} else {
 			next();
 		}

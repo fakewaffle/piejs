@@ -26,7 +26,8 @@ exports.paths = {
 		'config' : {
 			'path'     : __dirname + '/../app/config/',
 			'core'     : __dirname + '/../app/config/core.js',
-			'database' : __dirname + '/../app/config/database.js'
+			'database' : __dirname + '/../app/config/database.js',
+			'routes'   : __dirname + '/../app/config/routes.js'
 		},
 		'controllers' : __dirname + '/../app/controllers/',
 		'models' : __dirname + '/../app/models/',
