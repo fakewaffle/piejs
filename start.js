@@ -32,9 +32,10 @@ Sanitize   = require(pie.paths.pie.sanitize);
 	var files = fs.readdirSync(pie.paths.app.models);
 
 	files.forEach(function(file) {
-		var modelName    = Inflector.capitalize(file.split('.')[0]);
-		var modelExports = require(pie.paths.app.models + modelName.toLowerCase());
-		var model        = modelExports[modelName];
+		var modelFileName = file.split('.')[0];
+		var modelName     = Inflector.classify(modelFileName);
+		var modelExports  = require(pie.paths.app.models + modelFileName);
+		var model         = modelExports[modelName];
 
 		pie.app.models[modelName] = new Model(model);
 
