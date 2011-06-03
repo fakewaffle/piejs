@@ -6,8 +6,7 @@
  * 2011-05-18 15.28.38 - Justin Morris
  */
 function Model(model) {
-	this.name       = model.name;
-	this.modelPath  = pie.paths.app.models + this.name.toLowerCase();
+	this.name = model.name;
 
 	var dataSource  = require(pie.paths.pie.datasource.path + model.dataSource)[Inflector.camelize(model.dataSource)];
 	this.dataSource = new dataSource(this.name, pie.config.app.database[model.dataSource], Inflector.tableize(this.name));
@@ -36,8 +35,8 @@ function Model(model) {
  */
 Model.prototype.find = function(type, params, callback) {
 	var self       = this;
-	var beforeFind = require(this.modelPath).beforeFind;
-	var afterFind  = require(this.modelPath).afterFind;
+	var beforeFind = pie.app.models[this.name].beforeFind;
+	var afterFind  = pie.app.models[this.name].afterFind;
 
 	var find = function() {
 		self.dataSource.read(type, params, function(results) {
@@ -82,8 +81,8 @@ Model.prototype.find = function(type, params, callback) {
  */
 Model.prototype.save = function(data, callback) {
 	var self       = this;
-	var beforeSave = require(this.modelPath).beforeSave;
-	var afterSave  = require(this.modelPath).afterSave;
+	var beforeSave = pie.app.models[this.name].beforeSave;
+	var afterSave  = pie.app.models[this.name].afterSave;
 	var modelData  = data[this.name];
 
 	if (typeof modelData !== 'undefined' && modelData) {
@@ -125,8 +124,8 @@ Model.prototype.save = function(data, callback) {
  */
 Model.prototype.remove = function(conditions, callback) {
 	var self         = this;
-	var beforeDelete = require(this.modelPath).beforeDelete;
-	var afterDelete  = require(this.modelPath).afterDelete;
+	var beforeDelete = pie.app.models[this.name].beforeDelete;
+	var afterDelete  = pie.app.models[this.name].afterDelete;
 
 	var remove = function() {
 		self.dataSource.remove(conditions, function(results) {
