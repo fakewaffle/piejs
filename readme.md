@@ -15,7 +15,7 @@ Terminal:
     cd piejs/
     cp app/config/database.default.js app/config/database.js
 	[set the correct values for mysql in app/config/database.js]
-    node app.js
+    node start.js
 
 Open your browser:
 
