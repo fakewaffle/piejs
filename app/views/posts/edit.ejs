@@ -7,11 +7,6 @@
 <div class="clear-left"></div>
 
 <div class="code">
-	<h3>Code for this controller action:</h3>
-<pre><%- controllerActionCode %></pre>
-</div>
-
-<div class="code">
 	<h3>Code for this view:</h3>
 <pre>
 &lt;%- pie.Helper.Form.create({ &#x27;action&#x27; : &#x27;edit&#x27; }) %&gt;
@@ -23,3 +18,6 @@
 &lt;div class=&quot;clear-left&quot;&gt;&lt;/div&gt;
 </pre>
 </div>
+
+<%- pie.Helper.ShowCode.controllerAction() %>
+<%- pie.Helper.ShowCode.model() %>
