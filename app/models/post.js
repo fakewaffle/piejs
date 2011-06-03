@@ -5,3 +5,8 @@ exports.Post = {
 		'User' : null
 	}
 };
+
+exports.beforeSave = function(data, save) {
+	data.name = Inflector.titleize(data.name);
+	save();
+}
