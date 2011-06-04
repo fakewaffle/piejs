@@ -6,12 +6,13 @@
 		<%- pie.Helper.Html.css('default.css') %>
 
 		<%- pie.Helper.Html.js('https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js') %>
+		<%- pie.Helper.Html.js('jquery-syntax/jquery.syntax.min.js') %>
 
 		<script type="text/javascript">
 			$(function() {
-				$('pre').each(function(index) {
-					$this = $(this);
-					$this.html($this.html().replace(/\t/g, '    '));
+		        $.syntax({
+					'tabWidth'    : 4,
+					'blockLayout' : 'plain'
 				});
 			});
 		</script>

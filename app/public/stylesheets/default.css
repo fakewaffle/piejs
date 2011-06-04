@@ -165,16 +165,17 @@ ul.inline li {
 
 /********************************************************************************************************* Code */
 div.code {
-	padding: 10px;
+	padding: 10px 0;
 	border-top: 1px solid #DDD;
 	margin-top: 10px;
 }
 pre, .pre {
 	max-height: 500px;
-	font-size: 10pt;
+	font-size: 9pt;
 	margin: 10px;
 	padding: 10px 15px;
-	border: 2px solid #26661E;
-	background: #E2F8E4;
 	overflow-x: auto;
+}
+.syntax-container {
+	font-size: 9pt;
 }

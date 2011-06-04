@@ -25,7 +25,7 @@ ShowCode.prototype.model = function() {
 
 	return '<div class="code">' +
 		'<h3>Code for the ' + this.modelName + ' Model:</h3>' +
-		'<pre>' +
+		'<pre class="syntax javascript">' +
 			fs.readFileSync(this.modelFile, 'utf8') +
 		'</pre>' +
 	'</div>';
@@ -41,7 +41,7 @@ ShowCode.prototype.controller = function() {
 
 	return '<div class="code">' +
 		'<h3>Code for the ' + Inflector.pluralize(this.modelName) + 'Controller:</h3>' +
-		'<pre>' +
+		'<pre class="syntax javascript">' +
 			fs.readFileSync(this.controllerFile, 'utf8') +
 		'</pre>' +
 	'</div>';
@@ -55,7 +55,7 @@ ShowCode.prototype.controller = function() {
 ShowCode.prototype.controllerAction = function() {
 	return '<div class="code">' +
 		'<h3>Code for the "' + this.actionName + '" action in the ' + Inflector.pluralize(this.modelName) + 'Controller:</h3>' +
-		'<pre>' +
+		'<pre class="syntax javascript">' +
 			require(this.controllerFile)[this.actionName] +
 		'</pre>' +
 	'</div>' ;
@@ -71,7 +71,7 @@ ShowCode.prototype.view = function() {
 
 	return '<div class="code">' +
 		'<h3>Code for this view:</h3>' +
-		'<pre>' +
+		'<pre class="syntax javascript">' +
 			encodeEntities(fs.readFileSync(this.viewFile, 'utf8')) +
 		'</pre>' +
 	'</div>';
