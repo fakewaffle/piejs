@@ -89,47 +89,7 @@ exports.setup = function () {
 	 * 2011-05-24 09.37.25 - Justin Morris
 	 */
 	server.get(pie.config.app.core.webroot + ':controller/:action?/:id?', function(request, response, next) {
-		if (typeof request.params.action === 'undefined') {
-			request.params.action = 'index';
-		}
-		if (typeof request.params.id === 'undefined') {
-			request.params.id = null;
-		}
-
-		var	params     = request.params;
-		var controller = Sanitize.dispatcher(params.controller);
-		var action     = Sanitize.dispatcher(params.action);
-		var id         = Sanitize.dispatcher(params.id);
-
-		if (controller && action) {
-			var controllerFile   = pie.paths.app.controllers + controller + '_controller';
-			var controllerExists = false;
-			var actionExists     = false;
-
-			// Check whether the requested controller exists
-			try	{
-				if (require(controllerFile)) {
-					controllerExists = true;
-				}
-			} catch(e) {}
-
-			// If the controller exists, move onto the action
-			if (controllerExists) {
-				var requiring = require(controllerFile)[action];
-
-				// Check whether the requested action exists
-				if (requiring) {
-					requiring(request, response, id);
-				} else {
-					response.send('Cannot find the requested action.');
-				}
-
-			} else {
-				response.send('Cannot find the requested controller.');
-			}
-		} else {
-			next();
-		}
+		handleAppControllerAction(request, response, next);
 	});
 
 	/**
@@ -138,36 +98,55 @@ exports.setup = function () {
 	 * The controller is loaded and the action is called. The request, response, and id (see below)
 	 * are passed.
 	 *
+	 * TODO: Allow for more named params pass 'id'.
+	 *
 	 * 2011-05-24 09.44.25 - Justin Morris
 	 */
 	server.post(pie.config.app.core.webroot + ':controller/:action/:id?', function(request, response, next) {
-		if (typeof request.params.id === 'undefined') {
-			request.params.id = null;
-		}
+		handleAppControllerAction(request, response, next);
+	});
+}
 
-		var	params     = request.params;
-		var controller = Sanitize.dispatcher(params.controller);
-		var action     = Sanitize.dispatcher(params.action);
-		var id         = Sanitize.dispatcher(params.id);
+/**
+ * Handles the common logic for the main routing of GET and POST for PieJS.
+ *
+ * 2011-06-07 14.33.29 - Justin Morris
+ */
+var handleAppControllerAction = function(request, response, next) {
+	if (typeof request.params.action === 'undefined') {
+		request.params.action = 'index';
+	}
 
-		if (controller && action) {
-			var controllerFile   = pie.paths.app.controllers + controller + '_controller';
-			var controllerExists = false;
-			var actionExists     = false;
+	if (typeof request.params.id === 'undefined') {
+		request.params.id = null;
+	}
 
-			// Check whether the requested controller exists
-			try	{
-				if (require(controllerFile)) {
-					controllerExists = true;
-				}
-			} catch(e) {}
+	var	params     = request.params;
+	var controller = Sanitize.dispatcher(params.controller);
+	var action     = Sanitize.dispatcher(params.action);
+	var id         = Sanitize.dispatcher(params.id);
 
-			// If the controller exists, move onto the action
-			if (controllerExists) {
-				var requiring = require(controllerFile)[action];
+	if (controller && action) {
+		var controllerFile   = pie.paths.app.controllers + controller + '_controller';
+		var controllerExists = false;
+		var actionExists     = false;
 
-				// Check whether the requested action exists
-				if (requiring) {
+		// Check whether the requested controller exists
+		try	{
+			if (require(controllerFile)) {
+				controllerExists = true;
+			}
+		} catch(e) {}
+
+		// If the controller exists, move onto the action
+		if (controllerExists) {
+			var requiring = require(controllerFile)[action];
+
+			// Check whether the requested action exists
+			if (requiring) {
+
+				// If there is data being posted, move it into the model name;
+				if (request.body) {
 					var data   = {};
 					var values = request.body;
 
@@ -183,19 +162,24 @@ exports.setup = function () {
 
 						data[model][field] = value;
 					});
+
 					request.body = undefined;
 					request.data = data;
-
-					requiring(request, response, id);
-				} else {
-					response.send('Cannot find the requested action.');
 				}
 
+				requiring(request, response, id);
+
+			// The action for the controller could not be found
 			} else {
-				response.send('Cannot find the requested controller.');
+				response.send('Cannot find the requested action.');
 			}
+
+		// The controller could not befound
 		} else {
-			next();
+			response.send('Cannot find the requested controller.');
 		}
-	});
+
+	} else {
+		next();
+	}
 }
