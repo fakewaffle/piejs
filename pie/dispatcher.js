@@ -85,7 +85,6 @@ exports.setup = function () {
 	 * are passed.
 	 *
 	 * TODO: Allow for more named params pass 'id'.
-	 * TODO: Show gracefull errors for controllers and actions that are not found.
 	 *
 	 * 2011-05-24 09.37.25 - Justin Morris
 	 */
@@ -139,8 +138,6 @@ exports.setup = function () {
 	 * The controller is loaded and the action is called. The request, response, and id (see below)
 	 * are passed.
 	 *
-	 * TODO: Show gracefull errors for controllers and actions that are not found.
-	 *
 	 * 2011-05-24 09.44.25 - Justin Morris
 	 */
 	server.post(pie.config.app.core.webroot + ':controller/:action/:id?', function(request, response, next) {
@@ -154,25 +151,49 @@ exports.setup = function () {
 		var id         = Sanitize.dispatcher(params.id);
 
 		if (controller && action) {
-			var data   = {};
-			var values = request.body;
+			var controllerFile   = pie.paths.app.controllers + controller + '_controller';
+			var controllerExists = false;
+			var actionExists     = false;
 
-			Object.keys(values).forEach(function(key) {
-				var value = values[key];
-				var keys  = key.split('.');
-				var model = keys[1];
-				var field = keys[2];
+			// Check whether the requested controller exists
+			try	{
+				if (require(controllerFile)) {
+					controllerExists = true;
+				}
+			} catch(e) {}
 
-				if (typeof data[model] === 'undefined' && !data[model]) {
-					data[model] = {};
+			// If the controller exists, move onto the action
+			if (controllerExists) {
+				var requiring = require(controllerFile)[action];
+
+				// Check whether the requested action exists
+				if (requiring) {
+					var data   = {};
+					var values = request.body;
+
+					Object.keys(values).forEach(function(key) {
+						var value = values[key];
+						var keys  = key.split('.');
+						var model = keys[1];
+						var field = keys[2];
+
+						if (typeof data[model] === 'undefined' && !data[model]) {
+							data[model] = {};
+						}
+
+						data[model][field] = value;
+					});
+					request.body = undefined;
+					request.data = data;
+
+					requiring(request, response, id);
+				} else {
+					response.send('Cannot find the requested action.');
 				}
 
-				data[model][field] = value;
-			});
-			request.body = undefined;
-			request.data = data;
-
-			require(pie.paths.app.controllers + controller + '_controller')[action](request, response, id);
+			} else {
+				response.send('Cannot find the requested controller.');
+			}
 		} else {
 			next();
 		}
