@@ -121,60 +121,68 @@ var handleAppControllerAction = function(request, response, next) {
 		request.params.id = null;
 	}
 
-	var	params     = request.params;
-	var controller = Sanitize.dispatcher(params.controller);
-	var action     = Sanitize.dispatcher(params.action);
-	var id         = Sanitize.dispatcher(params.id);
+	var	params              = request.params;
+	var requestedController = Sanitize.dispatcher(params.controller);
+	var requestedAction     = Sanitize.dispatcher(params.action);
+	var id                  = Sanitize.dispatcher(params.id);
 
-	if (controller && action) {
-		var controllerFile   = pie.paths.app.controllers + controller + '_controller';
+	if (requestedController && requestedAction) {
+		var controllerFile   = pie.paths.app.controllers + requestedController + '_controller';
 		var controllerExists = false;
 		var actionExists     = false;
 
 		// Check whether the requested controller exists
 		try	{
 			if (require(controllerFile)) {
+				var controller   = require(controllerFile);
 				controllerExists = true;
 			}
 		} catch(e) {}
 
 		// If the controller exists, move onto the action
 		if (controllerExists) {
-			var requiring = require(controllerFile)[action];
+			var action = controller[requestedAction];
 
 			// Check whether the requested action exists
-			if (requiring) {
+			if (action) {
+				var beforeFilter = controller.beforeFilter;
 
-				// If there is data being posted, move it into the model name;
-				if (request.body) {
-					var data   = {};
-					var values = request.body;
+				if (beforeFilter) {
+					beforeFilter(request, response, id, function(request, response, id) {
+						// If there is data being posted, move it into the model name;
+						if (request.body) {
+							var data   = {};
+							var values = request.body;
 
-					Object.keys(values).forEach(function(key) {
-						var value = values[key];
-						var keys  = key.split('.');
-						var model = keys[1];
-						var field = keys[2];
+							Object.keys(values).forEach(function(key) {
+								var value = values[key];
+								var keys  = key.split('.');
+								var model = keys[1];
+								var field = keys[2];
 
-						if (typeof data[model] === 'undefined' && !data[model]) {
-							data[model] = {};
+								if (typeof data[model] === 'undefined' && !data[model]) {
+									data[model] = {};
+								}
+
+								data[model][field] = value;
+							});
+
+							request.body = undefined;
+							request.data = data;
 						}
 
-						data[model][field] = value;
+						action(request, response, id);
 					});
-
-					request.body = undefined;
-					request.data = data;
+				} else {
+					action(request, response, id);
 				}
-
-				requiring(request, response, id);
 
 			// The action for the controller could not be found
 			} else {
 				response.send('Cannot find the requested action.');
 			}
 
-		// The controller could not befound
+		// The controller could not be found
 		} else {
 			response.send('Cannot find the requested controller.');
 		}
