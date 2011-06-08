@@ -6,7 +6,7 @@ exports.Post = {
 	}
 };
 
-exports.beforeSave = function(data, save) {
+exports.beforeSave = function(data, callback) {
 	data.name = Inflector.titleize(data.name);
-	save(data);
+	callback(data);
 }
