@@ -1,11 +1,21 @@
-var PostsController = new Controller({
+var PostsController = exports.PostsController = new Controller({
 	'name' : 'Post',
 	'helpers' : [
 		'Html',
 		'Form',
 		'ShowCode'
+	],
+	'allowedActions' : [
+		'index',
+		'view',
+		'add_fake'
 	]
 });
+
+// Not doing anything here... yet!
+exports.beforeFilter = function(request, response, id, callback) {
+	callback(request, response, id);
+}
 
 exports.index = function(request, response, id) {
 	// Find all posts

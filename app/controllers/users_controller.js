@@ -1,4 +1,4 @@
-var UsersController = new Controller({
+var UsersController = exports.UsersController = new Controller({
 	'name' : 'User',
 	'helpers' : [
 		'Html'
