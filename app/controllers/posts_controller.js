@@ -4,11 +4,6 @@ var PostsController = exports.PostsController = new Controller({
 		'Html',
 		'Form',
 		'ShowCode'
-	],
-	'allowedActions' : [
-		'index',
-		'view',
-		'add_fake'
 	]
 });
 
