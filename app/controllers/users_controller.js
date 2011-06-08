@@ -1,7 +1,8 @@
 var UsersController = exports.UsersController = new Controller({
 	'name' : 'User',
 	'helpers' : [
-		'Html'
+		'Html',
+		'ShowCode'
 	]
 });
 
