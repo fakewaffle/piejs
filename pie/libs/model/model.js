@@ -108,7 +108,13 @@ Model.prototype.save = function(data, callback) {
 		};
 
 		if (beforeSave) {
-			beforeSave(modelData, save);
+			beforeSave(modelData, function(modelData) {
+				if (modelData !== false) {
+					save();
+				} else {
+					callback(false);
+				}
+			});
 		} else {
 			save();
 		}
