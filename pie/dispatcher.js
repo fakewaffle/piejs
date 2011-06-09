@@ -35,19 +35,16 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.33.32 - Justin Morris
 	 */
+	 
 	server.get(pie.config.app.core.webroot + 'pages/*', function(request, response, next) {
-		var params = request.params;
+        var params = request.params;
 
 		if (params) {
-			server.set('views', pie.paths.app.views.pages);
-			server.set('view engine', pie.config.app.core.viewEngine);
+            request.page = params[0]; //set the requested page
+            request.params[0] = 'pages';
+            request.params[1] = 'view'; //Overwrite requested action to 'view'
 
-			response.render(params[0], {
-				'layout' : pie.paths.app.views.layouts + 'default'  + '.' + pie.config.app.core.viewEngine,
-				'locals' : {
-					'flash' : request.flash()
-				}
-			});
+            handleAppControllerAction(request, response, next);
 		} else {
 			next();
 		}
@@ -128,11 +125,13 @@ var handleAppControllerAction = function(request, response, next) {
 
 		// Check whether the requested controller exists
 		try	{
-			if (require(controllerFile)) {
+			if (require(controllerFile)) { //NOTE: this is blocking... 
 				var controller   = require(controllerFile);
 				controllerExists = true;
 			}
-		} catch(e) {}
+		} catch(e) {
+            console.log(e);
+		}
 
 		// If the controller exists, move onto the action
 		if (controllerExists) {
@@ -192,7 +191,7 @@ var handleAppControllerAction = function(request, response, next) {
 
 		// The controller could not be found
 		} else {
-			response.send('Cannot find the requested controller.');
+			response.send('Cannot find '+controllerFile+'.');
 		}
 
 	} else {

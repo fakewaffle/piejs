@@ -62,7 +62,7 @@ Controller.prototype.set = function(request, response, results, layout) {
 			var AppHelper       = null;
 
 			// Try to load the Helper form the Pie core - piejs/pie/libs/view/helpers/
-			try { PieHelper  = require(pie.paths.pie.view.helpers  + helperFile); } catch(e) {}
+			try { PieHelper  = require(pie.paths.pie.view.helpers  + helperFile); } catch(e) {} //NOTE: blocking
 
 			if (PieHelper) {
 				Helper  = PieHelper[requestedHelper];
