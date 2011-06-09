@@ -8,11 +8,11 @@ var PostsController = exports.PostsController = new Controller({
 });
 
 // Not doing anything here... yet!
-exports.beforeFilter = function(request, response, id, callback) {
-	callback(request, response, id);
-}
+// exports.beforeFilter = function(request, response, callback) {
+// 	callback(request, response);
+// }
 
-exports.index = function(request, response, id) {
+exports.index = function(request, response) {
 	// Find all posts
 	PostsController.Post.find('all', null, function(results) {
 		// Send the results to render the view
@@ -20,7 +20,9 @@ exports.index = function(request, response, id) {
 	});
 }
 
-exports.view = function(request, response, id) {
+exports.view = function(request, response) {
+	var id = request.namedParams.id;
+
 	// Find the first post that matches the passed id
 	PostsController.Post.find('first', {
 		'conditions' : {
@@ -80,11 +82,13 @@ exports.add_fake = function(request, response) {
 	});
 }
 
-exports.edit = function(request, response, id) {
+exports.edit = function(request, response) {
 	var data = request.data;
 
 	// Find the post data since nothing has been POSTed
 	if (typeof data === 'undefined' && !data) {
+		var id = request.namedParams.id;
+
 		PostsController.Post.find('first', {
 			'conditions' : {
 				'id' : id
@@ -106,7 +110,9 @@ exports.edit = function(request, response, id) {
 	}
 }
 
-exports.remove = function(request, response, id) {
+exports.remove = function(request, response) {
+	var id = request.namedParams.id;
+
 	PostsController.Post.remove({
 		'id' : id
 	}, function(results) {

@@ -41,8 +41,8 @@ Controller.prototype.set = function(request, response, results, layout) {
 	var self       = this;
 	var helpers    = {};
 	var	params     = request.params;
-	var controller = params.controller;
-	var action     = params.action;
+	var controller = request.controller;
+	var action     = request.action;
 
 	if (typeof results === 'undefined') {
 		results = {};

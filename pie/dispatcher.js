@@ -88,7 +88,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.37.25 - Justin Morris
 	 */
-	server.get(pie.config.app.core.webroot + ':controller/:action?/:id?', function(request, response, next) {
+	server.get(new RegExp(pie.config.app.core.webroot + '([^/]+)/?([^/]+)?/?(.+)?', 'i'), function(request, response, next) {
 		handleAppControllerAction(request, response, next);
 	});
 
@@ -102,7 +102,7 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.44.25 - Justin Morris
 	 */
-	server.post(pie.config.app.core.webroot + ':controller/:action/:id?', function(request, response, next) {
+	server.post(new RegExp(pie.config.app.core.webroot + '([^/]+)/?([^/]+)?/?(.+)?', 'i'), function(request, response, next) {
 		handleAppControllerAction(request, response, next);
 	});
 }
@@ -113,21 +113,16 @@ exports.setup = function () {
  * 2011-06-07 14.33.29 - Justin Morris
  */
 var handleAppControllerAction = function(request, response, next) {
-	if (typeof request.params.action === 'undefined') {
-		request.params.action = 'index';
-	}
+	var requestedController = Sanitize.dispatcher(request.params[0]);
+	var requestedAction     = Sanitize.dispatcher(request.params[1]);
 
-	if (typeof request.params.id === 'undefined') {
-		request.params.id = null;
+	if (typeof requestedAction === 'undefined') {
+		requestedAction = 'index';
 	}
-
-	var	params              = request.params;
-	var requestedController = Sanitize.dispatcher(params.controller);
-	var requestedAction     = Sanitize.dispatcher(params.action);
-	var id                  = Sanitize.dispatcher(params.id);
 
 	if (requestedController && requestedAction) {
 		var controllerFile   = pie.paths.app.controllers + requestedController + '_controller';
+
 		var controllerExists = false;
 		var actionExists     = false;
 
@@ -146,35 +141,68 @@ var handleAppControllerAction = function(request, response, next) {
 			// Check whether the requested action exists
 			if (action) {
 				var beforeFilter = controller.beforeFilter;
+				var id           = null;
 
-				if (beforeFilter) {
-					beforeFilter(request, response, id, function(request, response, id) {
-						// If there is data being posted, move it into the model name;
-						if (request.body) {
-							var data   = {};
-							var values = request.body;
+				// Setup ordered params and named params
+				if (typeof request.params[2] !== 'undefined') {
+					var	params       = request.params[2].split('/');
+					var namedParams  = {};
 
-							Object.keys(values).forEach(function(key) {
-								var value = values[key];
-								var keys  = key.split('.');
-								var model = keys[1];
-								var field = keys[2];
+					// If the first param is not named assume it is an id
+					if (!params[0].match(':')) {
+						namedParams.id = Sanitize.dispatcher(params[0]);
+					}
 
-								if (typeof data[model] === 'undefined' && !data[model]) {
-									data[model] = {};
-								}
+					var count = 0;
+					params.forEach(function(param) {
+						if (param.match(':')) {
+							var p = param.split(':');
 
-								data[model][field] = value;
-							});
-
-							request.body = undefined;
-							request.data = data;
+							namedParams[Sanitize.dispatcher(p[0])] = Sanitize.dispatcher(p[1]);
+							 delete(params[count]);
 						}
 
-						action(request, response, id);
+						count ++;
+					});
+
+					request.params      = params;
+					request.namedParams = namedParams;
+				} else {
+					request.params      = null;
+					request.namedParams = null;
+				}
+
+				request.controller = requestedController;
+				request.action     = requestedAction;
+
+				// If there is data being posted, move it into the model name;
+				if (typeof request.body !== 'undefined' && request.body) {
+					var data   = {};
+					var values = request.body;
+
+					Object.keys(values).forEach(function(key) {
+						var value = values[key];
+						var keys  = key.split('.');
+						var model = keys[1];
+						var field = keys[2];
+
+						if (typeof data[model] === 'undefined' && !data[model]) {
+							data[model] = {};
+						}
+
+						data[model][field] = value;
+					});
+
+					request.body = undefined;
+					request.data = data;
+				}
+
+				if (beforeFilter) {
+					beforeFilter(request, response, function(request, response) {
+						action(request, response );
 					});
 				} else {
-					action(request, response, id);
+					action(request, response);
 				}
 
 			// The action for the controller could not be found

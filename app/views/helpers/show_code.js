@@ -8,8 +8,8 @@
  */
 function ShowCode(model, params) {
 	this.modelName      = model;
-	this.controllerName = params.request.params.controller;
-	this.actionName     = params.request.params.action;
+	this.controllerName = params.request.controller;
+	this.actionName     = params.request.action;
 	this.modelFile      = pie.paths.app.models + Inflector.singularize(Inflector.tableize(this.modelName)) + '.js';
 	this.controllerFile = pie.paths.app.controllers + Inflector.tableize(this.modelName) + '_controller' + '.js';
 	this.viewFile       = pie.paths.app.views.path + '/' + Inflector.tableize(this.modelName) + '/' + this.actionName + '.ejs';
