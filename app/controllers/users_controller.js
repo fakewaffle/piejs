@@ -6,13 +6,15 @@ var UsersController = exports.UsersController = new Controller({
 	]
 });
 
-exports.index = function(request, response, id) {
+exports.index = function(request, response) {
 	UsersController.User.find('all', null, function(results) {
 		UsersController.set(request, response, results);
 	});
 }
 
-exports.view = function(request, response, id) {
+exports.view = function(request, response) {
+	var id = request.namedParams.id;
+
 	UsersController.User.find('first', {
 		'conditions' : {
 			'id' : id
@@ -31,8 +33,6 @@ exports.view = function(request, response, id) {
 }
 
 exports.add = function(request, response) {
-	// var data = request.body;
-
 	var faker = require(config.paths.pie.faker);
 	var data = {
 		'name'  : faker.Name.firstName() + ' ' + faker.Name.lastName(),
@@ -41,22 +41,6 @@ exports.add = function(request, response) {
 
 	UsersController.User.save(data, function(info) {
 		request.flash('info', 'User has been added.');
-		response.redirect('users');
-	});
-}
-
-exports.edit = function(request, response, id) {
-	// var data = request.body;
-
-	var faker = require(config.paths.pie.faker);
-	var data = {
-		'id'    : id,
-		'name'  : faker.Name.firstName() + ' ' + faker.Name.lastName(),
-		'email' : faker.Internet.email()
-	};
-
-	UsersController.User.save(data, function(info) {
-		request.flash('info', 'User has been edited.');
 		response.redirect('users');
 	});
 }
