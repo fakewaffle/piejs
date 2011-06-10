@@ -4,8 +4,11 @@
 		<%- pie.Helper.Html.link('[delete]', { 'action': 'remove', 'id' : Post.id }) %>
 	</div>
 </h1>
-<div class="clear-both"></div>
-<p><%- pie.Helper.Html.link(pie.Helper.Sanitize.paranoid(Post.User.name), { 'controller' : 'users', 'action' : 'view', 'id' : Post.User.id }) %> - <%= Post.User.email %></p>
+
+<% if (typeof Post.User.id !== 'undefined') { %></p>
+	<div class="clear-both"></div>
+	<p><%- pie.Helper.Html.link(pie.Helper.Sanitize.paranoid(Post.User.name), { 'controller' : 'users', 'action' : 'view', 'id' : Post.User.id }) %> - <%= Post.User.email %></p>
+<% } %></p>
 
 <p><%= Post.content %></p>
 
