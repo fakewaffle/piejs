@@ -8,9 +8,9 @@ var PostsController = exports.PostsController = new Controller({
 });
 
 // Not doing anything here... yet!
-// exports.beforeFilter = function(request, response, callback) {
-// 	callback(request, response);
-// }
+exports.beforeFilter = function(request, response, callback) {
+	callback(request, response);
+}
 
 exports.index = function(request, response) {
 	// Find all posts
