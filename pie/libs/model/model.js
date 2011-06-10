@@ -1,7 +1,7 @@
 /**
  * Provides standard methods to find and save data in a data source agnostic way.
  *
- * @param Object model Model object created in app/models
+ * @param object model Model object created in app/models
  *
  * 2011-05-18 15.28.38 - Justin Morris
  */
@@ -28,7 +28,7 @@ function Model(model) {
  * Abstracted find for read methods on a datasource.
  *
  * @param string type Type of find ('first', 'all', 'count', 'list')
- * @param Object params Parameters (conditions, fields, limit, contain)
+ * @param object params Parameters (conditions, fields, limit, contain)
  * @param function callback Callback to be executed after find is finished
  *
  * 2011-05-18 20.13.16 - Justin Morris
@@ -74,7 +74,7 @@ Model.prototype.find = function(type, params, callback) {
 /**
  * Abstracted save for create and update methods on a datasource.
  *
- * @param Object data Data to be saved { key:value }
+ * @param object data Data to be saved { key:value }
  * @param function callback Callback to be executed after save is finished
  *
  * 2011-05-18 20.30.19 - Justin Morris
@@ -124,7 +124,8 @@ Model.prototype.save = function(data, callback) {
 /**
  * Abstracted delete/remove for delete/remove methods on a datasource.
  *
- * TODO: Implement.
+ * @param object conditions Conditions that must be met for a record to be deleted
+ * @param function callback Callback to be executed after remove is finished
  *
  * 2011-05-18 20.31.35 - Justin Morris
  */
@@ -157,8 +158,8 @@ Model.prototype.remove = function(conditions, callback) {
  * TODO: Handle params in a model contain, such as fields.
  * TODO: Check whether it really works with more than one other model.
  *
- * @param Object results Results from the Model.find(...)
- * @param Object contains An object that
+ * @param object results Results from the Model.find(...)
+ * @param object contains An object that
  * @param function callback Callback to be executed after contain is finished
  *
  * 2011-05-18 20.32.46 - Justin Morris
