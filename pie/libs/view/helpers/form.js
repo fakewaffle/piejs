@@ -8,9 +8,10 @@
 *
 * 2011-05-25 22.18.01 - Justin Morris
  */
-function Form(model, params) {
+var Form = exports.Form = function(model, params) {
 	this.model      = model;
 	this.controller = Inflector.tableize(model.toLowerCase());
+	this.action     = params.request.action;
 	this.webroot    = pie.config.app.core.webroot;
 	this.results    = params.results;
 }
@@ -45,6 +46,8 @@ Form.prototype.create = function(links, attributes) {
 
 		if (typeof action !== 'undefined' && action) {
 			html += action;
+		} else {
+			html += this.action;
 		}
 		delete(links.action);
 
@@ -172,5 +175,3 @@ Form.prototype._constructAttributes = function(attributes) {
 
 	return attributesHtml;
 }
-
-exports.Form = Form;
