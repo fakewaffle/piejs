@@ -168,8 +168,8 @@ var handleAppControllerAction = function(request, response, next) {
 					request.params      = params;
 					request.namedParams = namedParams;
 				} else {
-					request.params      = null;
-					request.namedParams = null;
+					request.params      = {};
+					request.namedParams = {};
 				}
 
 				request.controller = requestedController;
