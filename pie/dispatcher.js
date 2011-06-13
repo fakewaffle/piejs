@@ -174,28 +174,8 @@ var handleAppControllerAction = function(request, response, next) {
 
 				request.controller = requestedController;
 				request.action     = requestedAction;
-
-				// If there is data being posted, move it into the model name;
-				if (typeof request.body !== 'undefined' && request.body) {
-					var data   = {};
-					var values = request.body;
-
-					Object.keys(values).forEach(function(key) {
-						var value = values[key];
-						var keys  = key.split('.');
-						var model = keys[1];
-						var field = keys[2];
-
-						if (typeof data[model] === 'undefined' && !data[model]) {
-							data[model] = {};
-						}
-
-						data[model][field] = value;
-					});
-
-					request.body = undefined;
-					request.data = data;
-				}
+				request.data       = request.body;
+				request.body       = undefined;
 
 				if (beforeFilter) {
 					beforeFilter(request, response, function(request, response) {

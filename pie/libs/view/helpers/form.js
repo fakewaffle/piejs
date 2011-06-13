@@ -108,7 +108,7 @@ Form.prototype.input = function(field, options, attributes) {
 	var inputHtml = '';
 	var type      = 'text';
 	var id        = this.model + Inflector.classify(field);
-	var name      = ['data', this.model, field].join('.');
+	var name      = this.model + '[' + field + ']';
 
 	if (typeof attributes != 'undefined' && attributes) {
 		if (typeof attributes.type != 'undefined' && attributes.type) {
