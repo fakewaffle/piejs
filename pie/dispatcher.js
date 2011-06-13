@@ -35,14 +35,15 @@ exports.setup = function () {
 	 *
 	 * 2011-05-24 09.33.32 - Justin Morris
 	 */
-	 
+
 	server.get(pie.config.app.core.webroot + 'pages/*', function(request, response, next) {
         var params = request.params;
 
 		if (params) {
-            request.page = params[0]; //set the requested page
+            request.params[1] = request.params[0];
             request.params[0] = 'pages';
-            request.params[1] = 'view'; //Overwrite requested action to 'view'
+
+			console.log('\n\n', request.params, '\n\n');
 
             handleAppControllerAction(request, response, next);
 		} else {
@@ -81,8 +82,6 @@ exports.setup = function () {
 	 * The controller is loaded and the action is called. The request, response, and id (see below)
 	 * are passed.
 	 *
-	 * TODO: Allow for more named params pass 'id'.
-	 *
 	 * 2011-05-24 09.37.25 - Justin Morris
 	 */
 	server.get(new RegExp(pie.config.app.core.webroot + '([^/]+)/?([^/]+)?/?(.+)?', 'i'), function(request, response, next) {
@@ -94,8 +93,6 @@ exports.setup = function () {
 	 *
 	 * The controller is loaded and the action is called. The request, response, and id (see below)
 	 * are passed.
-	 *
-	 * TODO: Allow for more named params pass 'id'.
 	 *
 	 * 2011-05-24 09.44.25 - Justin Morris
 	 */
@@ -124,18 +121,24 @@ var handleAppControllerAction = function(request, response, next) {
 		var actionExists     = false;
 
 		// Check whether the requested controller exists
-		try	{
-			if (require(controllerFile)) { //NOTE: this is blocking... 
-				var controller   = require(controllerFile);
-				controllerExists = true;
-			}
-		} catch(e) {
-            console.log(e);
+		if (pie.app.availableControllers.indexOf(Inflector.camelize(requestedController + '_controller')) !== -1) {
+			var controller   = require(controllerFile);
+			controllerExists = true;
+		} else if (requestedController === 'pages') {
+			var controllerFile = pie.paths.pie.controller.path + 'pages_controller'
+			var controller     = require(controllerFile);
+			controllerExists   = true;
 		}
 
 		// If the controller exists, move onto the action
 		if (controllerExists) {
-			var action = controller[requestedAction];
+			var action = false;
+
+			if (requestedController !== 'pages') {
+				action = controller[requestedAction];
+			} else {
+				action = controller['display'];
+			}
 
 			// Check whether the requested action exists
 			if (action) {
@@ -186,12 +189,12 @@ var handleAppControllerAction = function(request, response, next) {
 
 			// The action for the controller could not be found
 			} else {
-				response.send('Cannot find the requested action.');
+				response.send('Cannot find the requested action in '  + controllerFile + '.');
 			}
 
 		// The controller could not be found
 		} else {
-			response.send('Cannot find '+controllerFile+'.');
+			response.send('Cannot find ' + controllerFile + '.');
 		}
 
 	} else {

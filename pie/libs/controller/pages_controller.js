@@ -5,7 +5,7 @@ var PagesController = exports.PagesController = new Controller({
 		'ShowCode'
 	]
 });
-exports.view = function(request, response) {
-    request.action = request.page;
+
+exports.display = function(request, response) {
     PagesController.set(request, response, {});
 };
