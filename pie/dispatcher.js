@@ -43,8 +43,6 @@ exports.setup = function () {
             request.params[1] = request.params[0];
             request.params[0] = 'pages';
 
-			console.log('\n\n', request.params, '\n\n');
-
             handleAppControllerAction(request, response, next);
 		} else {
 			next();
