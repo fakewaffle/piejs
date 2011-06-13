@@ -13,6 +13,34 @@ function Html(model) {
 }
 
 /**
+ * Internal function to create elements.
+ *
+ * @param string tag the html tag to output. e.g. 'a' or 'img'
+ * @param object attributes the html element attributes. e.g. {style: 'color: red;', href: 'http:google.com'}
+ * @param string content string of tag contents. e.g. 'Welcome!'
+ *
+ * 2011-06-13 18.13.00 - Rasmus Berg Palm
+ */
+Html.prototype.element = function(tag, attributes, content) {
+    var html = '';
+    html += '<'+tag;
+    
+    if (typeof attributes !== 'undefined' && attributes) {
+		Object.keys(attributes).forEach(function(key) {
+			var attribute = attributes[key];
+			html += ' ' + key + '="' + attribute + '"';
+		});
+	}
+	
+	if (typeof content !== 'undefined' && content) {
+        html += '>' + content + '</'+tag+'>';
+	}else{
+	    html += ' />';
+	}
+
+	return html;
+}
+/**
  * Convenience helper to create links using PieJS conventions.
  *
  * @param string text Link text
@@ -23,23 +51,26 @@ function Html(model) {
  * 2011-05-25 11.23.10 - Justin Morris
  */
 Html.prototype.link = function(text, hrefs, attributes) {
-	var html = '<a href="';
 
+    if (typeof attributes !== 'object')
+        attributes = {};
+
+    var url = '';
 	if (typeof hrefs === 'object') {
 		var controller = hrefs.controller;
 		var action     = hrefs.action;
 
-		html += this.webroot;
+		url += this.webroot;
 		if (typeof controller !== 'undefined' && controller) {
-			html += controller
+			url += controller
 		} else {
-			html += this.controller;
+			url += this.controller;
 		}
 		delete(hrefs.controller);
-		html += '/';
+		url += '/';
 
 		if (typeof action !== 'undefined' && action) {
-			html += action;
+			url += action;
 		}
 		delete(hrefs.action);
 
@@ -48,28 +79,43 @@ Html.prototype.link = function(text, hrefs, attributes) {
 				var href = hrefs[key];
 
 				if (key === 'id') {
-					html += '/' + href;
+					url += '/' + href;
 				} else {
-					html += '/' + key + ':' + href
+					url += '/' + key + ':' + href
 				}
 			});
 		} else {
-			html += '/';
+			url += '/';
 		}
 	} else if (typeof hrefs === 'string') {
-		html += hrefs;
+		url += hrefs;
 	}
+	attributes.href = url;
 
-	html += '"';
+	return this.element('a', attributes, text);
+}
 
-	if (typeof attributes !== 'undefined' && attributes) {
-		Object.keys(attributes).forEach(function(key) {
-			var attribute = attributes[key];
-			html += ' ' + key + '="' + attribute + '"';
-		});
+/**
+ * Convenience helper to create images using PieJS conventions.
+ *
+ * @param string file image file
+ * @param object attributes Html attributes
+ *
+ * 2011-06-13 18.13.00 - Rasmus Berg Palm
+ */
+Html.prototype.image = function(file, attributes) {
+    var local = '';
+    
+    if (typeof attributes !== 'object'){
+        attributes = {};
+    }
+
+    if (!file.match(/^http/)) {
+		local = this.webroot + 'public/images/';
 	}
-
-	return html += '>' + text + '</a>';
+	
+    attributes.src = local+file;
+    return this.element('img', attributes);
 }
 
 /**
@@ -80,13 +126,13 @@ Html.prototype.link = function(text, hrefs, attributes) {
  * 2011-05-26 16.19.21 - Justin Morris
  */
 Html.prototype.css = function(file) {
-	var localStylesheet = '';
+	var local = '';
 
 	if (!file.match(/^http/)) {
-		localStylesheet = this.webroot + 'public/stylesheets/';
+		local = this.webroot + 'public/stylesheets/';
 	}
-
-	return '<link rel="stylesheet" href="' + localStylesheet + file + '" type="text/css">';
+    attributes = {rel: 'stylesheet', href: local+file, type:'text/css'};
+    return this.element('link', attributes);
 }
 
 /**
@@ -97,13 +143,13 @@ Html.prototype.css = function(file) {
  * 2011-05-26 16.20.27 - Justin Morris
  */
 Html.prototype.js = function(file) {
-	var localJavascript = '';
+	var local = '';
 
 	if (!file.match(/^http/)) {
-		localJavascript = this.webroot + 'public/javascripts/';
+		local = this.webroot + 'public/javascripts/';
 	}
-
-	return '<script src="' + localJavascript + file + '" type="text/javascript"></script>';
+    attributes = {src: local+file, type:'text/javascript'};
+    return this.element('script', attributes, ' ');
 }
 
 exports.Html = Html;
