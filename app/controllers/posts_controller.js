@@ -62,24 +62,30 @@ exports.add = function(request, response) {
 }
 
 exports.add_fake = function(request, response) {
-	var faker = require(pie.paths.pie.faker);
-	var data = {
-		'Post' : {
-			'user_id' : 1,
-			'name'    : faker.Lorem.sentence(),
-			'content' : faker.Lorem.paragraphs()
-		}
-	};
+	var data = request.data;
 
-	PostsController.Post.save(data, function(info) {
-		if (info !== false) {
-			request.flash('info', 'A fake post has been added.');
-		} else {
-			request.flash('info', 'Failed to create the fake post.');
-		}
+	if (typeof data === 'undefined') {
+		var faker = require(pie.paths.pie.faker);
+		var data = {
+			'Post' : {
+				'user_id' : 1,
+				'name'    : faker.Lorem.sentence(),
+				'content' : faker.Lorem.paragraphs()
+			}
+		};
 
-		PostsController.redirect(response, { 'controller' : 'posts' });
-	});
+		PostsController.set(request, response, data);
+	} else {
+		PostsController.Post.save(data, function(info) {
+			if (info !== false) {
+				request.flash('info', 'A fake post has been added.');
+			} else {
+				request.flash('info', 'Failed to create the fake post.');
+			}
+
+			PostsController.redirect(response, { 'controller' : 'posts' });
+		});
+	}
 }
 
 exports.edit = function(request, response) {
