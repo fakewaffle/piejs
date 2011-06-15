@@ -1,5 +1,6 @@
 exports.paths = {
 	'pie' : {
+		'boot' : __piedirname + '/pie/boot.js',
 		'controller' : {
 			'path'       : __piedirname + '/pie/libs/controller/',
 			'controller' : __piedirname + '/pie/libs/controller/controller.js'

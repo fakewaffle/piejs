@@ -8,7 +8,7 @@
 function Model(model) {
 	this.name = model.name;
 
-	var dataSource  = require(pie.paths.pie.datasource.path + model.dataSource)[Inflector.camelize(model.dataSource)];
+	var dataSource  = pie.pie.dataSources[Inflector.camelize(model.dataSource)];
 	this.dataSource = new dataSource(this.name, pie.config.app.database[model.dataSource], Inflector.tableize(this.name));
 
 	if (typeof model.validation !== 'undefined' && model.validation) {

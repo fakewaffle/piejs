@@ -61,22 +61,12 @@ Controller.prototype.set = function(request, response, results, layout) {
 			var PieHelper       = null;
 			var AppHelper       = null;
 
-			// Try to load the Helper form the Pie core - /piejs/pie/libs/view/helpers/
-			if (pie.pie.availableHelpers.indexOf(requestedHelper) !== -1) {
-				PieHelper  = require(pie.paths.pie.view.helpers  + helperFile);
+			if (typeof pie.pie.helpers[requestedHelper] !== 'undefined') {
+				Helper = pie.pie.helpers[requestedHelper];
 			}
 
-			if (PieHelper) {
-				Helper  = PieHelper[requestedHelper];
-			}
-
-			// Try to load the Helper from the app - /piejs/app/views/helpers/
-			if (pie.app.availableHelpers.indexOf(requestedHelper) !== -1) {
-				AppHelper = require(pie.paths.app.views.helpers  + helperFile);
-			}
-
-			if (AppHelper) {
-				Helper = AppHelper[requestedHelper];
+			if (typeof pie.app.helpers[requestedHelper] !== 'undefined') {
+				Helper = pie.app.helpers[requestedHelper];
 			}
 
 			helpers[requestedHelper] = new Helper(self.name, {

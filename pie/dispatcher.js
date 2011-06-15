@@ -1,16 +1,14 @@
-exports.setup = function () {
-	var sys       = require('sys');
-	var appRoutes = require(pie.paths.app.config.routes).routes;
-
+exports.dispatch = function () {
+	
 	// Use default port of 3000 unless specified in config.js
 	var port = 3000;
 	if (typeof pie.config.app.core.port !== 'undefined' && pie.config.app.core.port && typeof pie.config.app.core.port === 'number') {
 		port = pie.config.app.core.port;
 	}
-	server.listen(port, function() { sys.log('PieJS running at http://localhost:' + port + pie.config.app.core.webroot); });
+	server.listen(port, function() { pie.sys.log('PieJS running at http://localhost:' + port + pie.config.app.core.webroot); });
 
-	if (appRoutes.length >= 1) {
-		appRoutes.forEach(function(appRoute) {
+	if (pie.app.routes.length >= 1) {
+		pie.app.routes.forEach(function(appRoute) {
 			appRoute();
 		});
 	}
@@ -61,11 +59,9 @@ exports.setup = function () {
 		var file   = params[0];
 
 		if (params) {
-			var mime        = require(pie.paths.pie.modules.mime);
-			var fs          = require('fs');
-			var contentType = mime.lookup(file);
+			var contentType = pie.mime.lookup(file);
 
-			fs.readFile(pie.paths.app.public.path + file, function(error, data) {
+			pie.fs.readFile(pie.paths.app.public.path + file, function(error, data) {
 				response.header('Content-Type', contentType);
 				response.send(data);
 			});
@@ -113,23 +109,16 @@ var handleAppControllerAction = function(request, response, next) {
 	}
 
 	if (requestedController && requestedAction) {
-		var controllerFile   = pie.paths.app.controllers + requestedController + '_controller';
-
-		var controllerExists = false;
-		var actionExists     = false;
+		var controllerFile = pie.paths.app.controllers + requestedController + '_controller';
+		var controller     = false;
 
 		// Check whether the requested controller exists
-		if (pie.app.availableControllers.indexOf(Inflector.camelize(requestedController + '_controller')) !== -1) {
-			var controller   = require(controllerFile);
-			controllerExists = true;
-		} else if (requestedController === 'pages') {
-			var controllerFile = pie.paths.pie.controller.path + 'pages_controller'
-			var controller     = require(controllerFile);
-			controllerExists   = true;
+		if (typeof pie.app.controllers[Inflector.camelize(requestedController + '_controller')] !== 'undefined') {
+			controller = pie.app.controllers[Inflector.camelize(requestedController + '_controller')];
 		}
 
 		// If the controller exists, move onto the action
-		if (controllerExists) {
+		if (controller) {
 			var action = false;
 
 			if (requestedController !== 'pages') {
