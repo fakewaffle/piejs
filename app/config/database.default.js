@@ -2,8 +2,8 @@ exports.database = {
 	'mysql' : {
 		'host'     : 'localhost',
 		'port'     : 3306,
-		'user'     : 'root',
+		'user'     : '',
 		'password' : '',
-		'database' : 'pie'
+		'database' : ''
 	}
 };
