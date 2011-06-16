@@ -14,7 +14,7 @@ exports.dispatch = function () {
 	}
 
 	/**
-	 * Redirects http://www.example.com/ -> http://www.example.com/pages/home
+	 * http://www.example.com/ shows http://www.example.com/pages/home
 	 *
 	 * @author Justin Morris
 	 * @created 2011-05-24 09.32.10
@@ -23,7 +23,10 @@ exports.dispatch = function () {
 		var params = request.params;
 
 		if (params) {
-			response.redirect(pie.config.app.core.webroot + '/pages/home');
+			request.params[1] = 'home';
+            request.params[0] = 'pages';
+
+            handleAppControllerAction(request, response, next);
 		} else {
 			next();
 		}
