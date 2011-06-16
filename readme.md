@@ -29,7 +29,7 @@ Copy the blog example to piejs/app
 
 Copy the default config files.
 
-    cd piejs/app/config/
+    cd piejs/
     cp app/config/database.default.js app/config/database.js
     cp app/config/core.default.js app/config/core.js
 
