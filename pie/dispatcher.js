@@ -1,5 +1,5 @@
 exports.dispatch = function () {
-	
+
 	// Use default port of 3000 unless specified in config.js
 	var port = 3000;
 	if (typeof pie.config.app.core.port !== 'undefined' && pie.config.app.core.port && typeof pie.config.app.core.port === 'number') {
@@ -16,7 +16,8 @@ exports.dispatch = function () {
 	/**
 	 * Redirects http://www.example.com/ -> http://www.example.com/pages/home
 	 *
-	 * 2011-05-24 09.32.10 - Justin Morris
+	 * @author Justin Morris
+	 * @created 2011-05-24 09.32.10
 	 */
 	server.get(pie.config.app.core.webroot, function(request, response, next) {
 		var params = request.params;
@@ -31,7 +32,8 @@ exports.dispatch = function () {
 	/**
 	 * Serves pages in app/views/pages for http://www.example.com/pages/*
 	 *
-	 * 2011-05-24 09.33.32 - Justin Morris
+	 * @author Justin Morris
+	 * @created 2011-05-24 09.33.32
 	 */
 
 	server.get(pie.config.app.core.webroot + 'pages/*', function(request, response, next) {
@@ -52,7 +54,8 @@ exports.dispatch = function () {
 	 *
 	 * TODO: Sanitization should probably happen on the file variable?
 	 *
-	 * 2011-05-24 09.34.45 - Justin Morris
+	 * @author Justin Morris
+	 * @created 2011-05-24 09.34.45
 	 */
 	server.get(pie.config.app.core.webroot + 'public/*', function(request, response, next) {
 		var params = request.params;
@@ -76,7 +79,8 @@ exports.dispatch = function () {
 	 * The controller is loaded and the action is called. The request, response, and id (see below)
 	 * are passed.
 	 *
-	 * 2011-05-24 09.37.25 - Justin Morris
+	 * @author Justin Morris
+	 * @created 2011-05-24 09.37.25
 	 */
 	server.get(new RegExp(pie.config.app.core.webroot + '([^/]+)/?([^/]+)?/?(.+)?', 'i'), function(request, response, next) {
 		handleAppControllerAction(request, response, next);
@@ -88,7 +92,8 @@ exports.dispatch = function () {
 	 * The controller is loaded and the action is called. The request, response, and id (see below)
 	 * are passed.
 	 *
-	 * 2011-05-24 09.44.25 - Justin Morris
+	 * @author Justin Morris
+	 * @created 2011-05-24 09.44.25
 	 */
 	server.post(new RegExp(pie.config.app.core.webroot + '([^/]+)/?([^/]+)?/?(.+)?', 'i'), function(request, response, next) {
 		handleAppControllerAction(request, response, next);
@@ -98,7 +103,8 @@ exports.dispatch = function () {
 /**
  * Handles the common logic for the main routing of GET and POST for PieJS.
  *
- * 2011-06-07 14.33.29 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-06-07 14.33.29
  */
 var handleAppControllerAction = function(request, response, next) {
 	var requestedController = Sanitize.dispatcher(request.params[0]);

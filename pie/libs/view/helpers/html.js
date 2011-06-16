@@ -5,7 +5,8 @@
  *
  * @param string model Model name
  *
- * 2011-05-25 11.23.13 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-25 11.23.13
  */
 function Html(model) {
 	this.controller = Inflector.tableize(model.toLowerCase());
@@ -15,12 +16,15 @@ function Html(model) {
 /**
  * Convenience helper to create links using PieJS conventions.
  *
+ * TODO: Add a lost param (bool) for full url (ex: http://www.example.com/site/controller/action/etc...)
+ *
  * @param string text Link text
  * @param object OR string hrefs If hrefs is an object, construct the URL with convention and passed params. If hrefs is a string use it for the URL.
  * @param object attributes Html attributes
+ * @return string
  *
- * TODO: All another param for full url.
- * 2011-05-25 11.23.10 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-25 11.23.10
  */
 Html.prototype.link = function(text, hrefs, attributes) {
 	var html = '<a href="';
@@ -76,34 +80,38 @@ Html.prototype.link = function(text, hrefs, attributes) {
  * Creates a link for a stylesheet.
  *
  * @param string file File name to provide link for
+ * @return string
  *
- * 2011-05-26 16.19.21 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-26 16.19.21
  */
 Html.prototype.css = function(file) {
-	var localStylesheet = '';
+	var localStyleSheet = '';
 
 	if (!file.match(/^http/)) {
-		localStylesheet = this.webroot + 'public/stylesheets/';
+		localStyleSheet = this.webroot + 'public/stylesheets/';
 	}
 
-	return '<link rel="stylesheet" href="' + localStylesheet + file + '" type="text/css">';
+	return '<link rel="stylesheet" href="' + localStyleSheet + file + '" type="text/css">';
 }
 
 /**
  * Creats a link for a javascript file.
  *
  * @param string file File name to provide link for
+ * @return string
  *
- * 2011-05-26 16.20.27 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-26 16.20.27
  */
 Html.prototype.js = function(file) {
-	var localJavascript = '';
+	var localJavaScript = '';
 
 	if (!file.match(/^http/)) {
-		localJavascript = this.webroot + 'public/javascripts/';
+		localJavaScript = this.webroot + 'public/javascripts/';
 	}
 
-	return '<script src="' + localJavascript + file + '" type="text/javascript"></script>';
+	return '<script src="' + localJavaScript + file + '" type="text/javascript"></script>';
 }
 
 exports.Html = Html;

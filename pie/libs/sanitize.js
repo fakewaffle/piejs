@@ -8,7 +8,8 @@
  * @param string string String to clean
  * @return string
  *
- * 2011-05-12 21.16.55 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-12 21.16.55
  */
 exports.dispatcher = function(string) {
 	if (typeof string !== 'undefined' && string) {
@@ -19,10 +20,11 @@ exports.dispatcher = function(string) {
 /**
  * Removes any none alphanumeric and white space characters
  *
- * @paranoid string string String to clean
+ * @param string string String to clean
  * @return string
  *
- * 2011-05-12 21.19.52 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-12 21.19.52
  */
 exports.paranoid = function(string) {
 	if (typeof string !== 'undefined' && string) {

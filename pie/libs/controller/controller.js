@@ -6,7 +6,8 @@
  *
  * @param object params Parameters for the controller (name, helpers)
  *
- * 2011-05-17 23.16.13 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-17 23.16.13
  */
 function Controller(params) {
 	var self              = this;
@@ -35,7 +36,8 @@ function Controller(params) {
  * @param Object response Response object from express
  * @param Object results Data to send to the view
  *
- * 2011-05-17 23.20.50 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-17 23.20.50
  */
 Controller.prototype.set = function(request, response, results, layout) {
 	var self       = this;
@@ -99,7 +101,8 @@ Controller.prototype.set = function(request, response, results, layout) {
  * @param object response Response object from express
  * @param object OR string params If params is an object, construct the link with convention and passed params. If params is a string use it for the link.
  *
- * 2011-05-30 09.13.41 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-30 09.13.41
  */
 Controller.prototype.redirect = function(response, params) {
 	var link = this.webroot;

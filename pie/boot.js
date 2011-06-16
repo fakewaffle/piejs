@@ -11,7 +11,8 @@ exports.boot = function(callback) {
 /**
  * Load all the dataSources into pie.pie.dataSources.
  *
- * 2011-06-14 18.18.37 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-06-14 18.18.37
  */
 var loadDataSources = function() {
 	var files = pie.fs.readdirSync(pie.paths.pie.datasource.path);
@@ -34,7 +35,8 @@ var loadDataSources = function() {
  * when the app starts. All references to the models (such as hasMany,
  * belongsTo, hasAndBelongsToMany) will refer to pie.app.models[name].
  *
- * 2011-06-02 19.43.48 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-06-02 19.43.48
  */
 var loadModels = function() {
 	var files = pie.fs.readdirSync(pie.paths.app.models);
@@ -63,7 +65,8 @@ var loadModels = function() {
  *
  * Dispatcher will test whether a called controller is available.
  *
- * 2011-06-13 16.11.38 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-06-13 16.11.38
  */
 var loadControllers = function() {
 	var files = pie.fs.readdirSync(pie.paths.app.controllers);
@@ -84,7 +87,8 @@ var loadControllers = function() {
 /**
  * Load the names of the helpers for Pie that are located in /piejs/pie/view/helpers/
  *
- * 2011-06-13 16.49.17 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-06-13 16.49.17
  */
 var loadPieHelpers = function() {
 	var files = pie.fs.readdirSync(pie.paths.pie.view.helpers);
@@ -101,7 +105,8 @@ var loadPieHelpers = function() {
 /**
  * Load the names of the helpers for the App that are located in /piejs/app/views/helpers/
  *
- * 2011-06-13 16.58.17 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-06-13 16.58.17
  */
 var loadAppHelpers = function() {
 	var files = pie.fs.readdirSync(pie.paths.app.views.helpers);

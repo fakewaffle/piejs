@@ -3,7 +3,8 @@
  *
  * @param object model Model object created in app/models
  *
- * 2011-05-18 15.28.38 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-18 15.28.38
  */
 function Model(model) {
 	this.name = model.name;
@@ -31,7 +32,8 @@ function Model(model) {
  * @param object params Parameters (conditions, fields, limit, contain)
  * @param function callback Callback to be executed after find is finished
  *
- * 2011-05-18 20.13.16 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-18 20.13.16
  */
 Model.prototype.find = function(type, params, callback) {
 	var self       = this;
@@ -77,7 +79,8 @@ Model.prototype.find = function(type, params, callback) {
  * @param object data Data to be saved { key:value }
  * @param function callback Callback to be executed after save is finished
  *
- * 2011-05-18 20.30.19 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-18 20.30.19
  */
 Model.prototype.save = function(data, callback) {
 	var self       = this;
@@ -127,7 +130,8 @@ Model.prototype.save = function(data, callback) {
  * @param object conditions Conditions that must be met for a record to be deleted
  * @param function callback Callback to be executed after remove is finished
  *
- * 2011-05-18 20.31.35 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-18 20.31.35
  */
 Model.prototype.remove = function(conditions, callback) {
 	var self         = this;
@@ -156,13 +160,13 @@ Model.prototype.remove = function(conditions, callback) {
  *
  * TODO: Handle recursion.
  * TODO: Handle params in a model contain, such as fields.
- * TODO: Check whether it really works with more than one other model.
  *
  * @param object results Results from the Model.find(...)
  * @param object contains An object that
  * @param function callback Callback to be executed after contain is finished
  *
- * 2011-05-18 20.32.46 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-18 20.32.46
  */
 Model.prototype._contain = function(results, contains, callback) {
 	var self = this;

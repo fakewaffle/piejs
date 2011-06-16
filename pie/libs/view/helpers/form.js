@@ -6,7 +6,8 @@
 * @param string model Model name
 * @param object params Params including esults from a Model.find(), and request from express
 *
-* 2011-05-25 22.18.01 - Justin Morris
+* @author Justin Morris
+* @created 2011-05-25 22.18.01
  */
 var Form = exports.Form = function(model, params) {
 	this.model      = model;
@@ -21,8 +22,10 @@ var Form = exports.Form = function(model, params) {
  *
  * @param object OR string links If links is an object, construct the ACTION with convention and passed params. If links is a string use it for the ACTION.
  * @param object attributes Html attributes
+ * @return string
  *
- * 2011-05-25 22.19.30 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-25 22.19.30
  */
 Form.prototype.create = function(links, attributes) {
 	var html  = '<form ';
@@ -76,8 +79,10 @@ Form.prototype.create = function(links, attributes) {
  * Creates a closing tag for a form with an optional submit button.
  *
  * @param string submitButtonValue Value for the optional submit button
+ * @return string
  *
- * 2011-05-25 23.10.58 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-25 23.10.58
  */
 Form.prototype.end = function(submitButtonValue) {
 	var html = '';
@@ -95,8 +100,10 @@ Form.prototype.end = function(submitButtonValue) {
  * @param string field Value for the name attribute
  * @param object options Options for creating the input
  * @param object attributes Html attributes
+ * @return string
  *
- * 2011-05-30 20.03.48 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-30 20.03.48
  */
 Form.prototype.input = function(field, options, attributes) {
 	var modelData = this.results[this.model];
@@ -146,8 +153,10 @@ Form.prototype.input = function(field, options, attributes) {
  * @param string field Value for the name attribute
  * @param object options Options for creating the input
  * @param object attributes Html attributes
+ * @return string
  *
- * 2011-05-30 21.01.34 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-30 21.01.34
  */
 Form.prototype.hidden = function (field, options, attributes) {
 	if (typeof options === 'undefined') {
@@ -163,6 +172,15 @@ Form.prototype.hidden = function (field, options, attributes) {
 	return this.input(field, options, attributes);
 }
 
+/**
+ * Constructs the HTML for attributes.
+ *
+ * @param object attributes HTML attributes to create
+ * @return string
+ *
+ * @author Justin Morris
+ * @created 2011-05-30 21.01.34
+ */
 Form.prototype._constructAttributes = function(attributes) {
 	var attributesHtml = '';
 

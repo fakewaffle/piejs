@@ -24,7 +24,8 @@ function Mysql(model, dataSource, table) {
  * @param object data { field:value } of data to be inserted into the database
  * @param function callback Callback to be executed after create is finished
  *
- * 2011-05-12 23.55.47 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-12 23.55.47
  */
 Mysql.prototype.create = function(data, callback) {
 	var self    = this;
@@ -50,7 +51,8 @@ Mysql.prototype.create = function(data, callback) {
  * @param object params Object containing conditions, fields, limit, etc
  * @param function callback Callback to be executed after read is finished
  *
- * 2011-05-12 23.52.19 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-12 23.52.19
  */
 Mysql.prototype.read = function (type, params, callback) {
 	var query = 'SELECT ';
@@ -90,7 +92,8 @@ Mysql.prototype.read = function (type, params, callback) {
  * @param object data { field:value } of data to be updated in the database
  * @param function callback Callback to be executed after update is finished
  *
- * 2011-05-16 14.47.19 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-16 14.47.19
  */
 Mysql.prototype.update = function (data, callback) {
 	var self  = this;
@@ -109,6 +112,15 @@ Mysql.prototype.update = function (data, callback) {
 	this._query(query, callback);
 }
 
+/**
+ * Removes a record from the database.
+ *
+ * @param object conditions Conditions that must be met for a record to be deleted
+ * @param function callback Callback to be executed after remove is finished
+ *
+ * @author Justin Morris
+ * @created 2011-05-26 22.27.32
+ */
 Mysql.prototype.remove = function (conditions, callback) {
 	var self  = this;
 	var query = 'DELETE FROM ' + this.table;
@@ -134,7 +146,8 @@ Mysql.prototype.remove = function (conditions, callback) {
  * @param string query Query string to run
  * @param function callback Callback to be executed after query is finished
  *
- * 2011-05-16 21.56.06 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-16 21.56.06
  */
 Mysql.prototype._query = function(query, callback) {
 	this.client.query(query, function (error, results) {
@@ -152,7 +165,8 @@ Mysql.prototype._query = function(query, callback) {
  * @param array conditions Conditions to construct SQL statement with
  * @return string
  *
- * 2011-05-03 16.38.03 - Justin Morris
+ * @author Justin Morris
+ * @created 2011-05-03 16.38.03
  */
 Mysql.prototype._contsructConditionsSqlStatement = function(conditions) {
 	var self       = this;
