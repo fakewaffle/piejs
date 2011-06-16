@@ -35,7 +35,6 @@ exports.dispatch = function () {
 	 * @author Justin Morris
 	 * @created 2011-05-24 09.33.32
 	 */
-
 	server.get(pie.config.app.core.webroot + 'pages/*', function(request, response, next) {
         var params = request.params;
 
