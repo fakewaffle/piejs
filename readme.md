@@ -7,26 +7,37 @@ If you wish to contribute to PieJS, please email [fakewaffle](mailto:morris.just
 Visit [http://fakewaffle.com/blog/posts/](http://fakewaffle.com/blog/posts/) to play around.
 
 Prerequisites:
-
 * [node.js](https://github.com/joyent/node)
 * MySQL (for now, but more data sources are going to be supported!) - get the SQL below
 
-Terminal:
+Download the core of PieJS.
+    git clone https://fakewaffle@github.com/fakewaffle/piejs.git
 
-    git clone git://github.com/fakewaffle/piejs.git
-    cd piejs/
+Download the example blog.
+    git clone https://fakewaffle@github.com/fakewaffle/piejs-example-blog.git
+
+Remove the shell for an app in PieJS.
+    rm -r piejs/app/
+
+Copy the blog example to piejs/app
+    cp -R piejs-example-blog/ piejs/app/
+
+Copy the default config files.
+    cd piejs/app/config/
     cp app/config/database.default.js app/config/database.js
-	[set the correct values for mysql in app/config/database.js]
-	cp app/config/core.default.js app/config/core.js
+    cp app/config/core.default.js app/config/core.js
+
+Set a value for 'secret' in core.js.
+    nano app/config/core.js
+
+Set the correct values of 'user' and 'password'.
+    nano app/config/database.js
+
+Start PieJS
     node start.js
 
-Open your browser:
-
-    http://localhost:3000/posts
-    http://localhost:3000/posts/add
-    http://localhost:3000/posts/view/1
-    http://localhost:3000/posts/edit/1
-    http://localhost:3000/posts
+Visit the site.
+    http://localhost:8000/piejs-example-blog/posts
 
 ### Folder structure
 * **app/** - All user code goes here
@@ -46,9 +57,8 @@ Open your browser:
 
 ### SQL for the example above
     SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-	DROP DATABASE `pie`;
-	CREATE DATABASE `pie` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-	USE `pie`;
+	CREATE DATABASE `piejs-example-blog` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+	USE `piejs-example-blog`;
 
 	DROP TABLE IF EXISTS `posts`;
 	CREATE TABLE IF NOT EXISTS `posts` (
