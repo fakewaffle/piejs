@@ -7,36 +7,46 @@ If you wish to contribute to PieJS, please email [fakewaffle](mailto:morris.just
 Visit [http://fakewaffle.com/blog/posts/](http://fakewaffle.com/blog/posts/) to play around.
 
 Prerequisites:
+
 * [node.js](https://github.com/joyent/node)
 * MySQL (for now, but more data sources are going to be supported!) - get the SQL below
 
 Download the core of PieJS.
+
     git clone https://fakewaffle@github.com/fakewaffle/piejs.git
 
 Download the example blog.
+
     git clone https://fakewaffle@github.com/fakewaffle/piejs-example-blog.git
 
 Remove the shell for an app in PieJS.
+
     rm -r piejs/app/
 
 Copy the blog example to piejs/app
+
     cp -R piejs-example-blog/ piejs/app/
 
 Copy the default config files.
+
     cd piejs/app/config/
     cp app/config/database.default.js app/config/database.js
     cp app/config/core.default.js app/config/core.js
 
 Set a value for 'secret' in core.js.
+
     nano app/config/core.js
 
 Set the correct values of 'user' and 'password'.
+
     nano app/config/database.js
 
 Start PieJS
+
     node start.js
 
 Visit the site.
+
     http://localhost:8000/piejs-example-blog/posts
 
 ### Folder structure
