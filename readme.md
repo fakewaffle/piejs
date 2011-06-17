@@ -4,7 +4,7 @@ PieJS is an open source rapid development framework for [node.js](http://nodejs.
 If you wish to contribute to PieJS, please email [fakewaffle](mailto:morris.justin@gmail.com).
 
 ###Try it Out
-Visit [http://fakewaffle.com/blog/posts/](http://fakewaffle.com/blog/posts/) to play around.
+Visit [http://fakewaffle.com/piejs/examples/blog/posts/](http://fakewaffle.com/piejs/examples/blog/posts/) to play around.
 
 Prerequisites:
 
