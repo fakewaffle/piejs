@@ -173,22 +173,45 @@ Model.prototype._contain = function(results, contains, callback) {
 
 	Object.keys(contains).forEach(function(key) {
 		var contain = contains[key];
-		var type    = '';
 		var params  = { 'conditions' : {} };
 
 		if (typeof self.belongsTo !== 'undefined' && self.belongsTo && typeof self.belongsTo[key] !== 'undefined') {
-			type = 'first';
+			var type         = 'first';
+			var i            = 1;
+			var resultsCount = results[self.name].length;
 
-			params.conditions.id = results[self.name][Inflector.foreignKey(key)];
+			if (resultsCount > 1) {
+				results[self.name].forEach(function(result) {
+					params.conditions.id = result[Inflector.foreignKey(key)];
+
+					self[key].find(type, params, function(containResults) {
+						if (typeof result[key] === 'undefined') {
+							result[key] = {};
+						}
+						result[key] = containResults[key];
+
+						if (i === resultsCount) {
+							callback(results)
+						}
+
+						i++;
+					});
+				});
+			} else {
+				params.conditions.id = results[self.name][Inflector.foreignKey(key)];
+
+				self[key].find(type, params, function(containResults) {
+					results[self.name][key] = containResults[key];
+					callback(results);
+				});
+			}
 		}
 
 		if (typeof self.hasMany !== 'undefined' && self.hasMany && typeof self.hasMany[key] !== 'undefined') {
-			type = 'all';
+			var type = 'all';
 
 			params.conditions[Inflector.foreignKey(self.name)] = results[self.name].id;
-		}
 
-		if (!contain) {
 			self[key].find(type, params, function(containResults) {
 				results[self.name][key] = containResults[key];
 				callback(results);
