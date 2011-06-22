@@ -17,14 +17,14 @@ exports.boot = function(callback) {
 var loadDataSources = function() {
 	var files = pie.fs.readdirSync(pie.paths.pie.datasource.path);
 
-
 	files.forEach(function(file) {
-		var dataSourceFileName = file.split('.')[0];
-		var dataSourceName     = [Inflector.camelize(dataSourceFileName)];
-		var dataSourceExport   = require(pie.paths.pie.datasource.path + dataSourceFileName);
+		if (file.split('.')[1] === 'js') {
+			var dataSourceFileName = file.split('.')[0];
+			var dataSourceName     = [Inflector.camelize(dataSourceFileName)];
+			var dataSourceExport   = require(pie.paths.pie.datasource.path + dataSourceFileName);
 
-		pie.pie.dataSources[dataSourceName] = dataSourceExport[dataSourceName];
-
+			pie.pie.dataSources[dataSourceName] = dataSourceExport[dataSourceName];
+		}
 	});
 }
 
@@ -42,19 +42,21 @@ var loadModels = function() {
 	var files = pie.fs.readdirSync(pie.paths.app.models);
 
 	files.forEach(function(file) {
-		var modelFileName = file.split('.')[0];
-		var modelName     = Inflector.classify(modelFileName);
-		var modelExports  = require(pie.paths.app.models + modelFileName);
-		var model         = modelExports[modelName];
+		if (file.split('.')[1] === 'js') {
+			var modelFileName = file.split('.')[0];
+			var modelName     = Inflector.classify(modelFileName);
+			var modelExports  = require(pie.paths.app.models + modelFileName);
+			var model         = modelExports[modelName];
 
-		// We are actually creating a new object of the Model, unlike dataSources, controllers, and helpers
-		pie.app.models[modelName] = new Model(model);
+			// We are actually creating a new object of the Model, unlike dataSources, controllers, and helpers
+			pie.app.models[modelName] = new Model(model);
 
-		for (var i in modelExports) {
-			var modelExport = modelExports[i];
+			for (var i in modelExports) {
+				var modelExport = modelExports[i];
 
-			if (typeof modelExport === 'function') {
-				pie.app.models[modelName][i] = modelExport;
+				if (typeof modelExport === 'function') {
+					pie.app.models[modelName][i] = modelExport;
+				}
 			}
 		}
 	});
@@ -72,11 +74,14 @@ var loadControllers = function() {
 	var files = pie.fs.readdirSync(pie.paths.app.controllers);
 
 	files.forEach(function(file) {
-		var controllerFileName = file.split('.')[0];
-		var controllerName     = Inflector.camelize(controllerFileName);
-		var controller         = require(pie.paths.app.controllers + controllerFileName);
+		if (file.split('.')[1] === 'js') {
+			var controllerFileName = file.split('.')[0];
+			var controllerName     = Inflector.camelize(controllerFileName);
+			var controller         = require(pie.paths.app.controllers + controllerFileName);
 
-		pie.app.controllers[controllerName] = controller;
+			pie.app.controllers[controllerName] = controller;
+		}
+
 	});
 
 	if (typeof pie.app.controllers.PagesController === 'undefined') {
@@ -94,11 +99,13 @@ var loadPieHelpers = function() {
 	var files = pie.fs.readdirSync(pie.paths.pie.view.helpers);
 
 	files.forEach(function(file) {
-		var helperFileName = file.split('.')[0];
-		var helperName     = Inflector.camelize(helperFileName);
-		var helper         = require(pie.paths.pie.view.helpers + helperFileName);
+		if (file.split('.')[1] === 'js') {
+			var helperFileName = file.split('.')[0];
+			var helperName     = Inflector.camelize(helperFileName);
+			var helper         = require(pie.paths.pie.view.helpers + helperFileName);
 
-		pie.pie.helpers[helperName] = helper[helperName];
+			pie.pie.helpers[helperName] = helper[helperName];
+		}
 	});
 }
 
@@ -112,10 +119,12 @@ var loadAppHelpers = function() {
 	var files = pie.fs.readdirSync(pie.paths.app.views.helpers);
 
 	files.forEach(function(file) {
-		var helperFileName = file.split('.')[0];
-		var helperName     = Inflector.camelize(helperFileName);
-		var helper         = require(pie.paths.app.views.helpers + helperFileName);
+		if (file.split('.')[1] === 'js') {
+			var helperFileName = file.split('.')[0];
+			var helperName     = Inflector.camelize(helperFileName);
+			var helper         = require(pie.paths.app.views.helpers + helperFileName);
 
-		pie.app.helpers[helperName] = helper[helperName];
+			pie.app.helpers[helperName] = helper[helperName];
+		}
 	});
 }
