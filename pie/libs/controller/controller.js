@@ -16,16 +16,18 @@ function Controller(params) {
 	this.webroot          = pie.config.app.core.webroot;
 	this.requestedHelpers = params.helpers;
 
-	if (typeof this[this.name].belongsTo !== 'undefined' && this[this.name].belongsTo) {
-		Object.keys(self[self.name].belongsTo).forEach(function(key) {
-			self[self.name][key] = pie.app.models[key];
-		});
-	}
+	if (typeof this[this.name] !== 'undefined') {
+		if (typeof this[this.name].belongsTo !== 'undefined' && this[this.name].belongsTo) {
+			Object.keys(self[self.name].belongsTo).forEach(function(key) {
+				self[self.name][key] = pie.app.models[key];
+			});
+		}
 
-	if (typeof this[this.name].hasMany !== 'undefined' && this[this.name].hasMany) {
-		Object.keys(self[self.name].hasMany).forEach(function(key) {
-			self[self.name][key] = pie.app.models[key];
-		});
+		if (typeof this[this.name].hasMany !== 'undefined' && this[this.name].hasMany) {
+			Object.keys(self[self.name].hasMany).forEach(function(key) {
+				self[self.name][key] = pie.app.models[key];
+			});
+		}
 	}
 }
 

@@ -1,8 +1,7 @@
 var PagesController = exports.PagesController = new Controller({
-	'name' : 'Post',
+	'name' : 'Page',
 	'helpers' : [
-		'Html',
-		'ShowCode'
+		'Html'
 	]
 });
 
