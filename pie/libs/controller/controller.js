@@ -44,7 +44,7 @@ function Controller(params) {
 Controller.prototype.set = function(request, response, results, layout) {
 	var self       = this;
 	var helpers    = {};
-	var	params     = request.params;
+	var params     = request.params;
 	var controller = request.controller;
 	var action     = request.action;
 
