@@ -68,8 +68,10 @@ Mysql.prototype.read = function (type, params, callback) {
 
 		if (typeof params.conditions !== 'undefined' && params.conditions) {
 			query += this._contsructConditionsSqlStatement(params.conditions);
-		} else {
-			query += '';
+		}
+		
+		if (typeof params.order !== 'undefined' && params.order) {
+			query += 'ORDER BY ' + params.order + ' ';
 		}
 
 		if (type === 'first') {

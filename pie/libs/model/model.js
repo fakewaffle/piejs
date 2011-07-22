@@ -170,7 +170,13 @@ Model.prototype._contain = function(results, contains, callback) {
 	Object.keys(contains).forEach(function(key) {
 		var contain = contains[key];
 		var type    = '';
-		var params  = { 'conditions' : {} };
+		var params = contain;
+		if(typeof params === 'undefined' || !params){ //undefined or false/null/0
+		    params = {};
+		}
+		if(typeof params.conditions === 'undefined'){
+		    params.conditions = {};
+		}
 
 		if (typeof self.belongsTo !== 'undefined' && self.belongsTo && typeof self.belongsTo[key] !== 'undefined') {
 			type = 'first';
