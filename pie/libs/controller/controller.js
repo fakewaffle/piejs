@@ -10,11 +10,12 @@
  * @created 2011-05-17 23.16.13
  */
 function Controller(params) {
-	var self              = this;
-	this.name             = params.name;
-	this[this.name]       = pie.app.models[this.name];
-	this.webroot          = pie.config.app.core.webroot;
-	this.requestedHelpers = params.helpers;
+	var self                 = this;
+	this.name                = params.name;
+	this[this.name]          = pie.app.models[this.name];
+	this.webroot             = pie.config.app.core.webroot;
+	this.requestedHelpers    = params.helpers;
+	this.requestedComponents = params.components;
 
 	if (typeof this[this.name] !== 'undefined') {
 		if (typeof this[this.name].belongsTo !== 'undefined' && this[this.name].belongsTo) {
@@ -28,6 +29,24 @@ function Controller(params) {
 				self[self.name][key] = pie.app.models[key];
 			});
 		}
+	}
+
+	if (typeof this.requestedComponents !== 'undefined' && this.requestedComponents) {
+		Object.keys(self.requestedComponents).forEach(function(key) {
+			var requestedComponent = self.requestedComponents[key];
+			var componentFile      = Inflector.underscore(requestedComponent) + '.js';
+			var Component          = null;
+
+			if (typeof pie.pie.components[requestedComponent] !== 'undefined') {
+				Component = pie.pie.components[requestedComponent];
+			}
+
+			if (typeof pie.app.components[requestedComponent] !== 'undefined') {
+				Component = pie.app.components[requestedComponent];
+			}
+
+			self[requestedComponent] = new Component(self.name);
+		});
 	}
 }
 
@@ -62,8 +81,6 @@ Controller.prototype.set = function(request, response, results, layout) {
 			var requestedHelper = self.requestedHelpers[key];
 			var helperFile      = Inflector.underscore(requestedHelper) + '.js';
 			var Helper          = null;
-			var PieHelper       = null;
-			var AppHelper       = null;
 
 			if (typeof pie.pie.helpers[requestedHelper] !== 'undefined') {
 				Helper = pie.pie.helpers[requestedHelper];

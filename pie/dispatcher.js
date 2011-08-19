@@ -117,7 +117,7 @@ var handleAppControllerAction = function(request, response, next) {
 	}
 
 	if (requestedController && requestedAction) {
-		var controllerFile = pie.paths.app.controllers + requestedController + '_controller';
+		var controllerFile = pie.paths.app.controllers.path + requestedController + '_controller';
 		var controller     = false;
 
 		// Check whether the requested controller exists

@@ -1,10 +1,12 @@
 exports.boot = function(callback) {
 	loadDataSources();
 	loadModels();
-	loadControllers();
 	loadPieHelpers();
 	loadAppHelpers();
-
+	loadPieComponents();
+	loadAppComponents();
+	loadControllers();
+	
 	callback();
 }
 
@@ -63,7 +65,7 @@ var loadModels = function() {
 }
 
 /**
- * Load the names of the controllers in /piejs/app/controllers into pie.app.controllers
+ * Load the controllers in /piejs/app/controllers into pie.app.controllers
  *
  * Dispatcher will test whether a called controller is available.
  *
@@ -71,13 +73,13 @@ var loadModels = function() {
  * @created 2011-06-13 16.11.38
  */
 var loadControllers = function() {
-	var files = pie.fs.readdirSync(pie.paths.app.controllers);
+	var files = pie.fs.readdirSync(pie.paths.app.controllers.path);
 
 	files.forEach(function(file) {
 		if (file.split('.')[1] === 'js') {
 			var controllerFileName = file.split('.')[0];
 			var controllerName     = Inflector.camelize(controllerFileName);
-			var controller         = require(pie.paths.app.controllers + controllerFileName);
+			var controller         = require(pie.paths.app.controllers.path + controllerFileName);
 
 			pie.app.controllers[controllerName] = controller;
 		}
@@ -90,7 +92,7 @@ var loadControllers = function() {
 }
 
 /**
- * Load the names of the helpers for Pie that are located in /piejs/pie/view/helpers/
+ * Load the helpers for Pie that are located in /piejs/pie/view/helpers/
  *
  * @author Justin Morris
  * @created 2011-06-13 16.49.17
@@ -110,7 +112,7 @@ var loadPieHelpers = function() {
 }
 
 /**
- * Load the names of the helpers for the App that are located in /piejs/app/views/helpers/
+ * Load the helpers for the App that are located in /piejs/app/views/helpers/
  *
  * @author Justin Morris
  * @created 2011-06-13 16.58.17
@@ -125,6 +127,47 @@ var loadAppHelpers = function() {
 			var helper         = require(pie.paths.app.views.helpers + helperFileName);
 
 			pie.app.helpers[helperName] = helper[helperName];
+		}
+	});
+}
+
+/**
+ * Load the components for Pie that are located in /piejs/pie/controller/components/
+ *
+ * @author Justin Morris
+ * @created 2011-08-18 22.23.46
+ */
+var loadPieComponents = function() {
+	var files = pie.fs.readdirSync(pie.paths.pie.controller.components);
+
+	files.forEach(function(file) {
+		if (file.split('.')[1] === 'js') {
+			var componentFileName = file.split('.')[0];
+			var componentName     = Inflector.camelize(componentFileName);
+			var component         = require(pie.paths.pie.controller.components + componentFileName);
+
+			pie.pie.components[componentName] = component[componentName];
+		}
+	});
+
+}
+
+/**
+ * Load the componentName for the App that are located in /piejs/app/controllers/components/
+ *
+ * @author Justin Morris
+ * @created 2011-08-18 22.38.08
+ */
+var loadAppComponents = function() {
+	var files = pie.fs.readdirSync(pie.paths.app.controllers.components);
+	
+	files.forEach(function(file) {
+		if (file.split('.')[1] === 'js') {
+			var componentFileName = file.split('.')[0];
+			var componentName     = Inflector.camelize(componentFileName);
+			var component         = require(pie.paths.app.controllers.components + componentFileName);
+	
+			pie.app.components[componentName] = component[componentName];
 		}
 	});
 }

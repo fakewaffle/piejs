@@ -3,7 +3,8 @@ exports.paths = {
 		'boot' : __piedirname + '/pie/boot.js',
 		'controller' : {
 			'path'       : __piedirname + '/pie/libs/controller/',
-			'controller' : __piedirname + '/pie/libs/controller/controller.js'
+			'controller' : __piedirname + '/pie/libs/controller/controller.js',
+			'components' : __piedirname + '/pie/libs/controller/components/'
 		},
 		'datasource' : {
 			'path'  : __piedirname + '/pie/libs/model/datasources/',
@@ -33,7 +34,10 @@ exports.paths = {
 			'database' : __piedirname + '/app/config/database.js',
 			'routes'   : __piedirname + '/app/config/routes.js'
 		},
-		'controllers' : __piedirname + '/app/controllers/',
+		'controllers' : {
+			'path'       : __piedirname + '/app/controllers/',
+			'components' : __piedirname + '/app/controllers/components/'
+		},
 		'models' : __piedirname + '/app/models/',
 		'public' : {
 			'path'        : __piedirname + '/app/public/',
